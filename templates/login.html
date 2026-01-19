@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blanes Capital - Login</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a2744 0%, #2c4a7c 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-box {
+            background: white;
+            padding: 50px 40px;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+        .login-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+        .logo-circle {
+            width: 60px; height: 60px;
+            background: linear-gradient(135deg, #1a2744 0%, #2c4a7c 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        .logo-text { text-align: left; }
+        .logo-name { font-size: 22px; font-weight: 600; color: #1a2744; display: block; }
+        .logo-subtitle { font-size: 11px; letter-spacing: 3px; color: #666; }
+        h2 { color: #1a2744; margin-bottom: 10px; font-size: 22px; }
+        p { color: #666; margin-bottom: 25px; font-size: 14px; }
+        form { display: flex; flex-direction: column; gap: 15px; }
+        input {
+            padding: 14px 18px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        input:focus {
+            outline: none;
+            border-color: #2c4a7c;
+        }
+        button {
+            padding: 14px;
+            background: linear-gradient(135deg, #1a2744 0%, #2c4a7c 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(44, 74, 124, 0.4);
+        }
+        .error {
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        .success {
+            background: #d1fae5;
+            color: #059669;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <div class="login-logo">
+            <div class="logo-circle">B</div>
+            <div class="logo-text">
+                <span class="logo-name">Blanes</span>
+                <span class="logo-subtitle">CAPITAL</span>
+            </div>
+        </div>
+        <h2>Acceso Restringido</h2>
+        <p>Introduce tus credenciales para acceder</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+            <input type="text" name="username" placeholder="Usuario" required autocomplete="username">
+            <input type="password" name="password" placeholder="Contraseña" required autocomplete="current-password">
+            <button type="submit">Entrar</button>
+        </form>
+    </div>
+</body>
+</html>

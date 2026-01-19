@@ -4,30 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blanes Capital - Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <!-- LOGIN SCREEN -->
-    <div id="loginScreen" class="login-screen">
-        <div class="login-box">
-            <div class="login-logo">
-                <div class="logo-circle">B</div>
-                <div class="logo-text">
-                    <span class="logo-name">Blanes</span>
-                    <span class="logo-subtitle">CAPITAL</span>
-                </div>
-            </div>
-            <h2>Acceso Restringido</h2>
-            <p>Introduce la contraseña para acceder</p>
-            <form id="loginForm">
-                <input type="password" id="passwordInput" placeholder="Contraseña" autocomplete="off">
-                <button type="submit">Entrar</button>
-            </form>
-            <div id="loginError" class="login-error"></div>
-        </div>
-    </div>
-
-    <div id="mainContent" class="main-content-hidden">
+    <div id="mainContent">
     <header class="header">
         <div class="header-logo">
             <div class="logo-circle">B</div>
@@ -48,6 +28,7 @@
             <button class="profile-btn" data-profile="pablo">Pablo</button>
             <button class="profile-btn" data-profile="ale">Alejandro</button>
             <button class="profile-btn" data-profile="comparar">Comparar</button>
+            <a href="{{ url_for('logout') }}" class="profile-btn logout-btn" style="background: rgba(220,53,69,0.2); border-color: #dc3545; margin-left: 15px;">Salir</a>
         </div>
     </header>
 
@@ -2815,43 +2796,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
-    <script src="app.js"></script>
-
-    <script>
-    (function() {
-        const HASH = '090fac236cea5ebf37d769277523b322f123f6f7f1bc955ae40f34291d2a7db2';
-
-        async function hashPassword(password) {
-            const encoder = new TextEncoder();
-            const data = encoder.encode(password);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-        }
-
-        function checkSession() {
-            if (sessionStorage.getItem('bc_auth') === HASH) showContent();
-        }
-
-        function showContent() {
-            document.getElementById('loginScreen').style.display = 'none';
-            document.getElementById('mainContent').classList.remove('main-content-hidden');
-        }
-
-        document.getElementById('loginForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const password = document.getElementById('passwordInput').value;
-            if (await hashPassword(password) === HASH) {
-                sessionStorage.setItem('bc_auth', HASH);
-                showContent();
-            } else {
-                document.getElementById('loginError').textContent = 'Contraseña incorrecta';
-                document.getElementById('passwordInput').value = '';
-            }
-        });
-
-        checkSession();
-    })();
-    </script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>
