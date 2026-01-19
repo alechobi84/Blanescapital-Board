@@ -2435,3 +2435,82 @@ function updateFiscalPressureData() {
     setEl('refCfAleExcess', formatExcess(aleExcess));
     setEl('refCfTotalExcess', formatExcess(totalExcess));
 }
+
+// ============================================
+// MODAL DE EXPORTACIÓN
+// ============================================
+let selectedFormat = 'excel';
+
+function openExportModal() {
+    document.getElementById('exportModal').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+function closeExportModal() {
+    document.getElementById('exportModal').style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+// Cerrar modal con Escape
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeExportModal();
+    }
+});
+
+// Inicializar botones de formato
+document.addEventListener('DOMContentLoaded', function() {
+    const formatBtns = document.querySelectorAll('.export-format-btn');
+    formatBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            formatBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            selectedFormat = this.dataset.format;
+        });
+    });
+});
+
+function downloadExport() {
+    // Recoger opciones seleccionadas
+    const periodos = [];
+    document.querySelectorAll('input[name="periodo"]:checked').forEach(cb => {
+        periodos.push(cb.value);
+    });
+
+    const perfiles = [];
+    document.querySelectorAll('input[name="perfil"]:checked').forEach(cb => {
+        perfiles.push(cb.value);
+    });
+
+    const secciones = [];
+    document.querySelectorAll('input[name="seccion"]:checked').forEach(cb => {
+        secciones.push(cb.value);
+    });
+
+    // Validar que hay selecciones
+    if (periodos.length === 0) {
+        alert('Selecciona al menos un periodo');
+        return;
+    }
+    if (perfiles.length === 0) {
+        alert('Selecciona al menos un perfil');
+        return;
+    }
+    if (secciones.length === 0) {
+        alert('Selecciona al menos una sección');
+        return;
+    }
+
+    // Construir URL con parámetros
+    const params = new URLSearchParams();
+    params.append('format', selectedFormat);
+    periodos.forEach(p => params.append('periodos', p));
+    perfiles.forEach(p => params.append('perfiles', p));
+    secciones.forEach(s => params.append('secciones', s));
+
+    // Descargar archivo
+    window.location.href = '/api/export?' + params.toString();
+
+    // Cerrar modal después de un momento
+    setTimeout(closeExportModal, 500);
+}

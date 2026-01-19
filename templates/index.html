@@ -28,7 +28,7 @@
             <button class="profile-btn" data-profile="pablo">Pablo</button>
             <button class="profile-btn" data-profile="ale">Alejandro</button>
             <button class="profile-btn" data-profile="comparar">Comparar</button>
-            <a href="{{ url_for('export_excel') }}" class="profile-btn" style="background: rgba(40,167,69,0.2); border-color: #28a745; margin-left: 15px;">Exportar Excel</a>
+            <button onclick="openExportModal()" class="profile-btn" style="background: rgba(40,167,69,0.2); border-color: #28a745; margin-left: 15px;">Exportar</button>
             <a href="{{ url_for('logout') }}" class="profile-btn logout-btn" style="background: rgba(220,53,69,0.2); border-color: #dc3545;">Salir</a>
         </div>
     </header>
@@ -2794,6 +2794,106 @@
         <div class="footer-info"><span>Consejo 1er Semestre 2025</span><span>Datos a 30 de junio de 2025</span></div>
     </footer>
     </div><!-- END mainContent -->
+
+    <!-- MODAL DE EXPORTACIÓN -->
+    <div id="exportModal" class="export-modal" style="display: none;">
+        <div class="export-modal-backdrop" onclick="closeExportModal()"></div>
+        <div class="export-modal-content">
+            <div class="export-modal-header">
+                <h3>Exportar Datos</h3>
+                <button class="export-modal-close" onclick="closeExportModal()">&times;</button>
+            </div>
+            <div class="export-modal-body">
+                <!-- Periodo -->
+                <div class="export-section">
+                    <label class="export-label">Periodo</label>
+                    <div class="export-options">
+                        <label class="export-checkbox">
+                            <input type="checkbox" name="periodo" value="1s2025" checked>
+                            <span>1S 2025</span>
+                        </label>
+                        <label class="export-checkbox">
+                            <input type="checkbox" name="periodo" value="2024">
+                            <span>Cierre 2024</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Perfil -->
+                <div class="export-section">
+                    <label class="export-label">Perfil</label>
+                    <div class="export-options">
+                        <label class="export-checkbox">
+                            <input type="checkbox" name="perfil" value="total" checked>
+                            <span>Total</span>
+                        </label>
+                        <label class="export-checkbox">
+                            <input type="checkbox" name="perfil" value="pablo">
+                            <span>Pablo</span>
+                        </label>
+                        <label class="export-checkbox">
+                            <input type="checkbox" name="perfil" value="ale">
+                            <span>Alejandro</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Secciones -->
+                <div class="export-section">
+                    <label class="export-label">Secciones</label>
+                    <div class="export-options">
+                        <label class="export-checkbox">
+                            <input type="checkbox" name="seccion" value="resumen" checked>
+                            <span>Resumen</span>
+                        </label>
+                        <label class="export-checkbox">
+                            <input type="checkbox" name="seccion" value="patrimonio">
+                            <span>Evolución Patrimonial</span>
+                        </label>
+                        <label class="export-checkbox">
+                            <input type="checkbox" name="seccion" value="inmobiliaria">
+                            <span>Cartera Inmobiliaria</span>
+                        </label>
+                        <label class="export-checkbox">
+                            <input type="checkbox" name="seccion" value="financiera">
+                            <span>Cartera Financiera</span>
+                        </label>
+                        <label class="export-checkbox">
+                            <input type="checkbox" name="seccion" value="alternativas">
+                            <span>Inversiones Alternativas</span>
+                        </label>
+                        <label class="export-checkbox">
+                            <input type="checkbox" name="seccion" value="estructura">
+                            <span>Estructura de Costes</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Formato -->
+                <div class="export-section">
+                    <label class="export-label">Formato</label>
+                    <div class="export-format-buttons">
+                        <button class="export-format-btn active" data-format="excel">
+                            <span class="format-icon">📊</span>
+                            <span>Excel</span>
+                        </button>
+                        <button class="export-format-btn" data-format="csv">
+                            <span class="format-icon">📄</span>
+                            <span>CSV</span>
+                        </button>
+                        <button class="export-format-btn" data-format="pdf">
+                            <span class="format-icon">📑</span>
+                            <span>PDF</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="export-modal-footer">
+                <button class="export-btn-cancel" onclick="closeExportModal()">Cancelar</button>
+                <button class="export-btn-download" onclick="downloadExport()">Descargar</button>
+            </div>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>

@@ -227,191 +227,297 @@ def api_data():
         'historicalData': HISTORICAL_DATA
     }
 
-@app.route('/api/export/excel')
+@app.route('/api/export')
 @login_required
-def export_excel():
-    """Exporta los datos a un archivo Excel - REQUIERE LOGIN"""
+def export_data():
+    """Exporta los datos con opciones personalizadas - REQUIERE LOGIN"""
+    # Obtener parámetros
+    formato = request.args.get('format', 'excel')
+    periodos = request.args.getlist('periodos') or ['1s2025']
+    perfiles = request.args.getlist('perfiles') or ['total']
+    secciones = request.args.getlist('secciones') or ['resumen']
+
     try:
-        from openpyxl import Workbook
-        from openpyxl.styles import Font, Fill, PatternFill, Alignment, Border, Side
-        from openpyxl.utils import get_column_letter
+        # Preparar datos según selección
+        export_data = prepare_export_data(periodos, perfiles, secciones)
 
-        wb = Workbook()
+        if formato == 'excel':
+            return export_to_excel(export_data, periodos, perfiles)
+        elif formato == 'csv':
+            return export_to_csv(export_data, periodos, perfiles)
+        elif formato == 'pdf':
+            return export_to_pdf(export_data, periodos, perfiles)
+        else:
+            return {'error': 'Formato no soportado'}, 400
 
-        # Estilos
-        header_font = Font(bold=True, color="FFFFFF")
-        header_fill = PatternFill(start_color="1a2744", end_color="1a2744", fill_type="solid")
-        header_alignment = Alignment(horizontal="center", vertical="center")
-        thin_border = Border(
-            left=Side(style='thin'),
-            right=Side(style='thin'),
-            top=Side(style='thin'),
-            bottom=Side(style='thin')
-        )
+    except Exception as e:
+        return {'error': str(e)}, 500
 
-        # ===== HOJA 1: Resumen 1S 2025 =====
-        ws1 = wb.active
-        ws1.title = "Resumen 1S 2025"
+def prepare_export_data(periodos, perfiles, secciones):
+    """Prepara los datos para exportar según las opciones seleccionadas"""
+    data = {'periodos': {}, 'historico': None}
 
-        data_1s2025 = PERIOD_DATA['1s2025']
+    for periodo in periodos:
+        if periodo in PERIOD_DATA:
+            periodo_data = PERIOD_DATA[periodo].copy()
+            # Filtrar por perfiles
+            filtered = {'title': periodo_data['title'], 'date': periodo_data['date']}
+            for perfil in perfiles:
+                if perfil in periodo_data:
+                    filtered[perfil] = periodo_data[perfil]
+                elif perfil == 'total' and 'total' in periodo_data:
+                    filtered['total'] = periodo_data['total']
+            data['periodos'][periodo] = filtered
+
+    # Incluir datos históricos si se selecciona patrimonio
+    if 'patrimonio' in secciones:
+        data['historico'] = HISTORICAL_DATA
+
+    return data
+
+def export_to_excel(data, periodos, perfiles):
+    """Exporta a Excel"""
+    from openpyxl import Workbook
+    from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
+
+    wb = Workbook()
+    header_font = Font(bold=True, color="FFFFFF")
+    header_fill = PatternFill(start_color="1a2744", end_color="1a2744", fill_type="solid")
+    thin_border = Border(left=Side(style='thin'), right=Side(style='thin'),
+                         top=Side(style='thin'), bottom=Side(style='thin'))
+
+    first_sheet = True
+    for periodo_key, periodo_data in data['periodos'].items():
+        if first_sheet:
+            ws = wb.active
+            ws.title = periodo_data.get('title', periodo_key)[:31]
+            first_sheet = False
+        else:
+            ws = wb.create_sheet(periodo_data.get('title', periodo_key)[:31])
 
         # Título
-        ws1['A1'] = "BLANES CAPITAL - Resumen 1er Semestre 2025"
-        ws1['A1'].font = Font(bold=True, size=14)
-        ws1.merge_cells('A1:E1')
+        ws['A1'] = f"BLANES CAPITAL - {periodo_data.get('title', '')}"
+        ws['A1'].font = Font(bold=True, size=14)
+        ws.merge_cells('A1:D1')
+        ws['A2'] = f"Fecha: {periodo_data.get('date', '')}"
 
-        # Encabezados
-        headers = ['Concepto', 'Pablo', 'Alejandro', 'Total']
+        # Encabezados dinámicos según perfiles seleccionados
+        headers = ['Concepto']
+        for perfil in perfiles:
+            if perfil == 'pablo':
+                headers.append('Pablo')
+            elif perfil == 'ale':
+                headers.append('Alejandro')
+            elif perfil == 'total':
+                headers.append('Total')
+
         for col, header in enumerate(headers, 1):
-            cell = ws1.cell(row=3, column=col, value=header)
+            cell = ws.cell(row=4, column=col, value=header)
             cell.font = header_font
             cell.fill = header_fill
-            cell.alignment = header_alignment
             cell.border = thin_border
 
         # Datos
-        rows_data = [
-            ('Patrimonio Total (M€)', data_1s2025['pablo']['patrimonioTotal'], data_1s2025['ale']['patrimonioTotal'],
-             data_1s2025['pablo']['patrimonioTotal'] + data_1s2025['ale']['patrimonioTotal']),
-            ('Bajo Gestión (M€)', data_1s2025['pablo']['bajoGestion'], data_1s2025['ale']['bajoGestion'],
-             data_1s2025['total']['bajoGestion']),
-            ('Empresarial (M€)', data_1s2025['pablo']['empresarial'], data_1s2025['ale']['empresarial'],
-             data_1s2025['pablo']['empresarial'] + data_1s2025['ale']['empresarial']),
-            ('Rentabilidad (%)', data_1s2025['pablo']['rentabilidad'], data_1s2025['ale']['rentabilidad'],
-             data_1s2025['total']['rentabilidad']),
-            ('Rentas Inmobiliarias (K€)', data_1s2025['pablo']['rentasInmob'], data_1s2025['ale']['rentasInmob'],
-             data_1s2025['total']['rentasInmob']),
-            ('Cartera Financiera (M€)', data_1s2025['pablo']['carteraFinanciera'], data_1s2025['ale']['carteraFinanciera'],
-             data_1s2025['pablo']['carteraFinanciera'] + data_1s2025['ale']['carteraFinanciera']),
-            ('Cartera Inmobiliaria (M€)', data_1s2025['pablo']['carteraInmobiliaria'], data_1s2025['ale']['carteraInmobiliaria'],
-             data_1s2025['pablo']['carteraInmobiliaria'] + data_1s2025['ale']['carteraInmobiliaria']),
-            ('Inversiones Alternativas (M€)', data_1s2025['pablo']['alternativas'], data_1s2025['ale']['alternativas'],
-             data_1s2025['pablo']['alternativas'] + data_1s2025['ale']['alternativas']),
-            ('Exposición USD (%)', data_1s2025['pablo']['exposicionUSD'], data_1s2025['ale']['exposicionUSD'], '-'),
+        conceptos = [
+            ('Patrimonio Total (M€)', 'patrimonioTotal'),
+            ('Bajo Gestión (M€)', 'bajoGestion'),
+            ('Empresarial (M€)', 'empresarial'),
+            ('Rentabilidad (%)', 'rentabilidad'),
+            ('Rentas Inmobiliarias (K€)', 'rentasInmob'),
+            ('Cartera Financiera (M€)', 'carteraFinanciera'),
+            ('Cartera Inmobiliaria (M€)', 'carteraInmobiliaria'),
+            ('Inversiones Alternativas (M€)', 'alternativas'),
         ]
 
-        for row_idx, row_data in enumerate(rows_data, 4):
-            for col_idx, value in enumerate(row_data, 1):
-                cell = ws1.cell(row=row_idx, column=col_idx, value=value)
+        row = 5
+        for concepto_nombre, concepto_key in conceptos:
+            ws.cell(row=row, column=1, value=concepto_nombre).border = thin_border
+            col = 2
+            for perfil in perfiles:
+                if perfil in periodo_data and concepto_key in periodo_data[perfil]:
+                    value = periodo_data[perfil][concepto_key]
+                else:
+                    value = '-'
+                cell = ws.cell(row=row, column=col, value=value)
                 cell.border = thin_border
-                if col_idx > 1:
-                    cell.alignment = Alignment(horizontal="right")
+                cell.alignment = Alignment(horizontal="right")
+                col += 1
+            row += 1
 
-        # Ajustar anchos de columna
-        ws1.column_dimensions['A'].width = 30
-        for col in ['B', 'C', 'D']:
-            ws1.column_dimensions[col].width = 15
+        ws.column_dimensions['A'].width = 30
+        for c in ['B', 'C', 'D', 'E']:
+            ws.column_dimensions[c].width = 15
 
-        # ===== HOJA 2: Resumen 2024 =====
-        ws2 = wb.create_sheet("Resumen 2024")
+    # Hoja de datos históricos
+    if data.get('historico'):
+        ws_hist = wb.create_sheet("Evolución Histórica")
+        ws_hist['A1'] = "BLANES CAPITAL - Evolución Patrimonial"
+        ws_hist['A1'].font = Font(bold=True, size=14)
 
-        data_2024 = PERIOD_DATA['2024']
-
-        ws2['A1'] = "BLANES CAPITAL - Resumen Cierre 2024"
-        ws2['A1'].font = Font(bold=True, size=14)
-        ws2.merge_cells('A1:E1')
-
-        for col, header in enumerate(headers, 1):
-            cell = ws2.cell(row=3, column=col, value=header)
-            cell.font = header_font
-            cell.fill = header_fill
-            cell.alignment = header_alignment
-            cell.border = thin_border
-
-        rows_data_2024 = [
-            ('Patrimonio Total (M€)', data_2024['pablo']['patrimonioTotal'], data_2024['ale']['patrimonioTotal'],
-             data_2024['pablo']['patrimonioTotal'] + data_2024['ale']['patrimonioTotal']),
-            ('Bajo Gestión (M€)', data_2024['pablo']['bajoGestion'], data_2024['ale']['bajoGestion'],
-             data_2024['total']['bajoGestion']),
-            ('Empresarial (M€)', data_2024['pablo']['empresarial'], data_2024['ale']['empresarial'],
-             data_2024['pablo']['empresarial'] + data_2024['ale']['empresarial']),
-            ('Rentabilidad (%)', data_2024['pablo']['rentabilidad'], data_2024['ale']['rentabilidad'],
-             data_2024['total']['rentabilidad']),
-            ('Rentas Inmobiliarias (K€)', data_2024['pablo']['rentasInmob'], data_2024['ale']['rentasInmob'],
-             data_2024['total']['rentasInmob']),
-            ('Cartera Financiera (M€)', data_2024['pablo']['carteraFinanciera'], data_2024['ale']['carteraFinanciera'],
-             data_2024['pablo']['carteraFinanciera'] + data_2024['ale']['carteraFinanciera']),
-            ('Cartera Inmobiliaria (M€)', data_2024['pablo']['carteraInmobiliaria'], data_2024['ale']['carteraInmobiliaria'],
-             data_2024['pablo']['carteraInmobiliaria'] + data_2024['ale']['carteraInmobiliaria']),
-            ('Inversiones Alternativas (M€)', data_2024['pablo']['alternativas'], data_2024['ale']['alternativas'],
-             data_2024['pablo']['alternativas'] + data_2024['ale']['alternativas']),
-        ]
-
-        for row_idx, row_data in enumerate(rows_data_2024, 4):
-            for col_idx, value in enumerate(row_data, 1):
-                cell = ws2.cell(row=row_idx, column=col_idx, value=value)
-                cell.border = thin_border
-                if col_idx > 1:
-                    cell.alignment = Alignment(horizontal="right")
-
-        ws2.column_dimensions['A'].width = 30
-        for col in ['B', 'C', 'D']:
-            ws2.column_dimensions[col].width = 15
-
-        # ===== HOJA 3: Evolución Histórica =====
-        ws3 = wb.create_sheet("Evolución Histórica")
-
-        ws3['A1'] = "BLANES CAPITAL - Evolución Patrimonial"
-        ws3['A1'].font = Font(bold=True, size=14)
-        ws3.merge_cells('A1:G1')
-
-        # Encabezados años
-        hist_headers = ['Perfil / Concepto'] + HISTORICAL_DATA['years']
+        hist_headers = ['Perfil / Concepto'] + data['historico']['years']
         for col, header in enumerate(hist_headers, 1):
-            cell = ws3.cell(row=3, column=col, value=header)
+            cell = ws_hist.cell(row=3, column=col, value=header)
             cell.font = header_font
             cell.fill = header_fill
-            cell.alignment = header_alignment
             cell.border = thin_border
 
-        # Datos Pablo
-        ws3.cell(row=4, column=1, value="Pablo - Bajo Gestión (M€)").border = thin_border
-        for col, val in enumerate(HISTORICAL_DATA['pablo']['bajoGestion'], 2):
-            cell = ws3.cell(row=4, column=col, value=val)
-            cell.border = thin_border
-            cell.alignment = Alignment(horizontal="right")
+        row = 4
+        for perfil in ['pablo', 'ale']:
+            if perfil in data['historico']:
+                for metric in ['bajoGestion', 'empresarial']:
+                    nombre = f"{'Pablo' if perfil == 'pablo' else 'Alejandro'} - {'Bajo Gestión' if metric == 'bajoGestion' else 'Empresarial'} (M€)"
+                    ws_hist.cell(row=row, column=1, value=nombre).border = thin_border
+                    for col, val in enumerate(data['historico'][perfil][metric], 2):
+                        cell = ws_hist.cell(row=row, column=col, value=val)
+                        cell.border = thin_border
+                    row += 1
 
-        ws3.cell(row=5, column=1, value="Pablo - Empresarial (M€)").border = thin_border
-        for col, val in enumerate(HISTORICAL_DATA['pablo']['empresarial'], 2):
-            cell = ws3.cell(row=5, column=col, value=val)
-            cell.border = thin_border
-            cell.alignment = Alignment(horizontal="right")
+        ws_hist.column_dimensions['A'].width = 30
 
-        # Datos Alejandro
-        ws3.cell(row=6, column=1, value="Alejandro - Bajo Gestión (M€)").border = thin_border
-        for col, val in enumerate(HISTORICAL_DATA['ale']['bajoGestion'], 2):
-            cell = ws3.cell(row=6, column=col, value=val)
-            cell.border = thin_border
-            cell.alignment = Alignment(horizontal="right")
+    output = BytesIO()
+    wb.save(output)
+    output.seek(0)
 
-        ws3.cell(row=7, column=1, value="Alejandro - Empresarial (M€)").border = thin_border
-        for col, val in enumerate(HISTORICAL_DATA['ale']['empresarial'], 2):
-            cell = ws3.cell(row=7, column=col, value=val)
-            cell.border = thin_border
-            cell.alignment = Alignment(horizontal="right")
+    filename = f"BlanesCapital_{datetime.now().strftime('%Y%m%d_%H%M')}.xlsx"
+    return send_file(output, mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                     as_attachment=True, download_name=filename)
 
-        ws3.column_dimensions['A'].width = 30
-        for col in ['B', 'C', 'D', 'E', 'F', 'G']:
-            ws3.column_dimensions[col].width = 12
+def export_to_csv(data, periodos, perfiles):
+    """Exporta a CSV"""
+    import csv
 
-        # Guardar en memoria
+    output = BytesIO()
+    writer = csv.writer(output.getvalue().decode('utf-8').encode('utf-8-sig').split())
+
+    lines = []
+    lines.append("BLANES CAPITAL - Exportación de Datos")
+    lines.append(f"Fecha de exportación: {datetime.now().strftime('%d/%m/%Y %H:%M')}")
+    lines.append("")
+
+    for periodo_key, periodo_data in data['periodos'].items():
+        lines.append(f"=== {periodo_data.get('title', periodo_key)} ===")
+        lines.append(f"Fecha datos: {periodo_data.get('date', '')}")
+        lines.append("")
+
+        # Headers
+        header_line = "Concepto"
+        for perfil in perfiles:
+            if perfil == 'pablo':
+                header_line += ",Pablo"
+            elif perfil == 'ale':
+                header_line += ",Alejandro"
+            elif perfil == 'total':
+                header_line += ",Total"
+        lines.append(header_line)
+
+        conceptos = [
+            ('Patrimonio Total (M€)', 'patrimonioTotal'),
+            ('Bajo Gestión (M€)', 'bajoGestion'),
+            ('Empresarial (M€)', 'empresarial'),
+            ('Rentabilidad (%)', 'rentabilidad'),
+            ('Rentas Inmobiliarias (K€)', 'rentasInmob'),
+            ('Cartera Financiera (M€)', 'carteraFinanciera'),
+            ('Cartera Inmobiliaria (M€)', 'carteraInmobiliaria'),
+            ('Inversiones Alternativas (M€)', 'alternativas'),
+        ]
+
+        for concepto_nombre, concepto_key in conceptos:
+            line = concepto_nombre
+            for perfil in perfiles:
+                if perfil in periodo_data and concepto_key in periodo_data[perfil]:
+                    line += f",{periodo_data[perfil][concepto_key]}"
+                else:
+                    line += ",-"
+            lines.append(line)
+        lines.append("")
+
+    csv_content = "\n".join(lines)
+    output = BytesIO(csv_content.encode('utf-8-sig'))
+
+    filename = f"BlanesCapital_{datetime.now().strftime('%Y%m%d_%H%M')}.csv"
+    return send_file(output, mimetype='text/csv', as_attachment=True, download_name=filename)
+
+def export_to_pdf(data, periodos, perfiles):
+    """Exporta a PDF"""
+    try:
+        from reportlab.lib import colors
+        from reportlab.lib.pagesizes import A4
+        from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+        from reportlab.lib.units import cm
+        from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
+
         output = BytesIO()
-        wb.save(output)
+        doc = SimpleDocTemplate(output, pagesize=A4, topMargin=2*cm, bottomMargin=2*cm)
+        elements = []
+        styles = getSampleStyleSheet()
+
+        # Título
+        title_style = ParagraphStyle('Title', parent=styles['Heading1'], fontSize=18,
+                                     textColor=colors.HexColor('#1a2744'), spaceAfter=20)
+        elements.append(Paragraph("BLANES CAPITAL", title_style))
+        elements.append(Paragraph(f"Exportación de Datos - {datetime.now().strftime('%d/%m/%Y')}", styles['Normal']))
+        elements.append(Spacer(1, 20))
+
+        for periodo_key, periodo_data in data['periodos'].items():
+            # Subtítulo del periodo
+            elements.append(Paragraph(periodo_data.get('title', periodo_key), styles['Heading2']))
+            elements.append(Paragraph(f"Fecha: {periodo_data.get('date', '')}", styles['Normal']))
+            elements.append(Spacer(1, 10))
+
+            # Tabla de datos
+            headers = ['Concepto']
+            for perfil in perfiles:
+                if perfil == 'pablo':
+                    headers.append('Pablo')
+                elif perfil == 'ale':
+                    headers.append('Alejandro')
+                elif perfil == 'total':
+                    headers.append('Total')
+
+            table_data = [headers]
+
+            conceptos = [
+                ('Patrimonio Total (M€)', 'patrimonioTotal'),
+                ('Bajo Gestión (M€)', 'bajoGestion'),
+                ('Rentabilidad (%)', 'rentabilidad'),
+                ('Rentas Inmobiliarias (K€)', 'rentasInmob'),
+                ('Cartera Financiera (M€)', 'carteraFinanciera'),
+                ('Cartera Inmobiliaria (M€)', 'carteraInmobiliaria'),
+            ]
+
+            for concepto_nombre, concepto_key in conceptos:
+                row = [concepto_nombre]
+                for perfil in perfiles:
+                    if perfil in periodo_data and concepto_key in periodo_data[perfil]:
+                        row.append(str(periodo_data[perfil][concepto_key]))
+                    else:
+                        row.append('-')
+                table_data.append(row)
+
+            table = Table(table_data, colWidths=[7*cm] + [3*cm] * (len(headers) - 1))
+            table.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#1a2744')),
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                ('ALIGN', (0, 1), (0, -1), 'LEFT'),
+                ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                ('FONTSIZE', (0, 0), (-1, 0), 10),
+                ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+                ('GRID', (0, 0), (-1, -1), 1, colors.black),
+                ('FONTSIZE', (0, 1), (-1, -1), 9),
+                ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.white, colors.HexColor('#f5f6fa')]),
+            ]))
+            elements.append(table)
+            elements.append(Spacer(1, 30))
+
+        doc.build(elements)
         output.seek(0)
 
-        filename = f"BlanesCapital_Datos_{datetime.now().strftime('%Y%m%d_%H%M')}.xlsx"
-
-        return send_file(
-            output,
-            mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-            as_attachment=True,
-            download_name=filename
-        )
+        filename = f"BlanesCapital_{datetime.now().strftime('%Y%m%d_%H%M')}.pdf"
+        return send_file(output, mimetype='application/pdf', as_attachment=True, download_name=filename)
 
     except ImportError:
-        return {'error': 'Librería openpyxl no instalada'}, 500
-    except Exception as e:
-        return {'error': str(e)}, 500
+        return {'error': 'Librería reportlab no instalada'}, 500
 
 # ============================================
 # INICIALIZACIÓN
