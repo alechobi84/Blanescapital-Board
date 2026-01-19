@@ -1,0 +1,2857 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blanes Capital - Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- LOGIN SCREEN -->
+    <div id="loginScreen" class="login-screen">
+        <div class="login-box">
+            <div class="login-logo">
+                <div class="logo-circle">B</div>
+                <div class="logo-text">
+                    <span class="logo-name">Blanes</span>
+                    <span class="logo-subtitle">CAPITAL</span>
+                </div>
+            </div>
+            <h2>Acceso Restringido</h2>
+            <p>Introduce la contraseña para acceder</p>
+            <form id="loginForm">
+                <input type="password" id="passwordInput" placeholder="Contraseña" autocomplete="off">
+                <button type="submit">Entrar</button>
+            </form>
+            <div id="loginError" class="login-error"></div>
+        </div>
+    </div>
+
+    <div id="mainContent" class="main-content-hidden">
+    <header class="header">
+        <div class="header-logo">
+            <div class="logo-circle">B</div>
+            <div class="logo-text">
+                <span class="logo-name">Blanes</span>
+                <span class="logo-subtitle">CAPITAL</span>
+            </div>
+        </div>
+        <div class="header-title">
+            <h1>Consejo Blanes Capital</h1>
+            <div class="period-buttons">
+                <button class="period-btn" data-period="2024">Cierre 2024</button>
+                <button class="period-btn active" data-period="1s2025">1S 2025</button>
+            </div>
+        </div>
+        <div class="profile-buttons">
+            <button class="profile-btn active" data-profile="total">Total</button>
+            <button class="profile-btn" data-profile="pablo">Pablo</button>
+            <button class="profile-btn" data-profile="ale">Alejandro</button>
+            <button class="profile-btn" data-profile="comparar">Comparar</button>
+        </div>
+    </header>
+
+    <div class="nav-container">
+        <div class="nav-fade nav-fade-left"></div>
+        <nav class="nav" id="mainNav">
+            <button class="nav-btn active" data-section="resumen"><span class="full">Resumen</span><span class="short">Res</span></button>
+            <button class="nav-btn" data-section="patrimonio"><span class="full">Evol. Patrimonial</span><span class="short">Pat</span></button>
+            <button class="nav-btn" data-section="inmobiliaria"><span class="full">Cartera Inmobiliaria</span><span class="short">Inm</span></button>
+            <button class="nav-btn" data-section="financiera"><span class="full">Cartera Financiera</span><span class="short">Fin</span></button>
+            <button class="nav-btn" data-section="alternativas"><span class="full">Inv. Alternativas</span><span class="short">Alt</span></button>
+            <button class="nav-btn" data-section="estructura"><span class="full">Estructura</span><span class="short">Est</span></button>
+            <button class="nav-btn" data-section="debate"><span class="full">Debate</span><span class="short">Deb</span></button>
+            <button class="nav-btn" data-section="fiscalidad"><span class="full">Cash Flow + Fiscal</span><span class="short">CF+Fisc</span></button>
+        </nav>
+        <div class="nav-fade nav-fade-right"></div>
+    </div>
+
+    <div class="profile-indicator">
+        Viendo: <strong id="currentProfile">Total</strong>
+    </div>
+
+    <main class="main">
+        <!-- RESUMEN -->
+        <section id="resumen" class="section active">
+            <!-- Total -->
+            <div class="profile-content" data-profile="total">
+                <div class="section-title">
+                    <h2>Resumen Ejecutivo</h2>
+                    <p>Patrimonio combinado Pablo + Alejandro</p>
+                </div>
+
+                <div class="kpi-grid">
+                    <div class="kpi-card purple">
+                        <div class="kpi-label">Patrimonio Bajo Gestion</div>
+                        <div class="kpi-value">175,1M</div>
+                        <div class="kpi-badge positive">+1,90% vs dic-24</div>
+                    </div>
+                    <div class="kpi-card blue">
+                        <div class="kpi-label">Rentabilidad 1S 2025</div>
+                        <div class="kpi-value warning">-0,03%</div>
+                        <div class="kpi-badge negative">Impacto USD: -5,9M</div>
+                    </div>
+                    <div class="kpi-card green">
+                        <div class="kpi-label">Rentas Inmobiliarias</div>
+                        <div class="kpi-value">748K</div>
+                        <div class="kpi-badge positive">+106% vs 2024</div>
+                    </div>
+                    <div class="kpi-card orange">
+                        <div class="kpi-label">Coste Estructura</div>
+                        <div class="kpi-value">0,33%</div>
+                        <div class="kpi-badge positive">-18K vs Budget</div>
+                    </div>
+                </div>
+                <div class="dual-cards">
+                    <div class="summary-card pablo">
+                        <div class="card-header">Pablo</div>
+                        <div class="card-subtitle">128,7M total</div>
+                        <div class="card-row"><span>Bajo Gestión</span><span>96,4M</span></div>
+                        <div class="card-row"><span>Rentabilidad 1S</span><span class="negative">-0,14%</span></div>
+                        <div class="card-row"><span>Rentas Inmob.</span><span class="positive">385K</span></div>
+                    </div>
+                    <div class="summary-card ale">
+                        <div class="card-header">Alejandro</div>
+                        <div class="card-subtitle">143,4M total</div>
+                        <div class="card-row"><span>Bajo Gestión</span><span>78,8M</span></div>
+                        <div class="card-row"><span>Rentabilidad 1S</span><span class="positive">+0,08%</span></div>
+                        <div class="card-row"><span>Rentas Inmob.</span><span class="positive">363K</span></div>
+                    </div>
+                </div>
+
+                <!-- Presión Fiscal Visual -->
+                <div class="tax-visual-card">
+                    <div class="tax-visual-header">
+                        <h3>Presión Fiscal 2024</h3>
+                        <span class="tax-visual-subtitle">Impuestos sobre generación de riqueza</span>
+                    </div>
+                    <div class="tax-visual-content">
+                        <!-- Gráfica de barras comparativa -->
+                        <div class="tax-bars-section">
+                            <div class="tax-bar-group">
+                                <div class="tax-bar-label">
+                                    <span class="tax-bar-title">Sobre Total Generado</span>
+                                    <span class="tax-bar-desc">Incluye plusvalías latentes (no tributan)</span>
+                                </div>
+                                <div class="tax-bar-row">
+                                    <span class="tax-bar-name pablo-text">Pablo</span>
+                                    <div class="tax-bar-track">
+                                        <div class="tax-bar-fill pablo" style="width: 21.4%"></div>
+                                        <span class="tax-bar-value">10,7%</span>
+                                    </div>
+                                </div>
+                                <div class="tax-bar-row">
+                                    <span class="tax-bar-name ale-text">Alejandro</span>
+                                    <div class="tax-bar-track">
+                                        <div class="tax-bar-fill ale" style="width: 18.4%"></div>
+                                        <span class="tax-bar-value">9,2%</span>
+                                    </div>
+                                </div>
+                                <div class="tax-bar-row total">
+                                    <span class="tax-bar-name">Total</span>
+                                    <div class="tax-bar-track">
+                                        <div class="tax-bar-fill total" style="width: 19.8%"></div>
+                                        <span class="tax-bar-value">9,9%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tax-bar-group warning">
+                                <div class="tax-bar-label">
+                                    <span class="tax-bar-title">Sobre Ganancias Realizadas</span>
+                                    <span class="tax-bar-desc">Solo el cash recibido (dividendos, rentas, cupones)</span>
+                                </div>
+                                <div class="tax-bar-row">
+                                    <span class="tax-bar-name pablo-text">Pablo</span>
+                                    <div class="tax-bar-track">
+                                        <div class="tax-bar-fill pablo warning" style="width: 85%"></div>
+                                        <span class="tax-bar-value">42,5%</span>
+                                    </div>
+                                </div>
+                                <div class="tax-bar-row">
+                                    <span class="tax-bar-name ale-text">Alejandro</span>
+                                    <div class="tax-bar-track">
+                                        <div class="tax-bar-fill ale warning" style="width: 61.6%"></div>
+                                        <span class="tax-bar-value">30,8%</span>
+                                    </div>
+                                </div>
+                                <div class="tax-bar-row total">
+                                    <span class="tax-bar-name">Total</span>
+                                    <div class="tax-bar-track">
+                                        <div class="tax-bar-fill total warning" style="width: 71.8%"></div>
+                                        <span class="tax-bar-value">35,9%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Resumen en números -->
+                        <div class="tax-numbers-section">
+                            <div class="tax-number-card">
+                                <div class="tax-number-icon pablo">P</div>
+                                <div class="tax-number-data">
+                                    <span class="tax-number-value">586K€</span>
+                                    <span class="tax-number-label">Impuestos Pablo</span>
+                                    <span class="tax-number-detail">IP 278K + IS 184K + IRPF 124K</span>
+                                </div>
+                            </div>
+                            <div class="tax-number-card">
+                                <div class="tax-number-icon ale">A</div>
+                                <div class="tax-number-data">
+                                    <span class="tax-number-value">526K€</span>
+                                    <span class="tax-number-label">Impuestos Alejandro</span>
+                                    <span class="tax-number-detail">IP 184K + IS 233K + IRPF 109K</span>
+                                </div>
+                            </div>
+                            <div class="tax-number-card total">
+                                <div class="tax-number-icon total">Σ</div>
+                                <div class="tax-number-data">
+                                    <span class="tax-number-value">1,11M€</span>
+                                    <span class="tax-number-label">Total Impuestos</span>
+                                    <span class="tax-number-detail">9,9% de 11,18M€ generados</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rentabilidad por Tipo de Activo -->
+                <div class="returns-table-card">
+                    <div class="returns-table-header">
+                        <h3>Rentabilidad por Tipo de Activo - 1S 2025</h3>
+                    </div>
+
+                    <table class="returns-table">
+                        <thead>
+                            <tr>
+                                <th class="col-tipo">Tipo de Activo</th>
+                                <th class="col-data" colspan="2">Pablo</th>
+                                <th class="col-data" colspan="2">Alejandro</th>
+                                <th class="col-bench">Benchmark</th>
+                            </tr>
+                            <tr class="sub-header">
+                                <th></th>
+                                <th>Sin USD</th>
+                                <th>Con USD</th>
+                                <th>Sin USD</th>
+                                <th>Con USD</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="row-inmob">
+                                <td class="tipo-cell">
+                                    <span class="tipo-icon">🏢</span>
+                                    <span class="tipo-name">Inmobiliaria</span>
+                                </td>
+                                <td class="value-cell positive" colspan="2">
+                                    <span class="value-main">+4,54%</span>
+                                    <div class="value-bar positive" style="width: 75%"></div>
+                                </td>
+                                <td class="value-cell positive" colspan="2">
+                                    <span class="value-main">+4,77%</span>
+                                    <div class="value-bar positive" style="width: 79%"></div>
+                                </td>
+                                <td class="bench-cell">3-5%</td>
+                            </tr>
+                            <tr class="row-fin">
+                                <td class="tipo-cell">
+                                    <span class="tipo-icon">📈</span>
+                                    <span class="tipo-name">Financiera</span>
+                                    <span class="tipo-badge">45% USD</span>
+                                </td>
+                                <td class="value-cell positive">
+                                    <span class="value-main">+3,79%</span>
+                                    <div class="value-bar positive" style="width: 63%"></div>
+                                </td>
+                                <td class="value-cell negative highlight-usd">
+                                    <span class="value-main">-1,53%</span>
+                                    <div class="value-bar negative" style="width: 25%"></div>
+                                    <span class="usd-impact">-5,32pp</span>
+                                </td>
+                                <td class="value-cell positive">
+                                    <span class="value-main">+5,40%</span>
+                                    <div class="value-bar positive" style="width: 90%"></div>
+                                </td>
+                                <td class="value-cell negative highlight-usd">
+                                    <span class="value-main">-1,60%</span>
+                                    <div class="value-bar negative" style="width: 27%"></div>
+                                    <span class="usd-impact">-7,00pp</span>
+                                </td>
+                                <td class="bench-cell">-</td>
+                            </tr>
+                            <tr class="row-sub">
+                                <td class="tipo-cell sub">
+                                    <span class="sub-indent"></span>
+                                    <span class="tipo-name">Renta Variable</span>
+                                </td>
+                                <td class="value-cell positive small">
+                                    <span class="value-main">+12,16%</span>
+                                </td>
+                                <td class="value-cell positive small highlight-usd-light">
+                                    <span class="value-main">+7,84%</span>
+                                    <span class="usd-impact-small">-4,32pp</span>
+                                </td>
+                                <td class="value-cell positive small">
+                                    <span class="value-main">+16,17%</span>
+                                </td>
+                                <td class="value-cell positive small highlight-usd-light">
+                                    <span class="value-main">+9,17%</span>
+                                    <span class="usd-impact-small">-7,00pp</span>
+                                </td>
+                                <td class="bench-cell small">S&P +4,96%</td>
+                            </tr>
+                            <tr class="row-sub">
+                                <td class="tipo-cell sub">
+                                    <span class="sub-indent"></span>
+                                    <span class="tipo-name">Renta Fija</span>
+                                </td>
+                                <td class="value-cell positive small">
+                                    <span class="value-main">+1,86%</span>
+                                </td>
+                                <td class="value-cell negative small highlight-usd-light">
+                                    <span class="value-main">-1,94%</span>
+                                    <span class="usd-impact-small">-3,80pp</span>
+                                </td>
+                                <td class="value-cell positive small">
+                                    <span class="value-main">+4,34%</span>
+                                </td>
+                                <td class="value-cell negative small highlight-usd-light">
+                                    <span class="value-main">-2,66%</span>
+                                    <span class="usd-impact-small">-7,00pp</span>
+                                </td>
+                                <td class="bench-cell small">~0%</td>
+                            </tr>
+                            <tr class="row-sub">
+                                <td class="tipo-cell sub">
+                                    <span class="sub-indent"></span>
+                                    <span class="tipo-name">Oro</span>
+                                </td>
+                                <td class="value-cell positive small">
+                                    <span class="value-main">+18,28%</span>
+                                </td>
+                                <td class="value-cell positive small highlight-usd-light">
+                                    <span class="value-main">+12,96%</span>
+                                    <span class="usd-impact-small">-5,32pp</span>
+                                </td>
+                                <td class="value-cell positive small">
+                                    <span class="value-main">+19,33%</span>
+                                </td>
+                                <td class="value-cell positive small highlight-usd-light">
+                                    <span class="value-main">+12,33%</span>
+                                    <span class="usd-impact-small">-7,00pp</span>
+                                </td>
+                                <td class="bench-cell small">+14,2%</td>
+                            </tr>
+                            <tr class="row-alt">
+                                <td class="tipo-cell">
+                                    <span class="tipo-icon">🎯</span>
+                                    <span class="tipo-name">Alternativas</span>
+                                    <span class="tipo-badge warning">Curva J</span>
+                                </td>
+                                <td class="value-cell neutral" colspan="2">
+                                    <span class="value-main">-0,08%</span>
+                                    <div class="value-bar neutral" style="width: 5%"></div>
+                                </td>
+                                <td class="value-cell positive" colspan="2">
+                                    <span class="value-main">+1,52%</span>
+                                    <div class="value-bar positive" style="width: 25%"></div>
+                                </td>
+                                <td class="bench-cell">8-12% LP</td>
+                            </tr>
+                            <tr class="row-rot inactive">
+                                <td class="tipo-cell">
+                                    <span class="tipo-icon">🔄</span>
+                                    <span class="tipo-name">Rotación</span>
+                                </td>
+                                <td colspan="4" class="inactive-cell">Sin operaciones en 1S 2025</td>
+                                <td class="bench-cell">-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="returns-table-legend">
+                        <span class="legend-item"><span class="legend-color positive"></span> Rentabilidad positiva</span>
+                        <span class="legend-item"><span class="legend-color negative"></span> Rentabilidad negativa</span>
+                        <span class="legend-item"><span class="legend-icon">⚡</span> Impacto USD = diferencia por efecto divisa</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pablo -->
+            <div class="profile-content" data-profile="pablo" style="display:none;">
+                <div class="section-title">
+                    <h2>Resumen Ejecutivo - Pablo</h2>
+                    <p>Datos individuales de Pablo</p>
+                </div>
+
+                <!-- Presión Fiscal Visual Pablo -->
+                <div class="tax-visual-card single">
+                    <div class="tax-visual-header">
+                        <h3>Presión Fiscal 2024 - Pablo</h3>
+                        <span class="tax-visual-subtitle">586K€ en impuestos sobre 5,49M€ generados</span>
+                    </div>
+                    <div class="tax-visual-single">
+                        <div class="tax-single-bars">
+                            <div class="tax-single-bar">
+                                <div class="tax-single-label">
+                                    <span>Sobre generación total</span>
+                                    <span class="tax-single-pct">10,7%</span>
+                                </div>
+                                <div class="tax-bar-track">
+                                    <div class="tax-bar-fill pablo" style="width: 21.4%"></div>
+                                </div>
+                            </div>
+                            <div class="tax-single-bar warning">
+                                <div class="tax-single-label">
+                                    <span>Sobre ganancias realizadas</span>
+                                    <span class="tax-single-pct warning">42,5%</span>
+                                </div>
+                                <div class="tax-bar-track warning">
+                                    <div class="tax-bar-fill pablo warning" style="width: 85%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tax-single-breakdown">
+                            <div class="tax-breakdown-item"><span class="tax-breakdown-label">IP</span><span class="tax-breakdown-value">278K€</span><span class="tax-breakdown-pct">47%</span></div>
+                            <div class="tax-breakdown-item"><span class="tax-breakdown-label">IS</span><span class="tax-breakdown-value">184K€</span><span class="tax-breakdown-pct">31%</span></div>
+                            <div class="tax-breakdown-item"><span class="tax-breakdown-label">IRPF</span><span class="tax-breakdown-value">124K€</span><span class="tax-breakdown-pct">22%</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="kpi-grid">
+                    <div class="kpi-card purple">
+                        <div class="kpi-label">Patrimonio Total</div>
+                        <div class="kpi-value">128,7M</div>
+                        <div class="kpi-badge">Empresarial: 32,3M</div>
+                    </div>
+                    <div class="kpi-card blue">
+                        <div class="kpi-label">Bajo Gestion</div>
+                        <div class="kpi-value">96,4M</div>
+                        <div class="kpi-badge positive">+1,93% vs dic-24</div>
+                    </div>
+                    <div class="kpi-card green">
+                        <div class="kpi-label">Rentabilidad 1S 2025</div>
+                        <div class="kpi-value negative">-0,14%</div>
+                        <div class="kpi-badge warning">Sin USD: +3,07%</div>
+                    </div>
+                    <div class="kpi-card orange">
+                        <div class="kpi-label">Rentas Inmobiliarias</div>
+                        <div class="kpi-value">385K</div>
+                        <div class="kpi-badge positive">+108% vs 2024</div>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <h3>Desglose por Cartera - Pablo</h3>
+                    <table>
+                        <thead>
+                            <tr><th>Cartera</th><th>Concepto</th><th>Resultado</th><th>vs 2024</th><th>vs Budget</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td rowspan="2"><strong>Inmobiliaria</strong><br><small>28M</small></td><td>On-Going</td><td>385K</td><td class="positive">+108%</td><td class="negative">-8,5%</td></tr>
+                            <tr><td>Revalorización</td><td>+872K</td><td class="positive">+5,14%</td><td>-</td></tr>
+                            <tr><td rowspan="2"><strong>Financiera</strong><br><small>55,8M</small></td><td>Valoración</td><td>+3,79%</td><td class="positive">+</td><td>-</td></tr>
+                            <tr><td>Efecto Divisa</td><td class="negative">-5,32%</td><td class="negative">-</td><td>-</td></tr>
+                            <tr><td><strong>Alternativas</strong><br><small>2,2M</small></td><td>Valoración</td><td>-0,08%</td><td class="negative">-</td><td>-</td></tr>
+                            <tr><td><strong>Rotación</strong><br><small>3,4M</small></td><td>-</td><td>Sin operaciones</td><td>-</td><td>-</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Rentabilidad por Tipo de Activo - Pablo -->
+                <div class="returns-table-card">
+                    <div class="returns-table-header">
+                        <h3>Rentabilidad por Tipo de Activo - 1S 2025</h3>
+                    </div>
+                    <table class="returns-table single-person">
+                        <thead>
+                            <tr>
+                                <th class="col-tipo">Tipo de Activo</th>
+                                <th>Sin USD</th>
+                                <th>Con USD</th>
+                                <th class="col-bench">Benchmark</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="row-inmob">
+                                <td class="tipo-cell">
+                                    <span class="tipo-icon">🏢</span>
+                                    <span class="tipo-name">Inmobiliaria</span>
+                                </td>
+                                <td class="value-cell positive" colspan="2">
+                                    <span class="value-main">+4,54%</span>
+                                    <div class="value-bar positive" style="width: 75%"></div>
+                                </td>
+                                <td class="bench-cell">3-5%</td>
+                            </tr>
+                            <tr class="row-fin">
+                                <td class="tipo-cell">
+                                    <span class="tipo-icon">📈</span>
+                                    <span class="tipo-name">Financiera</span>
+                                    <span class="tipo-badge">45% USD</span>
+                                </td>
+                                <td class="value-cell positive">
+                                    <span class="value-main">+3,79%</span>
+                                    <div class="value-bar positive" style="width: 63%"></div>
+                                </td>
+                                <td class="value-cell negative highlight-usd">
+                                    <span class="value-main">-1,53%</span>
+                                    <div class="value-bar negative" style="width: 25%"></div>
+                                    <span class="usd-impact">-5,32pp</span>
+                                </td>
+                                <td class="bench-cell">-</td>
+                            </tr>
+                            <tr class="row-sub">
+                                <td class="tipo-cell sub"><span class="sub-indent"></span><span class="tipo-name">Renta Variable</span></td>
+                                <td class="value-cell positive small"><span class="value-main">+12,16%</span></td>
+                                <td class="value-cell positive small highlight-usd-light"><span class="value-main">+7,84%</span><span class="usd-impact-small">-4,32pp</span></td>
+                                <td class="bench-cell small">S&P +4,96%</td>
+                            </tr>
+                            <tr class="row-sub">
+                                <td class="tipo-cell sub"><span class="sub-indent"></span><span class="tipo-name">Renta Fija</span></td>
+                                <td class="value-cell positive small"><span class="value-main">+1,86%</span></td>
+                                <td class="value-cell negative small highlight-usd-light"><span class="value-main">-1,94%</span><span class="usd-impact-small">-3,80pp</span></td>
+                                <td class="bench-cell small">~0%</td>
+                            </tr>
+                            <tr class="row-sub">
+                                <td class="tipo-cell sub"><span class="sub-indent"></span><span class="tipo-name">Oro</span></td>
+                                <td class="value-cell positive small"><span class="value-main">+18,28%</span></td>
+                                <td class="value-cell positive small highlight-usd-light"><span class="value-main">+12,96%</span><span class="usd-impact-small">-5,32pp</span></td>
+                                <td class="bench-cell small">+14,2%</td>
+                            </tr>
+                            <tr class="row-alt">
+                                <td class="tipo-cell">
+                                    <span class="tipo-icon">🎯</span>
+                                    <span class="tipo-name">Alternativas</span>
+                                    <span class="tipo-badge warning">Curva J</span>
+                                </td>
+                                <td class="value-cell neutral" colspan="2">
+                                    <span class="value-main">-0,08%</span>
+                                    <div class="value-bar neutral" style="width: 5%"></div>
+                                </td>
+                                <td class="bench-cell">8-12% LP</td>
+                            </tr>
+                            <tr class="row-rot inactive">
+                                <td class="tipo-cell">
+                                    <span class="tipo-icon">🔄</span>
+                                    <span class="tipo-name">Rotación</span>
+                                </td>
+                                <td colspan="2" class="inactive-cell">Sin operaciones en 1S 2025</td>
+                                <td class="bench-cell">-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Alejandro -->
+            <div class="profile-content" data-profile="ale" style="display:none;">
+                <div class="section-title">
+                    <h2>Resumen Ejecutivo - Alejandro</h2>
+                    <p>Datos individuales de Alejandro</p>
+                </div>
+
+                <!-- Presión Fiscal Visual Alejandro -->
+                <div class="tax-visual-card single">
+                    <div class="tax-visual-header">
+                        <h3>Presión Fiscal 2024 - Alejandro</h3>
+                        <span class="tax-visual-subtitle">526K€ en impuestos sobre 5,69M€ generados</span>
+                    </div>
+                    <div class="tax-visual-single">
+                        <div class="tax-single-bars">
+                            <div class="tax-single-bar">
+                                <div class="tax-single-label">
+                                    <span>Sobre generación total</span>
+                                    <span class="tax-single-pct ale">9,2%</span>
+                                </div>
+                                <div class="tax-bar-track">
+                                    <div class="tax-bar-fill ale" style="width: 18.4%"></div>
+                                </div>
+                            </div>
+                            <div class="tax-single-bar warning">
+                                <div class="tax-single-label">
+                                    <span>Sobre ganancias realizadas</span>
+                                    <span class="tax-single-pct warning">30,8%</span>
+                                </div>
+                                <div class="tax-bar-track warning">
+                                    <div class="tax-bar-fill ale warning" style="width: 61.6%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tax-single-breakdown">
+                            <div class="tax-breakdown-item"><span class="tax-breakdown-label">IS</span><span class="tax-breakdown-value">233K€</span><span class="tax-breakdown-pct">44%</span></div>
+                            <div class="tax-breakdown-item"><span class="tax-breakdown-label">IP</span><span class="tax-breakdown-value">184K€</span><span class="tax-breakdown-pct">35%</span></div>
+                            <div class="tax-breakdown-item"><span class="tax-breakdown-label">IRPF</span><span class="tax-breakdown-value">109K€</span><span class="tax-breakdown-pct">21%</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="kpi-grid">
+                    <div class="kpi-card purple">
+                        <div class="kpi-label">Patrimonio Total</div>
+                        <div class="kpi-value">143,4M</div>
+                        <div class="kpi-badge">Empresarial: 64,7M</div>
+                    </div>
+                    <div class="kpi-card blue">
+                        <div class="kpi-label">Bajo Gestion</div>
+                        <div class="kpi-value">78,8M</div>
+                        <div class="kpi-badge positive">+1,87% vs dic-24</div>
+                    </div>
+                    <div class="kpi-card green">
+                        <div class="kpi-label">Rentabilidad 1S 2025</div>
+                        <div class="kpi-value positive">+0,08%</div>
+                        <div class="kpi-badge warning">Sin USD: +3,86%</div>
+                    </div>
+                    <div class="kpi-card orange">
+                        <div class="kpi-label">Rentas Inmobiliarias</div>
+                        <div class="kpi-value">363K</div>
+                        <div class="kpi-badge positive">+104% vs 2024</div>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <h3>Desglose por Cartera - Alejandro</h3>
+                    <table>
+                        <thead>
+                            <tr><th>Cartera</th><th>Concepto</th><th>Resultado</th><th>vs 2024</th><th>vs Budget</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td rowspan="2"><strong>Inmobiliaria</strong><br><small>21,6M</small></td><td>On-Going</td><td>363K</td><td class="positive">+104%</td><td class="positive">+5,9%</td></tr>
+                            <tr><td>Revalorización</td><td>+668K</td><td class="positive">+5,14%</td><td>-</td></tr>
+                            <tr><td rowspan="2"><strong>Financiera</strong><br><small>43M</small></td><td>Valoración</td><td>+5,40%</td><td class="positive">+</td><td>-</td></tr>
+                            <tr><td>Efecto Divisa</td><td class="negative">-7,00%</td><td class="negative">-</td><td>-</td></tr>
+                            <tr><td><strong>Alternativas</strong><br><small>5,4M</small></td><td>Valoración</td><td class="positive">+3,22%</td><td class="positive">+</td><td>-</td></tr>
+                            <tr><td><strong>Rotación</strong><br><small>3,4M</small></td><td>-</td><td>Sin operaciones</td><td>-</td><td>-</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Rentabilidad por Tipo de Activo - Alejandro -->
+                <div class="returns-table-card">
+                    <div class="returns-table-header">
+                        <h3>Rentabilidad por Tipo de Activo - 1S 2025</h3>
+                    </div>
+                    <table class="returns-table single-person">
+                        <thead>
+                            <tr>
+                                <th class="col-tipo">Tipo de Activo</th>
+                                <th>Sin USD</th>
+                                <th>Con USD</th>
+                                <th class="col-bench">Benchmark</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="row-inmob">
+                                <td class="tipo-cell">
+                                    <span class="tipo-icon">🏢</span>
+                                    <span class="tipo-name">Inmobiliaria</span>
+                                </td>
+                                <td class="value-cell positive" colspan="2">
+                                    <span class="value-main">+4,77%</span>
+                                    <div class="value-bar positive" style="width: 79%"></div>
+                                </td>
+                                <td class="bench-cell">3-5%</td>
+                            </tr>
+                            <tr class="row-fin">
+                                <td class="tipo-cell">
+                                    <span class="tipo-icon">📈</span>
+                                    <span class="tipo-name">Financiera</span>
+                                    <span class="tipo-badge">51% USD</span>
+                                </td>
+                                <td class="value-cell positive">
+                                    <span class="value-main">+5,40%</span>
+                                    <div class="value-bar positive" style="width: 90%"></div>
+                                </td>
+                                <td class="value-cell negative highlight-usd">
+                                    <span class="value-main">-1,60%</span>
+                                    <div class="value-bar negative" style="width: 27%"></div>
+                                    <span class="usd-impact">-7,00pp</span>
+                                </td>
+                                <td class="bench-cell">-</td>
+                            </tr>
+                            <tr class="row-sub">
+                                <td class="tipo-cell sub"><span class="sub-indent"></span><span class="tipo-name">Renta Variable</span></td>
+                                <td class="value-cell positive small"><span class="value-main">+16,17%</span></td>
+                                <td class="value-cell positive small highlight-usd-light"><span class="value-main">+9,17%</span><span class="usd-impact-small">-7,00pp</span></td>
+                                <td class="bench-cell small">S&P +4,96%</td>
+                            </tr>
+                            <tr class="row-sub">
+                                <td class="tipo-cell sub"><span class="sub-indent"></span><span class="tipo-name">Renta Fija</span></td>
+                                <td class="value-cell positive small"><span class="value-main">+4,34%</span></td>
+                                <td class="value-cell negative small highlight-usd-light"><span class="value-main">-2,66%</span><span class="usd-impact-small">-7,00pp</span></td>
+                                <td class="bench-cell small">~0%</td>
+                            </tr>
+                            <tr class="row-sub">
+                                <td class="tipo-cell sub"><span class="sub-indent"></span><span class="tipo-name">Oro</span></td>
+                                <td class="value-cell positive small"><span class="value-main">+19,33%</span></td>
+                                <td class="value-cell positive small highlight-usd-light"><span class="value-main">+12,33%</span><span class="usd-impact-small">-7,00pp</span></td>
+                                <td class="bench-cell small">+14,2%</td>
+                            </tr>
+                            <tr class="row-alt">
+                                <td class="tipo-cell">
+                                    <span class="tipo-icon">🎯</span>
+                                    <span class="tipo-name">Alternativas</span>
+                                    <span class="tipo-badge warning">Curva J</span>
+                                </td>
+                                <td class="value-cell positive" colspan="2">
+                                    <span class="value-main">+1,52%</span>
+                                    <div class="value-bar positive" style="width: 25%"></div>
+                                </td>
+                                <td class="bench-cell">8-12% LP</td>
+                            </tr>
+                            <tr class="row-rot inactive">
+                                <td class="tipo-cell">
+                                    <span class="tipo-icon">🔄</span>
+                                    <span class="tipo-name">Rotación</span>
+                                </td>
+                                <td colspan="2" class="inactive-cell">Sin operaciones en 1S 2025</td>
+                                <td class="bench-cell">-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Comparar -->
+            <div class="profile-content" data-profile="comparar" style="display:none;">
+                <div class="section-title">
+                    <h2>Comparación Pablo vs Alejandro</h2>
+                    <p>Vista lado a lado</p>
+                </div>
+
+                <!-- Presión Fiscal Visual Comparativa -->
+                <div class="tax-visual-card">
+                    <div class="tax-visual-header">
+                        <h3>Presión Fiscal 2024 - Comparativa</h3>
+                        <span class="tax-visual-subtitle">Total familia: 1,11M€ en impuestos (9,9% sobre generación)</span>
+                    </div>
+                    <div class="tax-compare-grid">
+                        <div class="tax-compare-col pablo">
+                            <div class="tax-compare-header">
+                                <span class="tax-compare-icon">P</span>
+                                <span class="tax-compare-name">Pablo</span>
+                                <span class="tax-compare-total">586K€</span>
+                            </div>
+                            <div class="tax-compare-bars">
+                                <div class="tax-compare-bar">
+                                    <span class="tax-compare-label">S/Generado</span>
+                                    <div class="tax-bar-track small"><div class="tax-bar-fill pablo" style="width: 21.4%"></div></div>
+                                    <span class="tax-compare-value">10,7%</span>
+                                </div>
+                                <div class="tax-compare-bar">
+                                    <span class="tax-compare-label">S/Realizado</span>
+                                    <div class="tax-bar-track small warning"><div class="tax-bar-fill pablo warning" style="width: 85%"></div></div>
+                                    <span class="tax-compare-value warning">42,5%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tax-compare-col ale">
+                            <div class="tax-compare-header">
+                                <span class="tax-compare-icon">A</span>
+                                <span class="tax-compare-name">Alejandro</span>
+                                <span class="tax-compare-total">526K€</span>
+                            </div>
+                            <div class="tax-compare-bars">
+                                <div class="tax-compare-bar">
+                                    <span class="tax-compare-label">S/Generado</span>
+                                    <div class="tax-bar-track small"><div class="tax-bar-fill ale" style="width: 18.4%"></div></div>
+                                    <span class="tax-compare-value">9,2%</span>
+                                </div>
+                                <div class="tax-compare-bar">
+                                    <span class="tax-compare-label">S/Realizado</span>
+                                    <div class="tax-bar-track small warning"><div class="tax-bar-fill ale warning" style="width: 61.6%"></div></div>
+                                    <span class="tax-compare-value warning">30,8%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-col pablo">
+                        <div class="comparison-header">Pablo</div>
+                        <div class="comparison-total">128,7M</div>
+                        <div class="comparison-row"><span>Bajo Gestion</span><span>96,4M</span></div>
+                        <div class="comparison-row"><span>Rentabilidad 1S</span><span class="negative">-0,14%</span></div>
+                        <div class="comparison-row"><span>Rentas Inmob.</span><span class="positive">385K</span></div>
+                        <div class="comparison-row"><span>Exp. USD</span><span>29%</span></div>
+                        <div class="gauge-box">
+                            <h4>Inv. Alternativas vs Objetivo</h4>
+                            <canvas id="gaugePablo"></canvas>
+                            <div class="gauge-info">Actual: <strong>2,3%</strong> | Objetivo: <strong>10%</strong></div>
+                        </div>
+                    </div>
+                    <div class="comparison-col ale">
+                        <div class="comparison-header">Alejandro</div>
+                        <div class="comparison-total">143,4M</div>
+                        <div class="comparison-row"><span>Bajo Gestion</span><span>78,8M</span></div>
+                        <div class="comparison-row"><span>Rentabilidad 1S</span><span class="positive">+0,08%</span></div>
+                        <div class="comparison-row"><span>Rentas Inmob.</span><span class="positive">363K</span></div>
+                        <div class="comparison-row"><span>Exp. USD</span><span>27%</span></div>
+                        <div class="gauge-box">
+                            <h4>Inv. Alternativas vs Objetivo</h4>
+                            <canvas id="gaugeAle"></canvas>
+                            <div class="gauge-info">Actual: <strong>6,8%</strong> | Objetivo: <strong>15%</strong></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="waterfall-section">
+                    <h3>Evolución Patrimonio 1S 2025</h3>
+                    <div class="waterfall-grid">
+                        <div class="waterfall-box">
+                            <h4>Pablo</h4>
+                            <canvas id="waterfallPablo"></canvas>
+                        </div>
+                        <div class="waterfall-box">
+                            <h4>Alejandro</h4>
+                            <canvas id="waterfallAle"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <!-- Rentabilidad por Tipo de Activo - Comparativa -->
+                <div class="returns-table-card">
+                    <div class="returns-table-header">
+                        <h3>Rentabilidad por Tipo de Activo - 1S 2025</h3>
+                    </div>
+
+                    <table class="returns-table">
+                        <thead>
+                            <tr>
+                                <th class="col-tipo">Tipo de Activo</th>
+                                <th class="col-data" colspan="2">Pablo</th>
+                                <th class="col-data" colspan="2">Alejandro</th>
+                                <th class="col-bench">Benchmark</th>
+                            </tr>
+                            <tr class="sub-header">
+                                <th></th>
+                                <th>Sin USD</th>
+                                <th>Con USD</th>
+                                <th>Sin USD</th>
+                                <th>Con USD</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="row-inmob">
+                                <td class="tipo-cell">
+                                    <span class="tipo-icon">🏢</span>
+                                    <span class="tipo-name">Inmobiliaria</span>
+                                </td>
+                                <td class="value-cell positive" colspan="2">
+                                    <span class="value-main">+4,54%</span>
+                                    <div class="value-bar positive" style="width: 75%"></div>
+                                </td>
+                                <td class="value-cell positive" colspan="2">
+                                    <span class="value-main">+4,77%</span>
+                                    <div class="value-bar positive" style="width: 79%"></div>
+                                </td>
+                                <td class="bench-cell">3-5%</td>
+                            </tr>
+                            <tr class="row-fin">
+                                <td class="tipo-cell">
+                                    <span class="tipo-icon">📈</span>
+                                    <span class="tipo-name">Financiera</span>
+                                </td>
+                                <td class="value-cell positive">
+                                    <span class="value-main">+3,79%</span>
+                                    <div class="value-bar positive" style="width: 63%"></div>
+                                </td>
+                                <td class="value-cell negative highlight-usd">
+                                    <span class="value-main">-1,53%</span>
+                                    <div class="value-bar negative" style="width: 25%"></div>
+                                    <span class="usd-impact">-5,32pp</span>
+                                </td>
+                                <td class="value-cell positive">
+                                    <span class="value-main">+5,40%</span>
+                                    <div class="value-bar positive" style="width: 90%"></div>
+                                </td>
+                                <td class="value-cell negative highlight-usd">
+                                    <span class="value-main">-1,60%</span>
+                                    <div class="value-bar negative" style="width: 27%"></div>
+                                    <span class="usd-impact">-7,00pp</span>
+                                </td>
+                                <td class="bench-cell">-</td>
+                            </tr>
+                            <tr class="row-sub">
+                                <td class="tipo-cell sub">
+                                    <span class="sub-indent"></span>
+                                    <span class="tipo-name">Renta Variable</span>
+                                </td>
+                                <td class="value-cell positive small">
+                                    <span class="value-main">+12,16%</span>
+                                </td>
+                                <td class="value-cell positive small highlight-usd-light">
+                                    <span class="value-main">+7,84%</span>
+                                    <span class="usd-impact-small">-4,32pp</span>
+                                </td>
+                                <td class="value-cell positive small">
+                                    <span class="value-main">+16,17%</span>
+                                </td>
+                                <td class="value-cell positive small highlight-usd-light">
+                                    <span class="value-main">+9,17%</span>
+                                    <span class="usd-impact-small">-7,00pp</span>
+                                </td>
+                                <td class="bench-cell small">S&P +4,96%</td>
+                            </tr>
+                            <tr class="row-sub">
+                                <td class="tipo-cell sub">
+                                    <span class="sub-indent"></span>
+                                    <span class="tipo-name">Renta Fija</span>
+                                </td>
+                                <td class="value-cell positive small">
+                                    <span class="value-main">+1,86%</span>
+                                </td>
+                                <td class="value-cell negative small highlight-usd-light">
+                                    <span class="value-main">-1,94%</span>
+                                    <span class="usd-impact-small">-3,80pp</span>
+                                </td>
+                                <td class="value-cell positive small">
+                                    <span class="value-main">+4,34%</span>
+                                </td>
+                                <td class="value-cell negative small highlight-usd-light">
+                                    <span class="value-main">-2,66%</span>
+                                    <span class="usd-impact-small">-7,00pp</span>
+                                </td>
+                                <td class="bench-cell small">~0%</td>
+                            </tr>
+                            <tr class="row-sub">
+                                <td class="tipo-cell sub">
+                                    <span class="sub-indent"></span>
+                                    <span class="tipo-name">Oro</span>
+                                </td>
+                                <td class="value-cell positive small">
+                                    <span class="value-main">+18,28%</span>
+                                </td>
+                                <td class="value-cell positive small highlight-usd-light">
+                                    <span class="value-main">+12,96%</span>
+                                    <span class="usd-impact-small">-5,32pp</span>
+                                </td>
+                                <td class="value-cell positive small">
+                                    <span class="value-main">+19,33%</span>
+                                </td>
+                                <td class="value-cell positive small highlight-usd-light">
+                                    <span class="value-main">+12,33%</span>
+                                    <span class="usd-impact-small">-7,00pp</span>
+                                </td>
+                                <td class="bench-cell small">+14,2%</td>
+                            </tr>
+                            <tr class="row-alt">
+                                <td class="tipo-cell">
+                                    <span class="tipo-icon">🎯</span>
+                                    <span class="tipo-name">Alternativas</span>
+                                    <span class="tipo-badge warning">Curva J</span>
+                                </td>
+                                <td class="value-cell neutral" colspan="2">
+                                    <span class="value-main">-0,08%</span>
+                                    <div class="value-bar neutral" style="width: 5%"></div>
+                                </td>
+                                <td class="value-cell positive" colspan="2">
+                                    <span class="value-main">+1,52%</span>
+                                    <div class="value-bar positive" style="width: 25%"></div>
+                                </td>
+                                <td class="bench-cell">8-12% LP</td>
+                            </tr>
+                            <tr class="row-rot inactive">
+                                <td class="tipo-cell">
+                                    <span class="tipo-icon">🔄</span>
+                                    <span class="tipo-name">Rotación</span>
+                                </td>
+                                <td colspan="4" class="inactive-cell">Sin operaciones en 1S 2025</td>
+                                <td class="bench-cell">-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="returns-table-legend">
+                        <span class="legend-item"><span class="legend-color positive"></span> Rentabilidad positiva</span>
+                        <span class="legend-item"><span class="legend-color negative"></span> Rentabilidad negativa</span>
+                        <span class="legend-item"><span class="legend-icon">⚡</span> Impacto USD = diferencia por efecto divisa</span>
+                    </div>
+                </div>
+                <div class="composition-section">
+                    <h3>Composición de Cartera Financiera</h3>
+                    <div class="composition-grid">
+                        <div class="composition-box">
+                            <h4>Pablo (55,8M)</h4>
+                            <canvas id="compFinPablo"></canvas>
+                        </div>
+                        <div class="composition-box">
+                            <h4>Alejandro (43M)</h4>
+                            <canvas id="compFinAle"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alertas comunes -->
+            <div class="alerts-grid">
+                <div class="alert-card success">
+                    <h3>Lo Positivo</h3>
+                    <ul>
+                        <li>Cartera inmobiliaria: <strong>+106% rentas vs 2024</strong></li>
+                        <li>Mercado al alza: <strong>+5,14%</strong> en zonas de activos</li>
+                        <li>Estructura controlada: <strong>-11,66% vs Budget</strong></li>
+                        <li>Ocupación mejorada: Pablo 79%, Ale 88%</li>
+                    </ul>
+                </div>
+                <div class="alert-card warning">
+                    <h3>A Vigilar</h3>
+                    <ul>
+                        <li>Exposición USD: <strong>Impacto -5,9M</strong> en 1S</li>
+                        <li>Inv. Alternativas: Solo 4% del patrimonio (obj: 10-15%)</li>
+                        <li>Rotación: Definir plazos y rentabilidades</li>
+                    </ul>
+                </div>
+                <div class="alert-card info">
+                    <h3>Objetivos del Consejo</h3>
+                    <ul>
+                        <li>Definir estrategia exposición USD medio plazo</li>
+                        <li>Acelerar despliegue Inversiónes Alternativas</li>
+                        <li>Debatir: Liquidez, kit de seguridad</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- PATRIMONIO -->
+        <section id="patrimonio" class="section">
+            <div class="range-selector">
+                <span class="range-title">Período de visualización</span>
+                <span class="range-value" id="rangeValue">2020 - 1S 2025</span>
+                <div class="range-labels">
+                    <span class="range-label" data-year="0">2020</span>
+                    <span class="range-label" data-year="1">2021</span>
+                    <span class="range-label" data-year="2">2022</span>
+                    <span class="range-label" data-year="3">2023</span>
+                    <span class="range-label" data-year="4">2024</span>
+                    <span class="range-label" data-year="5">1S 25</span>
+                </div>
+                <div class="range-track-container">
+                    <div class="range-track"></div>
+                    <div class="range-track-active" id="rangeTrackActive"></div>
+                    <input type="range" class="range-input" id="rangeMin" min="0" max="5" value="0" step="1">
+                    <input type="range" class="range-input" id="rangeMax" min="0" max="5" value="5" step="1">
+                </div>
+            </div>
+
+            <!-- Total -->
+            <div class="profile-content" data-profile="total">
+                <div class="section-title">
+                    <h2>Evolución Patrimonial</h2>
+                    <p>Vision consolidada Pablo + Alejandro</p>
+                </div>
+                <div class="chart-card">
+                    <h3>Evolución del Patrimonio Total</h3>
+                    <div class="chart-container"><canvas id="patrimonioTotalChart"></canvas></div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card"><div class="stat-label">Patrimonio Total</div><div class="stat-value">272,1M</div><div class="stat-detail">Bajo gestión + Empresarial</div></div>
+                    <div class="stat-card"><div class="stat-label">Bajo Gestion</div><div class="stat-value">175,1M</div><div class="stat-detail positive">+1,90% en 1S 2025</div></div>
+                    <div class="stat-card"><div class="stat-label">Empresarial (Freepik)</div><div class="stat-value">97,0M</div><div class="stat-detail">EV Freepik: 412,5M</div></div>
+                    <div class="stat-card"><div class="stat-label">Entradas 1S 2025</div><div class="stat-value">4,0M</div><div class="stat-detail">Freepik (resolución favorable)</div></div>
+                </div>
+            </div>
+
+            <!-- Pablo -->
+            <div class="profile-content" data-profile="pablo" style="display:none;">
+                <div class="section-title">
+                    <h2>Evolución Patrimonial - Pablo</h2>
+                    <p>2020 - 1S 2025</p>
+                </div>
+                <div class="chart-card">
+                    <h3>Evolución del Patrimonio</h3>
+                    <div class="chart-container"><canvas id="patrimonioPabloChart"></canvas></div>
+                </div>
+                <div class="breakdown-card">
+                    <h3>Desglose 1S 2025</h3>
+                    <div class="breakdown-item start"><span>Patrimonio 31.12.24</span><span>94,5M</span></div>
+                    <div class="breakdown-item plus"><span>+ Entradas (Freepik)</span><span>+2,2M</span></div>
+                    <div class="breakdown-item minus"><span>+ Rendimiento</span><span>-126K</span></div>
+                    <div class="breakdown-item minus"><span>+ Ajustes (impuestos)</span><span>-263K</span></div>
+                    <div class="breakdown-item end"><span>Patrimonio 30.06.25</span><span>96,4M</span></div>
+                </div>
+                <div class="diversification-card">
+                    <h3>Diversificación Actual vs Objetivo</h3>
+                    <div class="div-grid">
+                        <div class="div-box"><h4>Actual (30.06.25)</h4><canvas id="divPabloActual"></canvas></div>
+                        <div class="div-box"><h4>Objetivo</h4><canvas id="divPabloObjetivo"></canvas></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alejandro -->
+            <div class="profile-content" data-profile="ale" style="display:none;">
+                <div class="section-title">
+                    <h2>Evolución Patrimonial - Alejandro</h2>
+                    <p>2020 - 1S 2025</p>
+                </div>
+                <div class="chart-card">
+                    <h3>Evolución del Patrimonio</h3>
+                    <div class="chart-container"><canvas id="patrimonioAleChart"></canvas></div>
+                </div>
+                <div class="breakdown-card">
+                    <h3>Desglose 1S 2025</h3>
+                    <div class="breakdown-item start"><span>Patrimonio 31.12.24</span><span>77,3M</span></div>
+                    <div class="breakdown-item plus"><span>+ Entradas (Freepik)</span><span>+1,8M</span></div>
+                    <div class="breakdown-item plus"><span>+ Rendimiento</span><span>+60K</span></div>
+                    <div class="breakdown-item minus"><span>+ Ajustes (impuestos)</span><span>-428K</span></div>
+                    <div class="breakdown-item end"><span>Patrimonio 30.06.25</span><span>78,8M</span></div>
+                </div>
+                <div class="diversification-card">
+                    <h3>Diversificación Actual vs Objetivo</h3>
+                    <div class="div-grid">
+                        <div class="div-box"><h4>Actual (30.06.25)</h4><canvas id="divAleActual"></canvas></div>
+                        <div class="div-box"><h4>Objetivo</h4><canvas id="divAleObjetivo"></canvas></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comparar -->
+            <div class="profile-content" data-profile="comparar" style="display:none;">
+                <div class="section-title">
+                    <h2>Evolución Patrimonial - Comparación</h2>
+                    <p>Pablo vs Alejandro</p>
+                </div>
+                <div class="comparison-charts">
+                    <div class="chart-card"><h3>Pablo</h3><div class="chart-container"><canvas id="patrimonioCompPablo"></canvas></div></div>
+                    <div class="chart-card"><h3>Alejandro</h3><div class="chart-container"><canvas id="patrimonioCompAle"></canvas></div></div>
+                </div>
+                <div class="table-container">
+                    <h3>Resumen Comparativo</h3>
+                    <table>
+                        <thead><tr><th>Concepto</th><th>Pablo</th><th>Alejandro</th><th>Diferencia</th></tr></thead>
+                        <tbody>
+                            <tr><td>Patrimonio Total</td><td>128,7M</td><td>143,4M</td><td class="negative">-14,7M</td></tr>
+                            <tr><td>Bajo Gestion</td><td>96,4M</td><td>78,8M</td><td class="positive">+17,6M</td></tr>
+                            <tr><td>Empresarial (Freepik)</td><td>32,3M</td><td>64,7M</td><td class="negative">-32,4M</td></tr>
+                            <tr><td>% Bajo Gestion</td><td>75%</td><td>55%</td><td class="positive">+20pp</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="diversification-comparison">
+                    <h3>Diversificación de Cartera</h3>
+                    <div class="div-grid">
+                        <div class="div-box"><h4>Pablo</h4><canvas id="divCompPablo"></canvas></div>
+                        <div class="div-box"><h4>Alejandro</h4><canvas id="divCompAle"></canvas></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timeline -->
+            <div class="timeline-card" data-hide-on-compare="true">
+                <h3>Hitos Históricos</h3>
+                <div class="timeline">
+                    <div class="timeline-item"><div class="timeline-marker">2020</div><div class="timeline-text"><strong>Venta de Freepik</strong></div></div>
+                    <div class="timeline-item"><div class="timeline-marker">2021</div><div class="timeline-text"><strong>Tributación IRPF</strong><br><small>Pablo: 25,1M | Ale: 20,5M</small></div></div>
+                    <div class="timeline-item"><div class="timeline-marker">2022</div><div class="timeline-text"><strong>Expansión inmobiliaria</strong><br><small>Inicio cartera financiera RF</small></div></div>
+                    <div class="timeline-item"><div class="timeline-marker">2023</div><div class="timeline-text"><strong>Constitución y Bolsa</strong><br><small>Bonos ITA/USA, monetarios</small></div></div>
+                    <div class="timeline-item"><div class="timeline-marker">2024</div><div class="timeline-text"><strong>Asset Allocation</strong><br><small>Inicio rotación</small></div></div>
+                    <div class="timeline-item current"><div class="timeline-marker">1S25</div><div class="timeline-text"><strong>Entrada Freepik +4M</strong><br><small>EV Freepik: 412,5M</small></div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- INMOBILIARIA -->
+        <section id="inmobiliaria" class="section">
+            <div class="profile-content" data-profile="total">
+                <div class="section-title">
+                    <h2>Cartera Inmobiliaria</h2>
+                    <p>Inversión total: 49,6M</p>
+                </div>
+                <div class="mini-kpi-grid">
+                    <div class="mini-kpi"><div class="mini-kpi-value">748K</div><div class="mini-kpi-label">Rentas 1S 2025</div><div class="mini-kpi-change positive">+106% vs LY</div></div>
+                    <div class="mini-kpi"><div class="mini-kpi-value">+5,14%</div><div class="mini-kpi-label">Revalorización</div><div class="mini-kpi-change">mercado</div></div>
+                    <div class="mini-kpi"><div class="mini-kpi-value">~90%</div><div class="mini-kpi-label">En Explotación</div></div>
+                    <div class="mini-kpi"><div class="mini-kpi-value">83%</div><div class="mini-kpi-label">Ocupación Media</div></div>
+                </div>
+            </div>
+
+            <div class="profile-content" data-profile="pablo" style="display:none;">
+                <div class="section-title">
+                    <h2>Cartera Inmobiliaria - Pablo</h2>
+                    <p>Inversión: 28M | 36% del patrimonio bajo gestión</p>
+                </div>
+                <div class="mini-kpi-grid">
+                    <div class="mini-kpi"><div class="mini-kpi-value">385K</div><div class="mini-kpi-label">Rentas 1S 2025</div><div class="mini-kpi-change positive">+108% vs LY</div></div>
+                    <div class="mini-kpi"><div class="mini-kpi-value">+872K</div><div class="mini-kpi-label">Revalorización</div><div class="mini-kpi-change">+2,58%</div></div>
+                    <div class="mini-kpi"><div class="mini-kpi-value">82,5%</div><div class="mini-kpi-label">En Explotación</div></div>
+                    <div class="mini-kpi"><div class="mini-kpi-value">79%</div><div class="mini-kpi-label">Ocupación</div></div>
+                </div>
+                <div class="property-grid">
+                    <div class="property-card"><div class="property-header oficinas">Oficinas</div><div class="property-row"><span>Inversión</span><span>6,7M (25%)</span></div><div class="property-row"><span>Explotación</span><span>100%</span></div><div class="property-row highlight"><span>Rent. 2T</span><span>4,50%</span></div><div class="property-benchmark">Bench: 5%-9%</div></div>
+                    <div class="property-card"><div class="property-header at">Alq. Turistico</div><div class="property-row"><span>Inversión</span><span>6,0M (22%)</span></div><div class="property-row"><span>Explotación</span><span>100%</span></div><div class="property-row highlight"><span>Rent. 2T</span><span>5,51%</span></div><div class="property-benchmark">Bench: 4%-8%</div></div>
+                    <div class="property-card"><div class="property-header le">Larga Estancia</div><div class="property-row"><span>Inversión</span><span>10,5M (35%)</span></div><div class="property-row"><span>Explotación</span><span>90%</span></div><div class="property-row highlight"><span>Rent. 2T</span><span>2,45%</span></div><div class="property-benchmark">Bench: 3%-3,5%</div></div>
+                    <div class="property-card"><div class="property-header uso">Uso Propio</div><div class="property-row"><span>Inversión</span><span>4,2M (16%)</span></div><div class="property-row"><span>Activos</span><span>Cedros, Pacifico...</span></div><div class="property-row highlight"><span>Rent.</span><span>N/A</span></div></div>
+                </div>
+            </div>
+
+            <div class="profile-content" data-profile="ale" style="display:none;">
+                <div class="section-title">
+                    <h2>Cartera Inmobiliaria - Alejandro</h2>
+                    <p>Inversión: 21,6M | 34% del patrimonio bajo gestión</p>
+                </div>
+                <div class="mini-kpi-grid">
+                    <div class="mini-kpi"><div class="mini-kpi-value">363K</div><div class="mini-kpi-label">Rentas 1S 2025</div><div class="mini-kpi-change positive">+104% vs LY</div></div>
+                    <div class="mini-kpi"><div class="mini-kpi-value">+668K</div><div class="mini-kpi-label">Revalorización</div><div class="mini-kpi-change">+2,56%</div></div>
+                    <div class="mini-kpi"><div class="mini-kpi-value">97,1%</div><div class="mini-kpi-label">En Explotación</div></div>
+                    <div class="mini-kpi"><div class="mini-kpi-value">88%</div><div class="mini-kpi-label">Ocupación</div></div>
+                </div>
+                <div class="property-grid">
+                    <div class="property-card"><div class="property-header oficinas">Oficinas</div><div class="property-row"><span>Inversión</span><span>6,8M (31%)</span></div><div class="property-row"><span>Explotación</span><span>100%</span></div><div class="property-row highlight"><span>Rent. 2T</span><span>4,42%</span></div><div class="property-benchmark">Bench: 5%-9%</div></div>
+                    <div class="property-card"><div class="property-header at">Alq. Turistico</div><div class="property-row"><span>Inversión</span><span>3,7M (17%)</span></div><div class="property-row"><span>Explotación</span><span>100%</span></div><div class="property-row highlight"><span>Rent. 2T</span><span>6,77%</span></div><div class="property-benchmark">Bench: 4%-8%</div></div>
+                    <div class="property-card"><div class="property-header le">Larga Estancia</div><div class="property-row"><span>Inversión</span><span>10,5M (49%)</span></div><div class="property-row"><span>Explotación</span><span>100%</span></div><div class="property-row highlight"><span>Rent. 2T</span><span>2,56%</span></div><div class="property-benchmark">Bench: 3%-3,5%</div></div>
+                    <div class="property-card"><div class="property-header uso">Uso Propio</div><div class="property-row"><span>Inversión</span><span>407K (2%)</span></div><div class="property-row"><span>Activos</span><span>Decano Felix</span></div><div class="property-row highlight"><span>Rent.</span><span>N/A</span></div></div>
+                </div>
+            </div>
+
+            <div class="profile-content" data-profile="comparar" style="display:none;">
+                <div class="section-title">
+                    <h2>Cartera Inmobiliaria - Comparación</h2>
+                    <p>Pablo vs Alejandro</p>
+                </div>
+                <div class="comparison-kpis">
+                    <div class="comparison-kpi-col pablo"><h4>Pablo</h4><div class="mini-kpi-grid"><div class="mini-kpi"><div class="mini-kpi-value">28M</div><div class="mini-kpi-label">Inversión</div></div><div class="mini-kpi"><div class="mini-kpi-value">385K</div><div class="mini-kpi-label">Rentas</div></div><div class="mini-kpi"><div class="mini-kpi-value">79%</div><div class="mini-kpi-label">Ocupación</div></div></div></div>
+                    <div class="comparison-kpi-col ale"><h4>Alejandro</h4><div class="mini-kpi-grid"><div class="mini-kpi"><div class="mini-kpi-value">21,6M</div><div class="mini-kpi-label">Inversión</div></div><div class="mini-kpi"><div class="mini-kpi-value">363K</div><div class="mini-kpi-label">Rentas</div></div><div class="mini-kpi"><div class="mini-kpi-value">88%</div><div class="mini-kpi-label">Ocupación</div></div></div></div>
+                </div>
+                <div class="table-container">
+                    <h3>Rentabilidad por Tipo de Inmueble</h3>
+                    <table>
+                        <thead><tr><th>Tipo</th><th>Pablo</th><th>Alejandro</th><th>Benchmark</th></tr></thead>
+                        <tbody>
+                            <tr><td>Oficinas</td><td>4,50%</td><td>4,42%</td><td>5%-9%</td></tr>
+                            <tr><td>Alq. Turistico</td><td>5,51%</td><td class="positive">6,77%</td><td>4%-8%</td></tr>
+                            <tr><td>Larga Estancia</td><td>2,45%</td><td>2,56%</td><td>3%-3,5%</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="composition-section">
+                    <h3>Distribución por Tipo de Inmueble</h3>
+                    <div class="composition-grid">
+                        <div class="composition-box"><h4>Pablo (28M)</h4><canvas id="propCompPablo"></canvas></div>
+                        <div class="composition-box"><h4>Alejandro (21,6M)</h4><canvas id="propCompAle"></canvas></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="location-section" data-hide-on-compare="true">
+                <h3>Revalorización por Ubicación</h3>
+                <div class="location-grid">
+                    <div class="location-item"><span class="loc-name">Malaga Centro</span><span class="loc-value">37,1M</span><span class="loc-change positive">+3,21%</span></div>
+                    <div class="location-item"><span class="loc-name">Malaga</span><span class="loc-value">9,3M</span><span class="loc-change positive">+6,63%</span></div>
+                    <div class="location-item"><span class="loc-name">Madrid (Salamanca)</span><span class="loc-value">4,8M</span><span class="loc-change positive">+11,05%</span></div>
+                    <div class="location-item"><span class="loc-name">La Cala del Moral</span><span class="loc-value">1,6M</span><span class="loc-change positive">+10,97%</span></div>
+                    <div class="location-item"><span class="loc-name">Antequera</span><span class="loc-value">1,5M</span><span class="loc-change positive">+8,48%</span></div>
+                </div>
+                <div class="location-total">Revalorización media ponderada: <strong class="positive">+5,14%</strong></div>
+            </div>
+        </section>
+
+        <!-- FINANCIERA -->
+        <section id="financiera" class="section">
+            <div class="usd-alert">
+                <div class="usd-alert-icon">!</div>
+                <div class="usd-alert-text">
+                    <strong>Impacto EUR/USD en 1S 2025</strong>
+                    <p>El dolar se ha depreciado un <strong>-11,68%</strong> frente al euro, arrastrando toda la rentabilidad positiva de la cartera financiera.</p>
+                </div>
+                <div class="usd-alert-value">
+                    <span>Impacto total</span>
+                    <strong class="negative">-5,9M</strong>
+                </div>
+            </div>
+
+            <div class="profile-content" data-profile="total">
+                <div class="section-title">
+                    <h2>Cartera Financiera</h2>
+                    <p>Total: 98,8M</p>
+                </div>
+                <div class="mini-kpi-grid">
+                    <div class="mini-kpi"><div class="mini-kpi-value positive">+4,60%</div><div class="mini-kpi-label">Rent. sin USD</div></div>
+                    <div class="mini-kpi"><div class="mini-kpi-value negative">-1,57%</div><div class="mini-kpi-label">Rent. real</div></div>
+                    <div class="mini-kpi"><div class="mini-kpi-value warning">~48%</div><div class="mini-kpi-label">Exposición USD</div></div>
+                </div>
+            </div>
+
+            <div class="profile-content" data-profile="pablo" style="display:none;">
+                <div class="section-title">
+                    <h2>Cartera Financiera - Pablo</h2>
+                    <p>Total: 55,8M | 58% del patrimonio bajo gestión</p>
+                </div>
+                <div class="mini-kpi-grid">
+                    <div class="mini-kpi"><div class="mini-kpi-value positive">+3,79%</div><div class="mini-kpi-label">Rent. sin USD</div></div>
+                    <div class="mini-kpi"><div class="mini-kpi-value negative">-1,53%</div><div class="mini-kpi-label">Rent. real</div></div>
+                    <div class="mini-kpi"><div class="mini-kpi-value warning">45%</div><div class="mini-kpi-label">Exposición USD</div></div>
+                </div>
+                <div class="composition-bars">
+                    <h3>Composición de la Cartera</h3>
+                    <div class="bar-item"><div class="bar-header"><span>Renta Fija</span><span>75% (41,9M)</span></div><div class="bar"><div class="bar-fill rf" style="width:75%"></div></div><div class="bar-detail"><span>Rent: <strong class="negative">-1,94%</strong></span><span>USD: 41%</span></div></div>
+                    <div class="bar-item"><div class="bar-header"><span>Renta Variable</span><span>21% (11,7M)</span></div><div class="bar"><div class="bar-fill rv" style="width:21%"></div></div><div class="bar-detail"><span>Rent: <strong class="negative">-1,88%</strong></span><span>USD: 62%</span></div></div>
+                    <div class="bar-item"><div class="bar-header"><span>Mat. Primas (Oro)</span><span>4% (2,1M)</span></div><div class="bar"><div class="bar-fill mp" style="width:4%"></div></div><div class="bar-detail"><span>Rent: <strong class="positive">+12,96%</strong></span><span>USD: 32%</span></div></div>
+                </div>
+                <div class="bank-distribution">
+                    <h3>Distribución por Banco</h3>
+                    <div class="chart-container small"><canvas id="bankPabloChart"></canvas></div>
+                </div>
+            </div>
+
+            <div class="profile-content" data-profile="ale" style="display:none;">
+                <div class="section-title">
+                    <h2>Cartera Financiera - Alejandro</h2>
+                    <p>Total: 43M | 55% del patrimonio bajo gestión</p>
+                </div>
+                <div class="mini-kpi-grid">
+                    <div class="mini-kpi"><div class="mini-kpi-value positive">+5,40%</div><div class="mini-kpi-label">Rent. sin USD</div></div>
+                    <div class="mini-kpi"><div class="mini-kpi-value negative">-1,60%</div><div class="mini-kpi-label">Rent. real</div></div>
+                    <div class="mini-kpi"><div class="mini-kpi-value warning">51%</div><div class="mini-kpi-label">Exposición USD</div></div>
+                </div>
+                <div class="composition-bars">
+                    <h3>Composición de la Cartera</h3>
+                    <div class="bar-item"><div class="bar-header"><span>Renta Fija</span><span>50% (21,5M)</span></div><div class="bar"><div class="bar-fill rf" style="width:50%"></div></div><div class="bar-detail"><span>Rent: <strong class="negative">-2,66%</strong></span><span>USD: 33%</span></div></div>
+                    <div class="bar-item"><div class="bar-header"><span>Renta Variable</span><span>47% (20,2M)</span></div><div class="bar"><div class="bar-fill rv" style="width:47%"></div></div><div class="bar-detail"><span>Rent: <strong class="negative">-0,94%</strong></span><span>USD: 68%</span></div></div>
+                    <div class="bar-item"><div class="bar-header"><span>Mat. Primas (Oro)</span><span>2% (1,0M)</span></div><div class="bar"><div class="bar-fill mp" style="width:2%"></div></div><div class="bar-detail"><span>Rent: <strong class="positive">+12,33%</strong></span><span>USD: 71%</span></div></div>
+                </div>
+                <div class="bank-distribution">
+                    <h3>Distribución por Banco</h3>
+                    <div class="chart-container small"><canvas id="bankAleChart"></canvas></div>
+                </div>
+            </div>
+
+            <div class="profile-content" data-profile="comparar" style="display:none;">
+                <div class="section-title">
+                    <h2>Cartera Financiera - Comparación</h2>
+                    <p>Pablo vs Alejandro</p>
+                </div>
+                <div class="comparison-kpis">
+                    <div class="comparison-kpi-col pablo"><h4>Pablo (55,8M)</h4><div class="mini-kpi-grid"><div class="mini-kpi"><div class="mini-kpi-value positive">+3,79%</div><div class="mini-kpi-label">Sin USD</div></div><div class="mini-kpi"><div class="mini-kpi-value negative">-1,53%</div><div class="mini-kpi-label">Real</div></div><div class="mini-kpi"><div class="mini-kpi-value">45%</div><div class="mini-kpi-label">Exp. USD</div></div></div></div>
+                    <div class="comparison-kpi-col ale"><h4>Alejandro (43M)</h4><div class="mini-kpi-grid"><div class="mini-kpi"><div class="mini-kpi-value positive">+5,40%</div><div class="mini-kpi-label">Sin USD</div></div><div class="mini-kpi"><div class="mini-kpi-value negative">-1,60%</div><div class="mini-kpi-label">Real</div></div><div class="mini-kpi"><div class="mini-kpi-value">51%</div><div class="mini-kpi-label">Exp. USD</div></div></div></div>
+                </div>
+                <div class="composition-section">
+                    <h3>Composición de Cartera</h3>
+                    <div class="composition-grid">
+                        <div class="composition-box"><h4>Pablo</h4><canvas id="finCompPablo"></canvas></div>
+                        <div class="composition-box"><h4>Alejandro</h4><canvas id="finCompAle"></canvas></div>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <h3>Rentabilidad por Activo</h3>
+                    <table>
+                        <thead><tr><th>Activo</th><th>Pablo</th><th>Alejandro</th></tr></thead>
+                        <tbody>
+                            <tr><td>Renta Fija</td><td class="negative">-1,94%</td><td class="negative">-2,66%</td></tr>
+                            <tr><td>Renta Variable</td><td class="negative">-1,88%</td><td class="negative">-0,94%</td></tr>
+                            <tr><td>Mat. Primas (Oro)</td><td class="positive">+12,96%</td><td class="positive">+12,33%</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="bank-comparison">
+                    <h3>Distribución por Banco</h3>
+                    <div class="composition-grid">
+                        <div class="composition-box"><h4>Pablo</h4><canvas id="bankCompPablo"></canvas></div>
+                        <div class="composition-box"><h4>Alejandro</h4><canvas id="bankCompAle"></canvas></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="benchmark-section">
+                <h3>Benchmark - Indices 1S 2025</h3>
+                <div class="benchmark-grid">
+                    <div class="bench-item positive"><span class="bench-name">Oro USD</span><span class="bench-value">+25,11%</span></div>
+                    <div class="bench-item positive"><span class="bench-name">IBEX 35</span><span class="bench-value">+20,13%</span></div>
+                    <div class="bench-item positive"><span class="bench-name">EuroStoxx 50</span><span class="bench-value">+8,58%</span></div>
+                    <div class="bench-item positive"><span class="bench-name">S&P 500</span><span class="bench-value">+4,96%</span></div>
+                    <div class="bench-item positive"><span class="bench-name">Nasdaq</span><span class="bench-value">+4,99%</span></div>
+                    <div class="bench-item negative"><span class="bench-name">USD/EUR</span><span class="bench-value">-11,68%</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ALTERNATIVAS -->
+        <section id="alternativas" class="section">
+            <div class="profile-content" data-profile="total">
+                <div class="section-title">
+                    <h2>Inversiónes Alternativas</h2>
+                    <p>Desembolsado: 7,5M | Comprometido: 6,4M</p>
+                </div>
+                <div class="mini-kpi-grid">
+                    <div class="mini-kpi"><div class="mini-kpi-value">7,5M</div><div class="mini-kpi-label">Valoración</div></div>
+                    <div class="mini-kpi"><div class="mini-kpi-value warning">4%</div><div class="mini-kpi-label">% Patrimonio</div><div class="mini-kpi-change">Obj: 10-15%</div></div>
+                    <div class="mini-kpi"><div class="mini-kpi-value">6,9M</div><div class="mini-kpi-label">Rotación</div></div>
+                </div>
+            </div>
+
+            <div class="profile-content" data-profile="pablo" style="display:none;">
+                <div class="section-title">
+                    <h2>Inversiónes Alternativas - Pablo</h2>
+                    <p>Desembolsado: 2,2M | 2,3% del patrimonio (Obj: 10%)</p>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead><tr><th>Inversión</th><th>Tipo</th><th>Invertido</th><th>Valoración</th><th>Rent. 1S</th><th>Rent. Origen</th></tr></thead>
+                        <tbody>
+                            <tr><td>Happers</td><td><span class="tag vc">VC</span></td><td>636K</td><td>636K</td><td>0,00%</td><td class="positive">+5,80%</td></tr>
+                            <tr><td>Kibo Ventures III</td><td><span class="tag vc">VC</span></td><td>167K</td><td>154K</td><td class="negative">-1,38%</td><td class="negative">-8,00%</td></tr>
+                            <tr><td>Pool Comet</td><td><span class="tag vc">VC</span></td><td>25K</td><td>47K</td><td class="positive">+89,70%</td><td class="positive">+89,70%</td></tr>
+                            <tr><td>Vintage 2022 (USD)</td><td><span class="tag buyout">Buyout</span></td><td>424K</td><td>439K</td><td class="negative">-8,27%</td><td class="positive">+3,54%</td></tr>
+                            <tr><td>Claret Growth III</td><td><span class="tag pc">P.Credit</span></td><td>806K</td><td>735K</td><td class="positive">+3,84%</td><td class="positive">+21,57%</td></tr>
+                            <tr><td>GS Vintage RE (USD)</td><td><span class="tag re">P.RE</span></td><td>74K</td><td>60K</td><td class="negative">-18,63%</td><td class="negative">-19,93%</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="alt-note"><strong>Exposición USD:</strong> 23% (desembolsado) | 54% (comprometido)</div>
+            </div>
+
+            <div class="profile-content" data-profile="ale" style="display:none;">
+                <div class="section-title">
+                    <h2>Inversiónes Alternativas - Alejandro</h2>
+                    <p>Desembolsado: 5,3M | 6,8% del patrimonio (Obj: 15%)</p>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead><tr><th>Inversión</th><th>Tipo</th><th>Invertido</th><th>Valoración</th><th>Rent. 1S</th><th>Rent. Origen</th></tr></thead>
+                        <tbody>
+                            <tr><td>Happers</td><td><span class="tag vc">VC</span></td><td>636K</td><td>636K</td><td>0,00%</td><td class="positive">+5,80%</td></tr>
+                            <tr><td>Kibo Ventures III</td><td><span class="tag vc">VC</span></td><td>167K</td><td>154K</td><td class="negative">-1,38%</td><td class="negative">-8,00%</td></tr>
+                            <tr><td>Eoniq Mediterranean</td><td><span class="tag vc">VC</span></td><td>80K</td><td>110K</td><td class="positive">+36,25%</td><td class="positive">+36,25%</td></tr>
+                            <tr><td>GS European Credit</td><td><span class="tag pc">P.Credit</span></td><td>1,0M</td><td>1,15M</td><td class="positive">+3,82%</td><td class="positive">+15,08%</td></tr>
+                            <tr><td>Claret Growth III</td><td><span class="tag pc">P.Credit</span></td><td>2,0M</td><td>1,84M</td><td class="positive">+3,84%</td><td class="positive">+21,57%</td></tr>
+                            <tr><td>EQT Active Core</td><td><span class="tag infra">Infra</span></td><td>565K</td><td>622K</td><td class="positive">+11,68%</td><td class="positive">+15,01%</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="alt-note"><strong>Exposición USD:</strong> 13% (desembolsado) | 42% (comprometido)</div>
+            </div>
+
+            <div class="profile-content" data-profile="comparar" style="display:none;">
+                <div class="section-title">
+                    <h2>Inversiónes Alternativas - Comparación</h2>
+                    <p>Pablo vs Alejandro</p>
+                </div>
+                <div class="comparison-kpis">
+                    <div class="comparison-kpi-col pablo">
+                        <h4>Pablo</h4>
+                        <div class="gauge-mini"><canvas id="gaugeCompPablo"></canvas><div class="gauge-mini-label"><span class="current">2,3%</span> / <span class="target">10%</span></div></div>
+                        <div class="mini-kpi-grid"><div class="mini-kpi"><div class="mini-kpi-value">2,2M</div><div class="mini-kpi-label">Desembolsado</div></div><div class="mini-kpi"><div class="mini-kpi-value">23%</div><div class="mini-kpi-label">Exp. USD</div></div></div>
+                    </div>
+                    <div class="comparison-kpi-col ale">
+                        <h4>Alejandro</h4>
+                        <div class="gauge-mini"><canvas id="gaugeCompAle"></canvas><div class="gauge-mini-label"><span class="current">6,8%</span> / <span class="target">15%</span></div></div>
+                        <div class="mini-kpi-grid"><div class="mini-kpi"><div class="mini-kpi-value">5,3M</div><div class="mini-kpi-label">Desembolsado</div></div><div class="mini-kpi"><div class="mini-kpi-value">13%</div><div class="mini-kpi-label">Exp. USD</div></div></div>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <h3>Inversiónes Comunes</h3>
+                    <table>
+                        <thead><tr><th>Inversión</th><th>Tipo</th><th>Pablo</th><th>Alejandro</th></tr></thead>
+                        <tbody>
+                            <tr><td>Happers</td><td><span class="tag vc">VC</span></td><td>636K</td><td>636K</td></tr>
+                            <tr><td>Kibo Ventures III</td><td><span class="tag vc">VC</span></td><td>167K</td><td>167K</td></tr>
+                            <tr><td>Claret Growth III</td><td><span class="tag pc">P.Credit</span></td><td>806K</td><td>2,0M</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="composition-section">
+                    <h3>Distribución por Tipo</h3>
+                    <div class="composition-grid">
+                        <div class="composition-box"><h4>Pablo (2,2M)</h4><canvas id="altTypeCompPablo"></canvas></div>
+                        <div class="composition-box"><h4>Alejandro (5,3M)</h4><canvas id="altTypeCompAle"></canvas></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rotation-section">
+                <h3>Activos en Rotación</h3>
+                <p class="rotation-note">Riesgo vivo máximo: 3,5M por socio. Sin operaciones de venta en 1S 2025.</p>
+                <div class="rotation-grid">
+                    <div class="rotation-card"><div class="rotation-icon">BCN</div><div class="rotation-info"><strong>Barcelona - Mallorca 243</strong><span>3 unidades | 1,02M</span><small>Jul 2024</small></div></div>
+                    <div class="rotation-card"><div class="rotation-icon">MAD</div><div class="rotation-info"><strong>Madrid - Trafalgar 22</strong><span>3 unidades | 2,22M</span><small>Nov 2024</small></div></div>
+                    <div class="rotation-card"><div class="rotation-icon">MAD</div><div class="rotation-info"><strong>Madrid - Gaztambide</strong><span>2 unidades (arras) | 200K</span><small>Pendiente cierre</small></div></div>
+                </div>
+                <div class="rotation-total">Total en Rotación: <strong>6,89M</strong> (3,44M cada socio)</div>
+            </div>
+        </section>
+
+        <!-- ESTRUCTURA -->
+        <section id="estructura" class="section">
+            <!-- Vista Total -->
+            <div class="profile-content" data-profile="total">
+                <div class="section-title">
+                    <h2>Estructura de Costes</h2>
+                    <p>1S 2025 - Costes compartidos 50%/50%</p>
+                </div>
+                <div class="mini-kpi-grid">
+                    <div class="mini-kpi"><div class="mini-kpi-value">278K</div><div class="mini-kpi-label">Coste Total 1S</div></div>
+                    <div class="mini-kpi"><div class="mini-kpi-value">0,33%</div><div class="mini-kpi-label">Ratio s/Capital</div><div class="mini-kpi-change positive">Budget: 0,38%</div></div>
+                    <div class="mini-kpi"><div class="mini-kpi-value positive">-37K</div><div class="mini-kpi-label">vs Budget</div><div class="mini-kpi-change">-11,66%</div></div>
+                </div>
+                <div class="costs-charts-grid">
+                    <div class="chart-card">
+                        <h3>Evolución Mensual: Real vs Budget</h3>
+                        <div class="chart-container" style="height: 280px;"><canvas id="costEvolutionChart"></canvas></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Desglose por Tipo de Coste</h3>
+                        <div class="chart-container" style="height: 280px;"><canvas id="costBreakdownChart"></canvas></div>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <h3>Desglose Mensual</h3>
+                    <table>
+                        <thead><tr><th>Concepto</th><th>Ene</th><th>Feb</th><th>Mar</th><th>Abr</th><th>May</th><th>Jun</th><th>Total</th></tr></thead>
+                        <tbody>
+                            <tr><td>Servicios Exteriores</td><td>30K</td><td>32K</td><td>24K</td><td>28K</td><td>24K</td><td>42K</td><td><strong>180K</strong></td></tr>
+                            <tr><td>Gasto de Personal</td><td>16K</td><td>16K</td><td>16K</td><td>16K</td><td>16K</td><td>21K</td><td><strong>100K</strong></td></tr>
+                            <tr class="total"><td><strong>Total</strong></td><td>44K</td><td>48K</td><td>40K</td><td>44K</td><td>40K</td><td>63K</td><td><strong>278K</strong></td></tr>
+                            <tr class="budget"><td>Budget</td><td>52K</td><td>52K</td><td>51K</td><td>52K</td><td>52K</td><td>56K</td><td>315K</td></tr>
+                        </tbody>
+                    </table>
+                    <p class="table-note">* Junio por encima del Budget por gastos no recurrentes</p>
+                </div>
+            </div>
+
+            <!-- Vista Pablo (50%) -->
+            <div class="profile-content" data-profile="pablo" style="display:none;">
+                <div class="section-title">
+                    <h2>Estructura de Costes - Pablo</h2>
+                    <p>1S 2025 - Tu parte (50%)</p>
+                </div>
+                <div class="mini-kpi-grid">
+                    <div class="mini-kpi"><div class="mini-kpi-value">139K</div><div class="mini-kpi-label">Tu Coste 1S</div></div>
+                    <div class="mini-kpi"><div class="mini-kpi-value">0,14%</div><div class="mini-kpi-label">Ratio s/Tu Capital</div><div class="mini-kpi-change positive">Budget: 0,16%</div></div>
+                    <div class="mini-kpi"><div class="mini-kpi-value positive">-18,5K</div><div class="mini-kpi-label">vs Budget</div><div class="mini-kpi-change">-11,66%</div></div>
+                </div>
+                <div class="costs-charts-grid">
+                    <div class="chart-card">
+                        <h3>Evolución Mensual: Real vs Budget (tu 50%)</h3>
+                        <div class="chart-container" style="height: 280px;"><canvas id="costEvolutionChartPablo"></canvas></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Desglose por Tipo de Coste</h3>
+                        <div class="chart-container" style="height: 280px;"><canvas id="costBreakdownChartPablo"></canvas></div>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <h3>Desglose Mensual (tu 50%)</h3>
+                    <table>
+                        <thead><tr><th>Concepto</th><th>Ene</th><th>Feb</th><th>Mar</th><th>Abr</th><th>May</th><th>Jun</th><th>Total</th></tr></thead>
+                        <tbody>
+                            <tr><td>Servicios Exteriores</td><td>15K</td><td>16K</td><td>12K</td><td>14K</td><td>12K</td><td>21K</td><td><strong>90K</strong></td></tr>
+                            <tr><td>Gasto de Personal</td><td>8K</td><td>8K</td><td>8K</td><td>8K</td><td>8K</td><td>10,5K</td><td><strong>50K</strong></td></tr>
+                            <tr class="total"><td><strong>Total</strong></td><td>22K</td><td>24K</td><td>20K</td><td>22K</td><td>20K</td><td>31,5K</td><td><strong>139K</strong></td></tr>
+                            <tr class="budget"><td>Budget</td><td>26K</td><td>26K</td><td>25,5K</td><td>26K</td><td>26K</td><td>28K</td><td>157,5K</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Vista Alejandro (50%) -->
+            <div class="profile-content" data-profile="ale" style="display:none;">
+                <div class="section-title">
+                    <h2>Estructura de Costes - Alejandro</h2>
+                    <p>1S 2025 - Tu parte (50%)</p>
+                </div>
+                <div class="mini-kpi-grid">
+                    <div class="mini-kpi"><div class="mini-kpi-value">139K</div><div class="mini-kpi-label">Tu Coste 1S</div></div>
+                    <div class="mini-kpi"><div class="mini-kpi-value">0,18%</div><div class="mini-kpi-label">Ratio s/Tu Capital</div><div class="mini-kpi-change positive">Budget: 0,20%</div></div>
+                    <div class="mini-kpi"><div class="mini-kpi-value positive">-18,5K</div><div class="mini-kpi-label">vs Budget</div><div class="mini-kpi-change">-11,66%</div></div>
+                </div>
+                <div class="costs-charts-grid">
+                    <div class="chart-card">
+                        <h3>Evolución Mensual: Real vs Budget (tu 50%)</h3>
+                        <div class="chart-container" style="height: 280px;"><canvas id="costEvolutionChartAle"></canvas></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Desglose por Tipo de Coste</h3>
+                        <div class="chart-container" style="height: 280px;"><canvas id="costBreakdownChartAle"></canvas></div>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <h3>Desglose Mensual (tu 50%)</h3>
+                    <table>
+                        <thead><tr><th>Concepto</th><th>Ene</th><th>Feb</th><th>Mar</th><th>Abr</th><th>May</th><th>Jun</th><th>Total</th></tr></thead>
+                        <tbody>
+                            <tr><td>Servicios Exteriores</td><td>15K</td><td>16K</td><td>12K</td><td>14K</td><td>12K</td><td>21K</td><td><strong>90K</strong></td></tr>
+                            <tr><td>Gasto de Personal</td><td>8K</td><td>8K</td><td>8K</td><td>8K</td><td>8K</td><td>10,5K</td><td><strong>50K</strong></td></tr>
+                            <tr class="total"><td><strong>Total</strong></td><td>22K</td><td>24K</td><td>20K</td><td>22K</td><td>20K</td><td>31,5K</td><td><strong>139K</strong></td></tr>
+                            <tr class="budget"><td>Budget</td><td>26K</td><td>26K</td><td>25,5K</td><td>26K</td><td>26K</td><td>28K</td><td>157,5K</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Vista Comparar -->
+            <div class="profile-content" data-profile="comparar" style="display:none;">
+                <div class="section-title">
+                    <h2>Estructura de Costes - Comparativa</h2>
+                    <p>1S 2025 - Costes compartidos 50%/50%</p>
+                </div>
+                <div class="mini-kpi-grid">
+                    <div class="mini-kpi"><div class="mini-kpi-value">278K</div><div class="mini-kpi-label">Coste Total 1S</div></div>
+                    <div class="mini-kpi"><div class="mini-kpi-value">139K c/u</div><div class="mini-kpi-label">Por Inversor</div></div>
+                    <div class="mini-kpi"><div class="mini-kpi-value positive">-37K</div><div class="mini-kpi-label">vs Budget</div><div class="mini-kpi-change">-11,66%</div></div>
+                </div>
+                <div class="costs-charts-grid">
+                    <div class="chart-card">
+                        <h3>Evolución Mensual: Real vs Budget</h3>
+                        <div class="chart-container" style="height: 280px;"><canvas id="costEvolutionChartComp"></canvas></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Desglose por Tipo de Coste</h3>
+                        <div class="chart-container" style="height: 280px;"><canvas id="costBreakdownChartComp"></canvas></div>
+                    </div>
+                </div>
+                <div class="comparison-cost-table">
+                    <h3>Reparto de Costes</h3>
+                    <table>
+                        <thead><tr><th>Concepto</th><th>Total</th><th>Pablo (50%)</th><th>Alejandro (50%)</th></tr></thead>
+                        <tbody>
+                            <tr><td>Servicios Exteriores</td><td>180K</td><td>90K</td><td>90K</td></tr>
+                            <tr><td>Gasto de Personal</td><td>100K</td><td>50K</td><td>50K</td></tr>
+                            <tr class="total"><td><strong>Total 1S 2025</strong></td><td><strong>278K</strong></td><td><strong>139K</strong></td><td><strong>139K</strong></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- DEBATE -->
+        <section id="debate" class="section">
+            <div class="section-title">
+                <h2>Temas a Debatir</h2>
+                <p>Puntos para discusión en el Consejo</p>
+            </div>
+            <div class="debate-grid">
+                <div class="debate-card usd">
+                    <h3>Exposición al USD</h3>
+                    <p>Dado el impacto de -5,9M por la evolución EUR/USD, se solicita opinión sobre niveles de exposición y cobertura.</p>
+                    <div class="debate-data">
+                        <div class="debate-col"><strong>Pablo</strong><ul><li>Cartera Financiera: 45%</li><li>Alternativas: 23%</li><li>Total s/gestión: 29%</li></ul></div>
+                        <div class="debate-col"><strong>Alejandro</strong><ul><li>Cartera Financiera: 51%</li><li>Alternativas: 13%</li><li>Total s/gestión: 27%</li></ul></div>
+                    </div>
+                    <div class="debate-strategy"><strong>Estrategia actual:</strong> No cubrir divisa por horizonte largo plazo y no necesidad de liquidez.</div>
+                </div>
+                <div class="debate-card liquidity">
+                    <h3>Liquidez</h3>
+                    <p>Nivel de liquidez mínimo para seguridad e imprevistos.</p>
+                    <div class="liquidity-table">
+                        <div class="liq-row header"><span>Concepto</span><span>Pablo</span><span>Ale</span></div>
+                        <div class="liq-row"><span>Cuentas corrientes</span><span>438K</span><span>133K</span></div>
+                        <div class="liq-row"><span>RF &lt;3 meses</span><span>943K</span><span>1.023K</span></div>
+                        <div class="liq-row"><span>Linea JP</span><span>3.440K</span><span>3.400K</span></div>
+                        <div class="liq-row total"><span>Total disponible</span><span>4,82M (5%)</span><span>4,56M (5,8%)</span></div>
+                    </div>
+                </div>
+                <div class="debate-card security">
+                    <h3>Kit de Seguridad</h3>
+                    <p>Definir un % del patrimonio como "kit de seguridad/supervivencia" para situaciones extremas.</p>
+                    <div class="debate-questions">
+                        <div class="q-item">Que % del patrimonio?</div>
+                        <div class="q-item">Niveles de efectivo?</div>
+                        <div class="q-item">Oro fisico?</div>
+                        <div class="q-item">Diversificación de depositarias?</div>
+                    </div>
+                </div>
+                <div class="debate-card allocation">
+                    <h3>Asset Allocation Alternativas</h3>
+                    <p>Pendiente redefinir el Asset Allocation para Inversiónes Alternativas.</p>
+                    <div class="allocation-compare">
+                        <div class="alloc-col"><strong>Estado Actual</strong><p>Pablo: 2,3% (obj 10%)</p><p>Ale: 6,8% (obj 15%)</p></div>
+                        <div class="alloc-col"><strong>Suscripciones Aprobadas</strong><p>Claret: 500K c/u</p><p>EQT XI: 500K P / 1M A</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- EFICIENCIA FISCAL + CASH FLOW -->
+        <section id="fiscalidad" class="section">
+            <!-- Controles: Toggle + Selector de Necesidades -->
+            <div class="fiscal-controls">
+                <div class="fiscal-toggle-container">
+                    <span class="fiscal-toggle-label actual active">Situación Actual</span>
+                    <label class="fiscal-toggle">
+                        <input type="checkbox" id="fiscalOptimizeToggle">
+                        <span class="fiscal-toggle-slider"></span>
+                    </label>
+                    <span class="fiscal-toggle-label optimized">Con Optimización</span>
+                </div>
+                <div class="needs-selector">
+                    <span class="needs-label">Necesito para vivir:</span>
+                    <div class="needs-slider-container">
+                        <span class="needs-min">10K</span>
+                        <input type="range" id="needsSlider" class="needs-slider" min="10000" max="40000" step="1000" value="25000">
+                        <span class="needs-max">40K</span>
+                    </div>
+                    <div class="needs-value-display">
+                        <span id="needsValueDisplay">25K€/mes</span>
+                        <span class="needs-yearly">(<span id="needsYearlyDisplay">300K€</span>/año)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== TOTAL ========== -->
+            <div class="profile-content" data-profile="total">
+                <div class="section-title">
+                    <h2>Cash Flow + Eficiencia Fiscal</h2>
+                    <p>Análisis combinado de flujo de caja y presión fiscal (rentabilidad real 2024)</p>
+                </div>
+
+                <!-- Cash Flow Integrado -->
+                <div class="cf-integrated" id="cfTotalIntegrated">
+                    <h3><span class="icon">€</span> Tu Cash Flow Familiar</h3>
+                    <div class="cf-flow-visual">
+                        <div class="cf-flow-box income">
+                            <div class="label">Cash Generado</div>
+                            <div class="value" id="cfTotalIncome">1.107K€</div>
+                        </div>
+                        <span class="cf-flow-arrow">-</span>
+                        <div class="cf-flow-box needs">
+                            <div class="label">Necesidades (<span id="cfTotalNeedsMonthly">25K</span>/mes)</div>
+                            <div class="value" id="cfTotalNeeds">600K€</div>
+                        </div>
+                        <span class="cf-flow-arrow">=</span>
+                        <div class="cf-flow-box excess" id="cfTotalExcessBox">
+                            <div class="label">Excedente</div>
+                            <div class="value" id="cfTotalExcess">507K€</div>
+                        </div>
+                    </div>
+                    <div class="cf-tax-impact">
+                        <div class="cf-tax-item">
+                            <div class="label">Impuestos sobre excedente</div>
+                            <div class="value negative" id="cfTotalTaxExcess">~127K€</div>
+                            <div class="detail">al 25% tipo medio</div>
+                        </div>
+                        <div class="cf-tax-item">
+                            <div class="label">Si reduces necesidades a 15K/mes</div>
+                            <div class="value positive" id="cfTotalSavingsExample">+60K€</div>
+                            <div class="detail">más excedente (pero más impuestos)</div>
+                        </div>
+                        <div class="cf-tax-item">
+                            <div class="label">Ahorro con optimización</div>
+                            <div class="value positive" id="cfTotalOptSavings">~200K€/año</div>
+                            <div class="detail">rotando a acumulación</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ahorro con Optimización -->
+                <div class="fiscal-savings">
+                    <div class="fiscal-savings-header">
+                        <div class="fiscal-savings-icon">↓</div>
+                        <span class="fiscal-savings-title">Ahorro Potencial con Optimización Fiscal</span>
+                    </div>
+                    <div class="fiscal-savings-grid">
+                        <div class="fiscal-savings-item">
+                            <div class="label">Ahorro Total Anual</div>
+                            <div class="value">200K€</div>
+                            <div class="detail">Pablo 50K + Ale 150K</div>
+                        </div>
+                        <div class="fiscal-savings-item">
+                            <div class="label">Nueva Presión Fiscal</div>
+                            <div class="value">8,2%</div>
+                            <div class="detail">vs 9,9% actual</div>
+                        </div>
+                        <div class="fiscal-savings-item">
+                            <div class="label">Riqueza Neta Extra</div>
+                            <div class="value">+200K€</div>
+                            <div class="detail">cada año</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visualización Principal - Barra de Flujo -->
+                <div class="fiscal-flow">
+                    <h3>Distribución de la Riqueza Generada: 11,18M€</h3>
+                    <div class="fiscal-flow-bar">
+                        <div class="fiscal-flow-segment latent" style="width: 72%">72%</div>
+                        <div class="fiscal-flow-segment realized" style="width: 18%" data-actual-width="18%" data-opt-width="20%"><span data-actual="18%" data-opt="20%">18%</span></div>
+                        <div class="fiscal-flow-segment taxes" style="width: 10%" data-actual-width="10%" data-opt-width="8%"><span data-actual="10%" data-opt="8%">10%</span></div>
+                    </div>
+                    <div class="fiscal-flow-legend">
+                        <div class="fiscal-flow-item">
+                            <div class="fiscal-flow-dot latent"></div>
+                            <span>Ganancias Latentes: <strong>8,09M€</strong> (no tributan)</span>
+                        </div>
+                        <div class="fiscal-flow-item">
+                            <div class="fiscal-flow-dot realized"></div>
+                            <span>Ganancias Realizadas: <strong>1,98M€</strong> (cash neto)</span>
+                        </div>
+                        <div class="fiscal-flow-item">
+                            <div class="fiscal-flow-dot taxes"></div>
+                            <span>Impuestos: <strong data-actual="1,11M€" data-opt="912K€">1,11M€</strong></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resumen Visual con Presión Fiscal -->
+                <div class="fiscal-overview">
+                    <div class="fiscal-main-card">
+                        <div class="fiscal-donut-container">
+                            <div class="fiscal-donut">
+                                <svg viewBox="0 0 100 100" width="220" height="220">
+                                    <!-- Fondo gris -->
+                                    <circle cx="50" cy="50" r="40" fill="none" stroke="#e9ecef" stroke-width="15"/>
+                                    <!-- Riqueza neta (verde) -->
+                                    <circle cx="50" cy="50" r="40" fill="none" stroke="#28a745" stroke-width="15"
+                                        stroke-dasharray="226.2 251.2" stroke-dashoffset="0"/>
+                                    <!-- Impuestos (rojo) -->
+                                    <circle cx="50" cy="50" r="40" fill="none" stroke="#dc3545" stroke-width="15"
+                                        stroke-dasharray="25 251.2" stroke-dashoffset="-226.2"/>
+                                </svg>
+                                <div class="fiscal-donut-center">
+                                    <div class="rate" id="donutTotalRate">9,9%</div>
+                                    <div class="label">Presión Fiscal</div>
+                                </div>
+                            </div>
+                            <div class="fiscal-donut-legend">
+                                <div class="fiscal-legend-item">
+                                    <div class="fiscal-legend-color latent"></div>
+                                    <div class="fiscal-legend-info">
+                                        <span class="name">Riqueza Neta</span>
+                                        <span class="value" id="donutTotalNet">10,07M€</span>
+                                        <span class="pct" id="donutTotalNetPct">90% de lo generado</span>
+                                    </div>
+                                </div>
+                                <div class="fiscal-legend-item">
+                                    <div class="fiscal-legend-color taxes"></div>
+                                    <div class="fiscal-legend-info">
+                                        <span class="name">Impuestos Pagados</span>
+                                        <span class="value" id="donutTotalTax">1,11M€</span>
+                                        <span class="pct" id="donutTotalTaxPct">10% de lo generado</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KPIs Desglosados -->
+                <div class="fiscal-kpi-grid">
+                    <div class="fiscal-kpi realized">
+                        <div class="fiscal-kpi-icon">€</div>
+                        <div class="fiscal-kpi-content">
+                            <span class="fiscal-kpi-label">Ganancias Realizadas (Cash)</span>
+                            <span class="fiscal-kpi-value" id="kpiTotalRealized">3,09M€</span>
+                            <span class="fiscal-kpi-detail">Rentas + Cupones + Distribuciónes</span>
+                        </div>
+                    </div>
+                    <div class="fiscal-kpi latent">
+                        <div class="fiscal-kpi-icon">↑</div>
+                        <div class="fiscal-kpi-content">
+                            <span class="fiscal-kpi-label">Ganancias Latentes</span>
+                            <span class="fiscal-kpi-value" id="kpiTotalLatent">8,09M€</span>
+                            <span class="fiscal-kpi-detail">Revalorización patrimonial (no tributa)</span>
+                        </div>
+                    </div>
+                    <div class="fiscal-kpi total-gen">
+                        <div class="fiscal-kpi-icon">Σ</div>
+                        <div class="fiscal-kpi-content">
+                            <span class="fiscal-kpi-label">Total Generado</span>
+                            <span class="fiscal-kpi-value">11,18M€</span>
+                            <span class="fiscal-kpi-detail">Pablo 5,69% + Ale 7,22%</span>
+                        </div>
+                    </div>
+                    <div class="fiscal-kpi taxes-paid">
+                        <div class="fiscal-kpi-icon">-</div>
+                        <div class="fiscal-kpi-content">
+                            <span class="fiscal-kpi-label">Impuestos Totales</span>
+                            <span class="fiscal-kpi-value" id="kpiTotalTaxes">1,11M€</span>
+                            <span class="fiscal-kpi-detail">IS + IP + IRPF</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desglose Comparativo -->
+                <div class="fiscal-breakdown">
+                    <h3>Desglose por Persona</h3>
+                    <div class="fiscal-comparison">
+                        <div class="fiscal-person pablo">
+                            <h4>Pablo (96,4M bajo gestión)</h4>
+                            <div class="fiscal-person-data">
+                                <div class="fiscal-row">
+                                    <span>Rentabilidad 2024</span>
+                                    <span class="value positive">5,69%</span>
+                                </div>
+                                <div class="fiscal-row">
+                                    <span>Generación Total</span>
+                                    <span class="value positive">5,49M€</span>
+                                </div>
+                                <div class="fiscal-row">
+                                    <span>Ganancias Realizadas (cash)</span>
+                                    <span class="value" id="pabloRealized">1,38M€</span>
+                                </div>
+                                <div class="fiscal-row">
+                                    <span>Ganancias Latentes</span>
+                                    <span class="value" id="pabloLatent">4,11M€</span>
+                                </div>
+                                <div class="fiscal-row taxes">
+                                    <span>Impuestos Pagados</span>
+                                    <span class="value negative" id="pabloTaxes">-586K€</span>
+                                </div>
+                                <div class="fiscal-row rate highlight">
+                                    <span>Presión Fiscal</span>
+                                    <span class="value positive" id="pabloRate">10,7%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fiscal-person ale">
+                            <h4>Alejandro (78,8M bajo gestión)</h4>
+                            <div class="fiscal-person-data">
+                                <div class="fiscal-row">
+                                    <span>Rentabilidad 2024</span>
+                                    <span class="value positive">7,22%</span>
+                                </div>
+                                <div class="fiscal-row">
+                                    <span>Generación Total</span>
+                                    <span class="value positive">5,69M€</span>
+                                </div>
+                                <div class="fiscal-row">
+                                    <span>Ganancias Realizadas (cash)</span>
+                                    <span class="value" id="aleRealized">1,71M€</span>
+                                </div>
+                                <div class="fiscal-row">
+                                    <span>Ganancias Latentes</span>
+                                    <span class="value" id="aleLatent">3,98M€</span>
+                                </div>
+                                <div class="fiscal-row taxes">
+                                    <span>Impuestos Pagados</span>
+                                    <span class="value negative" id="aleTaxes">-526K€</span>
+                                </div>
+                                <div class="fiscal-row rate highlight">
+                                    <span>Presión Fiscal</span>
+                                    <span class="value positive" id="aleRate">9,2%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desglose de Impuestos - Tarta -->
+                <div class="fiscal-taxes-pie">
+                    <h3>Composición de Impuestos Pagados (12 meses)</h3>
+                    <div class="taxes-pie-container">
+                        <div class="taxes-pie">
+                            <svg viewBox="0 0 100 100" width="180" height="180" id="taxPieTotal">
+                                <!-- IP -->
+                                <circle cx="50" cy="50" r="40" fill="none" stroke="#e74c3c" stroke-width="20"
+                                    id="taxPieTotalIP" stroke-dasharray="105.5 251.2" stroke-dashoffset="0"/>
+                                <!-- IS -->
+                                <circle cx="50" cy="50" r="40" fill="none" stroke="#f39c12" stroke-width="20"
+                                    id="taxPieTotalIS" stroke-dasharray="92.9 251.2" stroke-dashoffset="-105.5"/>
+                                <!-- IRPF -->
+                                <circle cx="50" cy="50" r="40" fill="none" stroke="#3498db" stroke-width="20"
+                                    id="taxPieTotalIRPF" stroke-dasharray="52.8 251.2" stroke-dashoffset="-198.4"/>
+                            </svg>
+                            <div class="taxes-pie-center">
+                                <div class="total" id="taxTotalAmount">1,11M€</div>
+                                <div class="label">Total</div>
+                            </div>
+                        </div>
+                        <div class="taxes-pie-legend">
+                            <div class="taxes-pie-item">
+                                <div class="taxes-pie-color ip"></div>
+                                <div class="taxes-pie-info">
+                                    <span class="name">Impuesto Patrimonio</span>
+                                    <span class="value" id="taxTotalIP">462K€</span>
+                                    <span class="pct" id="taxTotalIPPct">42% del total</span>
+                                </div>
+                            </div>
+                            <div class="taxes-pie-item">
+                                <div class="taxes-pie-color is"></div>
+                                <div class="taxes-pie-info">
+                                    <span class="name">Impuesto Sociedades</span>
+                                    <span class="value" id="taxTotalIS">417K€</span>
+                                    <span class="pct" id="taxTotalISPct">37% del total</span>
+                                </div>
+                            </div>
+                            <div class="taxes-pie-item">
+                                <div class="taxes-pie-color irpf"></div>
+                                <div class="taxes-pie-info">
+                                    <span class="name">IRPF</span>
+                                    <span class="value" id="taxTotalIRPF">232K€</span>
+                                    <span class="pct" id="taxTotalIRPFPct">21% del total</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Análisis de Eficiencia -->
+                <div class="fiscal-efficiency">
+                    <h3>Análisis de Eficiencia Fiscal</h3>
+                    <div class="efficiency-grid">
+                        <div class="efficiency-card good">
+                            <h4>Excelente Eficiencia Fiscal</h4>
+                            <div class="efficiency-value">9,9%</div>
+                            <p>Con una presión fiscal del <strong>9,9% sobre la generación total</strong>, estáis en un nivel muy eficiente. El 72% de vuestra riqueza se genera como plusvalías latentes que no tributan.</p>
+                        </div>
+                        <div class="efficiency-card warning">
+                            <h4>IP: Coste Fijo Inevitable</h4>
+                            <div class="efficiency-value">462K€</div>
+                            <p>El Impuesto de Patrimonio representa el <strong>42% de vuestros impuestos</strong> y se paga sobre el stock (patrimonio), no sobre las ganancias. Es el más difícil de optimizar.</p>
+                        </div>
+                        <div class="efficiency-card info">
+                            <h4>Diferencia Pablo vs Ale</h4>
+                            <div class="efficiency-value">1,5pp</div>
+                            <p>Pablo (10,7%) tiene ligeramente más presión fiscal que Alejandro (9,2%) porque su rentabilidad es menor (5,69% vs 7,22%) pero paga impuestos similares.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resumen -->
+                <div class="fiscal-summary">
+                    <div class="fiscal-summary-icon">%</div>
+                    <div class="fiscal-summary-content">
+                        <h4>Conclusión: Eficiencia Fiscal Familiar</h4>
+                        <p><strong>Patrimonio bajo gestión:</strong> 175,1M€ (Pablo 96,4M + Ale 78,8M)</p>
+                        <p><strong>Generación total:</strong> 11,18M€/año (Pablo 5,49M al 5,69% + Ale 5,69M al 7,22%)</p>
+                        <p><strong>Impuestos pagados:</strong> 1,11M€/año (Pablo 586K + Ale 526K)</p>
+                        <p><strong>Presión fiscal real:</strong> 9,9% - El 72% son ganancias latentes que no tributan</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== PABLO ========== -->
+            <div class="profile-content" data-profile="pablo">
+                <div class="section-title">
+                    <h2>Cash Flow + Eficiencia Fiscal - Pablo</h2>
+                    <p>Análisis combinado de flujo de caja y presión fiscal (rentabilidad real 2024: 5,69%)</p>
+                </div>
+
+                <!-- Cash Flow Integrado -->
+                <div class="cf-integrated" id="cfPabloIntegrated">
+                    <h3><span class="icon">€</span> Tu Cash Flow Personal</h3>
+                    <div class="cf-flow-visual">
+                        <div class="cf-flow-box income">
+                            <div class="label">Cash Generado</div>
+                            <div class="value" id="cfPabloIncome">220K€</div>
+                        </div>
+                        <span class="cf-flow-arrow">-</span>
+                        <div class="cf-flow-box needs">
+                            <div class="label">Necesidades (<span id="cfPabloNeedsMonthly">25K</span>/mes)</div>
+                            <div class="value" id="cfPabloNeeds">300K€</div>
+                        </div>
+                        <span class="cf-flow-arrow">=</span>
+                        <div class="cf-flow-box excess" id="cfPabloExcessBox">
+                            <div class="label">Deficit/Excedente</div>
+                            <div class="value" id="cfPabloExcess">-80K€</div>
+                        </div>
+                    </div>
+                    <div class="cf-tax-impact">
+                        <div class="cf-tax-item">
+                            <div class="label">Impuestos evitables</div>
+                            <div class="value negative" id="cfPabloTaxExcess">~50K€</div>
+                            <div class="detail">rotando RF a acumulación</div>
+                        </div>
+                        <div class="cf-tax-item">
+                            <div class="label">Si reduces a 15K/mes</div>
+                            <div class="value positive" id="cfPabloSavingsExample">+120K€</div>
+                            <div class="detail">excedente disponible</div>
+                        </div>
+                        <div class="cf-tax-item">
+                            <div class="label">Ahorro con optimización</div>
+                            <div class="value positive" id="cfPabloOptSavings">~50K€/año</div>
+                            <div class="detail">rotando a acumulación</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ahorro con Optimización -->
+                <div class="fiscal-savings">
+                    <div class="fiscal-savings-header">
+                        <div class="fiscal-savings-icon">↓</div>
+                        <span class="fiscal-savings-title">Tu Ahorro Potencial con Optimización</span>
+                    </div>
+                    <div class="fiscal-savings-grid">
+                        <div class="fiscal-savings-item">
+                            <div class="label">Ahorro Anual</div>
+                            <div class="value">50K€</div>
+                            <div class="detail">Optimizando estructura</div>
+                        </div>
+                        <div class="fiscal-savings-item">
+                            <div class="label">Nueva Presión Fiscal</div>
+                            <div class="value">9,8%</div>
+                            <div class="detail">vs 10,7% actual</div>
+                        </div>
+                        <div class="fiscal-savings-item">
+                            <div class="label">Riqueza Neta Extra</div>
+                            <div class="value">+50K€</div>
+                            <div class="detail">cada año</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visualización Principal - Barra de Flujo -->
+                <div class="fiscal-flow">
+                    <h3>Distribución de Tu Riqueza Generada: 5,49M€</h3>
+                    <div class="fiscal-flow-bar">
+                        <div class="fiscal-flow-segment latent" style="width: 75%">75%</div>
+                        <div class="fiscal-flow-segment realized" style="width: 14%" data-actual-width="14%" data-opt-width="15%"><span data-actual="14%" data-opt="15%">14%</span></div>
+                        <div class="fiscal-flow-segment taxes" style="width: 11%" data-actual-width="11%" data-opt-width="10%"><span data-actual="11%" data-opt="10%">11%</span></div>
+                    </div>
+                    <div class="fiscal-flow-legend">
+                        <div class="fiscal-flow-item">
+                            <div class="fiscal-flow-dot latent"></div>
+                            <span>Ganancias Latentes: <strong>4,11M€</strong> (no tributan)</span>
+                        </div>
+                        <div class="fiscal-flow-item">
+                            <div class="fiscal-flow-dot realized"></div>
+                            <span>Ganancias Realizadas: <strong>0,79M€</strong> (cash neto)</span>
+                        </div>
+                        <div class="fiscal-flow-item">
+                            <div class="fiscal-flow-dot taxes"></div>
+                            <span>Impuestos: <strong data-actual="586K€" data-opt="536K€">586K€</strong></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resumen Visual con Presión Fiscal -->
+                <div class="fiscal-overview">
+                    <div class="fiscal-main-card">
+                        <div class="fiscal-donut-container">
+                            <div class="fiscal-donut">
+                                <svg viewBox="0 0 100 100" width="220" height="220">
+                                    <circle cx="50" cy="50" r="40" fill="none" stroke="#e9ecef" stroke-width="15"/>
+                                    <circle cx="50" cy="50" r="40" fill="none" stroke="#28a745" stroke-width="15"
+                                        stroke-dasharray="224 251.2" stroke-dashoffset="0"/>
+                                    <circle cx="50" cy="50" r="40" fill="none" stroke="#dc3545" stroke-width="15"
+                                        stroke-dasharray="27 251.2" stroke-dashoffset="-224"/>
+                                </svg>
+                                <div class="fiscal-donut-center">
+                                    <div class="rate" id="donutPabloRate">10,7%</div>
+                                    <div class="label">Presión Fiscal</div>
+                                </div>
+                            </div>
+                            <div class="fiscal-donut-legend">
+                                <div class="fiscal-legend-item">
+                                    <div class="fiscal-legend-color latent"></div>
+                                    <div class="fiscal-legend-info">
+                                        <span class="name">Riqueza Neta</span>
+                                        <span class="value" id="donutPabloNet">4,90M€</span>
+                                        <span class="pct" id="donutPabloNetPct">89% de lo generado</span>
+                                    </div>
+                                </div>
+                                <div class="fiscal-legend-item">
+                                    <div class="fiscal-legend-color taxes"></div>
+                                    <div class="fiscal-legend-info">
+                                        <span class="name">Impuestos Pagados</span>
+                                        <span class="value" id="donutPabloTax">586K€</span>
+                                        <span class="pct" id="donutPabloTaxPct">11% de lo generado</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="fiscal-kpi-grid">
+                    <div class="fiscal-kpi realized">
+                        <div class="fiscal-kpi-icon">€</div>
+                        <div class="fiscal-kpi-content">
+                            <span class="fiscal-kpi-label">Ganancias Realizadas (Cash)</span>
+                            <span class="fiscal-kpi-value" id="kpiPabloRealized">1,38M€</span>
+                            <span class="fiscal-kpi-detail">Rentas + Cupones + Distribuciónes</span>
+                        </div>
+                    </div>
+                    <div class="fiscal-kpi latent">
+                        <div class="fiscal-kpi-icon">↑</div>
+                        <div class="fiscal-kpi-content">
+                            <span class="fiscal-kpi-label">Ganancias Latentes</span>
+                            <span class="fiscal-kpi-value" id="kpiPabloLatent">4,11M€</span>
+                            <span class="fiscal-kpi-detail">Revalorización patrimonial (no tributa)</span>
+                        </div>
+                    </div>
+                    <div class="fiscal-kpi total-gen">
+                        <div class="fiscal-kpi-icon">Σ</div>
+                        <div class="fiscal-kpi-content">
+                            <span class="fiscal-kpi-label">Total Generado (5,69%)</span>
+                            <span class="fiscal-kpi-value">5,49M€</span>
+                            <span class="fiscal-kpi-detail">96,4M x 5,69% rentabilidad</span>
+                        </div>
+                    </div>
+                    <div class="fiscal-kpi taxes-paid">
+                        <div class="fiscal-kpi-icon">-</div>
+                        <div class="fiscal-kpi-content">
+                            <span class="fiscal-kpi-label">Impuestos Totales</span>
+                            <span class="fiscal-kpi-value" id="kpiPabloTaxes">586K€</span>
+                            <span class="fiscal-kpi-detail" id="kpiPabloTaxDetail">IP 278K + IS 184K + IRPF 124K</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="fiscal-taxes-pie">
+                    <h3>Composición de Tus Impuestos</h3>
+                    <div class="taxes-pie-container">
+                        <div class="taxes-pie">
+                            <svg viewBox="0 0 100 100" width="180" height="180" id="taxPiePablo">
+                                <!-- IP -->
+                                <circle cx="50" cy="50" r="40" fill="none" stroke="#e74c3c" stroke-width="20"
+                                    id="taxPiePabloIP" stroke-dasharray="118.1 251.2" stroke-dashoffset="0"/>
+                                <!-- IS -->
+                                <circle cx="50" cy="50" r="40" fill="none" stroke="#f39c12" stroke-width="20"
+                                    id="taxPiePabloIS" stroke-dasharray="77.9 251.2" stroke-dashoffset="-118.1"/>
+                                <!-- IRPF -->
+                                <circle cx="50" cy="50" r="40" fill="none" stroke="#3498db" stroke-width="20"
+                                    id="taxPiePabloIRPF" stroke-dasharray="55.3 251.2" stroke-dashoffset="-196"/>
+                            </svg>
+                            <div class="taxes-pie-center">
+                                <div class="total" id="taxPabloAmount">586K€</div>
+                                <div class="label">Total</div>
+                            </div>
+                        </div>
+                        <div class="taxes-pie-legend">
+                            <div class="taxes-pie-item">
+                                <div class="taxes-pie-color ip"></div>
+                                <div class="taxes-pie-info">
+                                    <span class="name">Impuesto Patrimonio</span>
+                                    <span class="value" id="taxPabloIP">278K€</span>
+                                    <span class="pct" id="taxPabloIPPct">47% del total</span>
+                                </div>
+                            </div>
+                            <div class="taxes-pie-item">
+                                <div class="taxes-pie-color is"></div>
+                                <div class="taxes-pie-info">
+                                    <span class="name">Impuesto Sociedades</span>
+                                    <span class="value" id="taxPabloIS">184K€</span>
+                                    <span class="pct" id="taxPabloISPct">31% del total</span>
+                                </div>
+                            </div>
+                            <div class="taxes-pie-item">
+                                <div class="taxes-pie-color irpf"></div>
+                                <div class="taxes-pie-info">
+                                    <span class="name">IRPF</span>
+                                    <span class="value" id="taxPabloIRPF">124K€</span>
+                                    <span class="pct" id="taxPabloIRPFPct">22% del total</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="fiscal-efficiency">
+                    <h3>Tu Eficiencia Fiscal</h3>
+                    <div class="efficiency-grid">
+                        <div class="efficiency-card good">
+                            <h4>Buena Eficiencia</h4>
+                            <div class="efficiency-value">10,7%</div>
+                            <p>Tu presión fiscal es baja porque el <strong>75% de tu generación es latente</strong> (4,11M de 5,49M). Solo tributas sobre el cash que recibes.</p>
+                        </div>
+                        <div class="efficiency-card warning">
+                            <h4>IP: Mayor Coste Relativo</h4>
+                            <div class="efficiency-value">278K€</div>
+                            <p>Tu IP representa el <strong>47% de tus impuestos</strong>. Es un coste fijo sobre el patrimonio, independiente de la rentabilidad.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="fiscal-summary">
+                    <div class="fiscal-summary-icon">%</div>
+                    <div class="fiscal-summary-content">
+                        <h4>Resumen de Tu Fiscalidad</h4>
+                        <p><strong>Patrimonio bajo gestión:</strong> 96,4M€</p>
+                        <p><strong>Generación al 5,69%:</strong> 5,49M€/año (1,38M realizados + 4,11M latentes)</p>
+                        <p><strong>Impuestos pagados:</strong> 586K€/año</p>
+                        <p><strong>Presión fiscal real:</strong> 10,7% - Solo pagas sobre el 25% que recibes en cash</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== ALEJANDRO ========== -->
+            <div class="profile-content" data-profile="ale">
+                <div class="section-title">
+                    <h2>Cash Flow + Eficiencia Fiscal - Alejandro</h2>
+                    <p>Análisis combinado de flujo de caja y presión fiscal (rentabilidad real 2024: 7,22%)</p>
+                </div>
+
+                <!-- Cash Flow Integrado -->
+                <div class="cf-integrated" id="cfAleIntegrated">
+                    <h3><span class="icon">€</span> Tu Cash Flow Personal</h3>
+                    <div class="cf-flow-visual">
+                        <div class="cf-flow-box income">
+                            <div class="label">Cash Generado</div>
+                            <div class="value" id="cfAleIncome">907K€</div>
+                        </div>
+                        <span class="cf-flow-arrow">-</span>
+                        <div class="cf-flow-box needs">
+                            <div class="label">Necesidades (<span id="cfAleNeedsMonthly">25K</span>/mes)</div>
+                            <div class="value" id="cfAleNeeds">300K€</div>
+                        </div>
+                        <span class="cf-flow-arrow">=</span>
+                        <div class="cf-flow-box excess" id="cfAleExcessBox">
+                            <div class="label">Excedente</div>
+                            <div class="value" id="cfAleExcess">607K€</div>
+                        </div>
+                    </div>
+                    <div class="cf-tax-impact">
+                        <div class="cf-tax-item">
+                            <div class="label">Impuestos sobre excedente</div>
+                            <div class="value negative" id="cfAleTaxExcess">~152K€</div>
+                            <div class="detail">al 25% tipo medio</div>
+                        </div>
+                        <div class="cf-tax-item">
+                            <div class="label">Si reduces a 15K/mes</div>
+                            <div class="value positive" id="cfAleSavingsExample">+120K€</div>
+                            <div class="detail">más excedente</div>
+                        </div>
+                        <div class="cf-tax-item">
+                            <div class="label">Ahorro con optimización</div>
+                            <div class="value positive" id="cfAleOptSavings">~150K€/año</div>
+                            <div class="detail">reinvirtiendo distribuciones</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ahorro con Optimización -->
+                <div class="fiscal-savings">
+                    <div class="fiscal-savings-header">
+                        <div class="fiscal-savings-icon">↓</div>
+                        <span class="fiscal-savings-title">Tu Ahorro Potencial con Optimización</span>
+                    </div>
+                    <div class="fiscal-savings-grid">
+                        <div class="fiscal-savings-item">
+                            <div class="label">Ahorro Anual</div>
+                            <div class="value">150K€</div>
+                            <div class="detail">Optimizando estructura</div>
+                        </div>
+                        <div class="fiscal-savings-item">
+                            <div class="label">Nueva Presión Fiscal</div>
+                            <div class="value">6,6%</div>
+                            <div class="detail">vs 9,2% actual</div>
+                        </div>
+                        <div class="fiscal-savings-item">
+                            <div class="label">Riqueza Neta Extra</div>
+                            <div class="value">+150K€</div>
+                            <div class="detail">cada año</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visualización Principal - Barra de Flujo -->
+                <div class="fiscal-flow">
+                    <h3>Distribución de Tu Riqueza Generada: 5,69M€</h3>
+                    <div class="fiscal-flow-bar">
+                        <div class="fiscal-flow-segment latent" style="width: 70%">70%</div>
+                        <div class="fiscal-flow-segment realized" style="width: 21%" data-actual-width="21%" data-opt-width="23%"><span data-actual="21%" data-opt="23%">21%</span></div>
+                        <div class="fiscal-flow-segment taxes" style="width: 9%" data-actual-width="9%" data-opt-width="7%"><span data-actual="9%" data-opt="7%">9%</span></div>
+                    </div>
+                    <div class="fiscal-flow-legend">
+                        <div class="fiscal-flow-item">
+                            <div class="fiscal-flow-dot latent"></div>
+                            <span>Ganancias Latentes: <strong>3,98M€</strong> (no tributan)</span>
+                        </div>
+                        <div class="fiscal-flow-item">
+                            <div class="fiscal-flow-dot realized"></div>
+                            <span>Ganancias Realizadas: <strong>1,18M€</strong> (cash neto)</span>
+                        </div>
+                        <div class="fiscal-flow-item">
+                            <div class="fiscal-flow-dot taxes"></div>
+                            <span>Impuestos: <strong data-actual="526K€" data-opt="376K€">526K€</strong></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resumen Visual con Presión Fiscal -->
+                <div class="fiscal-overview">
+                    <div class="fiscal-main-card">
+                        <div class="fiscal-donut-container">
+                            <div class="fiscal-donut">
+                                <svg viewBox="0 0 100 100" width="220" height="220">
+                                    <circle cx="50" cy="50" r="40" fill="none" stroke="#e9ecef" stroke-width="15"/>
+                                    <circle cx="50" cy="50" r="40" fill="none" stroke="#28a745" stroke-width="15"
+                                        stroke-dasharray="228 251.2" stroke-dashoffset="0"/>
+                                    <circle cx="50" cy="50" r="40" fill="none" stroke="#dc3545" stroke-width="15"
+                                        stroke-dasharray="23 251.2" stroke-dashoffset="-228"/>
+                                </svg>
+                                <div class="fiscal-donut-center">
+                                    <div class="rate" id="donutAleRate">9,2%</div>
+                                    <div class="label">Presión Fiscal</div>
+                                </div>
+                            </div>
+                            <div class="fiscal-donut-legend">
+                                <div class="fiscal-legend-item">
+                                    <div class="fiscal-legend-color latent"></div>
+                                    <div class="fiscal-legend-info">
+                                        <span class="name">Riqueza Neta</span>
+                                        <span class="value" id="donutAleNet">5,16M€</span>
+                                        <span class="pct" id="donutAleNetPct">91% de lo generado</span>
+                                    </div>
+                                </div>
+                                <div class="fiscal-legend-item">
+                                    <div class="fiscal-legend-color taxes"></div>
+                                    <div class="fiscal-legend-info">
+                                        <span class="name">Impuestos Pagados</span>
+                                        <span class="value" id="donutAleTax">526K€</span>
+                                        <span class="pct" id="donutAleTaxPct">9% de lo generado</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="fiscal-kpi-grid">
+                    <div class="fiscal-kpi realized">
+                        <div class="fiscal-kpi-icon">€</div>
+                        <div class="fiscal-kpi-content">
+                            <span class="fiscal-kpi-label">Ganancias Realizadas (Cash)</span>
+                            <span class="fiscal-kpi-value" id="kpiAleRealized">1,71M€</span>
+                            <span class="fiscal-kpi-detail">Rentas + Cupones + Distribuciónes</span>
+                        </div>
+                    </div>
+                    <div class="fiscal-kpi latent">
+                        <div class="fiscal-kpi-icon">↑</div>
+                        <div class="fiscal-kpi-content">
+                            <span class="fiscal-kpi-label">Ganancias Latentes</span>
+                            <span class="fiscal-kpi-value" id="kpiAleLatent">3,98M€</span>
+                            <span class="fiscal-kpi-detail">Revalorización patrimonial (no tributa)</span>
+                        </div>
+                    </div>
+                    <div class="fiscal-kpi total-gen">
+                        <div class="fiscal-kpi-icon">Σ</div>
+                        <div class="fiscal-kpi-content">
+                            <span class="fiscal-kpi-label">Total Generado (7,22%)</span>
+                            <span class="fiscal-kpi-value">5,69M€</span>
+                            <span class="fiscal-kpi-detail">78,8M x 7,22% rentabilidad</span>
+                        </div>
+                    </div>
+                    <div class="fiscal-kpi taxes-paid">
+                        <div class="fiscal-kpi-icon">-</div>
+                        <div class="fiscal-kpi-content">
+                            <span class="fiscal-kpi-label">Impuestos Totales</span>
+                            <span class="fiscal-kpi-value" id="kpiAleTaxes">526K€</span>
+                            <span class="fiscal-kpi-detail" id="kpiAleTaxDetail">IP 184K + IS 233K + IRPF 109K</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="fiscal-taxes-pie">
+                    <h3>Composición de Tus Impuestos</h3>
+                    <div class="taxes-pie-container">
+                        <div class="taxes-pie">
+                            <svg viewBox="0 0 100 100" width="180" height="180" id="taxPieAle">
+                                <!-- IS -->
+                                <circle cx="50" cy="50" r="40" fill="none" stroke="#f39c12" stroke-width="20"
+                                    id="taxPieAleIS" stroke-dasharray="110.5 251.2" stroke-dashoffset="0"/>
+                                <!-- IP -->
+                                <circle cx="50" cy="50" r="40" fill="none" stroke="#e74c3c" stroke-width="20"
+                                    id="taxPieAleIP" stroke-dasharray="87.9 251.2" stroke-dashoffset="-110.5"/>
+                                <!-- IRPF -->
+                                <circle cx="50" cy="50" r="40" fill="none" stroke="#3498db" stroke-width="20"
+                                    id="taxPieAleIRPF" stroke-dasharray="52.8 251.2" stroke-dashoffset="-198.4"/>
+                            </svg>
+                            <div class="taxes-pie-center">
+                                <div class="total" id="taxAleAmount">526K€</div>
+                                <div class="label">Total</div>
+                            </div>
+                        </div>
+                        <div class="taxes-pie-legend">
+                            <div class="taxes-pie-item">
+                                <div class="taxes-pie-color is"></div>
+                                <div class="taxes-pie-info">
+                                    <span class="name">Impuesto Sociedades</span>
+                                    <span class="value" id="taxAleIS">233K€</span>
+                                    <span class="pct" id="taxAleISPct">44% del total</span>
+                                </div>
+                            </div>
+                            <div class="taxes-pie-item">
+                                <div class="taxes-pie-color ip"></div>
+                                <div class="taxes-pie-info">
+                                    <span class="name">Impuesto Patrimonio</span>
+                                    <span class="value" id="taxAleIP">184K€</span>
+                                    <span class="pct" id="taxAleIPPct">35% del total</span>
+                                </div>
+                            </div>
+                            <div class="taxes-pie-item">
+                                <div class="taxes-pie-color irpf"></div>
+                                <div class="taxes-pie-info">
+                                    <span class="name">IRPF</span>
+                                    <span class="value" id="taxAleIRPF">109K€</span>
+                                    <span class="pct" id="taxAleIRPFPct">21% del total</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="fiscal-efficiency">
+                    <h3>Tu Eficiencia Fiscal</h3>
+                    <div class="efficiency-grid">
+                        <div class="efficiency-card good">
+                            <h4>Excelente Eficiencia</h4>
+                            <div class="efficiency-value">9,2%</div>
+                            <p>Tu presión fiscal es muy baja porque el <strong>70% de tu generación es latente</strong> (3,98M de 5,69M). Solo tributas sobre el cash que recibes.</p>
+                        </div>
+                        <div class="efficiency-card warning">
+                            <h4>IS por Distribuciónes Claret</h4>
+                            <div class="efficiency-value">233K€</div>
+                            <p>Tu IS es el más alto (44% de tus impuestos) por las <strong>distribuciones</strong> de PE que tributan por IS.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="fiscal-summary">
+                    <div class="fiscal-summary-icon">%</div>
+                    <div class="fiscal-summary-content">
+                        <h4>Resumen de Tu Fiscalidad</h4>
+                        <p><strong>Patrimonio bajo gestión:</strong> 78,8M€</p>
+                        <p><strong>Generación al 7,22%:</strong> 5,69M€/año (1,71M realizados + 3,98M latentes)</p>
+                        <p><strong>Impuestos pagados:</strong> 526K€/año</p>
+                        <p><strong>Presión fiscal real:</strong> 9,2% - Solo pagas sobre el 30% que recibes en cash</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== DATOS DE REFERENCIA ========== -->
+            <div class="profile-content data-reference" data-profile="total">
+                <div class="section-title">
+                    <h2>Datos de Referencia - Validación</h2>
+                    <p>Tablas de datos para verificación por el equipo financiero</p>
+                </div>
+
+                <div class="data-tables">
+                    <!-- Tabla 1: Datos Base -->
+                    <div class="data-table-container">
+                        <h3>1. Datos Base de Patrimonio</h3>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Concepto</th>
+                                    <th>Pablo</th>
+                                    <th>Alejandro</th>
+                                    <th>Total Familia</th>
+                                    <th>Fuente</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Patrimonio bajo gestión</td>
+                                    <td>96,4M€</td>
+                                    <td>78,8M€</td>
+                                    <td>175,2M€</td>
+                                    <td>Claret/Blanes</td>
+                                </tr>
+                                <tr>
+                                    <td>Rentabilidad 2024</td>
+                                    <td>5,69%</td>
+                                    <td>7,22%</td>
+                                    <td>6,36%</td>
+                                    <td>Calculada</td>
+                                </tr>
+                                <tr>
+                                    <td>Generación Total</td>
+                                    <td>5,49M€</td>
+                                    <td>5,69M€</td>
+                                    <td>11,18M€</td>
+                                    <td>Patrimonio x Rent.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Tabla 2: Desglose Generación -->
+                    <div class="data-table-container">
+                        <h3>2. Desglose de Generación (Base 25K/mes)</h3>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Concepto</th>
+                                    <th>Pablo</th>
+                                    <th>Alejandro</th>
+                                    <th>Total</th>
+                                    <th>Fórmula</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Ganancias Realizadas (Cash)</td>
+                                    <td id="refPabloRealized">1,38M€</td>
+                                    <td id="refAleRealized">1,71M€</td>
+                                    <td id="refTotalRealized">3,09M€</td>
+                                    <td>Rentas+Cupones+Distrib.</td>
+                                </tr>
+                                <tr>
+                                    <td>Ganancias Latentes</td>
+                                    <td id="refPabloLatent">4,11M€</td>
+                                    <td id="refAleLatent">3,98M€</td>
+                                    <td id="refTotalLatent">8,09M€</td>
+                                    <td>Generación - Realizadas - Impuestos</td>
+                                </tr>
+                                <tr class="highlight">
+                                    <td>% Latentes / Total</td>
+                                    <td id="refPabloLatentPct">75%</td>
+                                    <td id="refAleLatentPct">70%</td>
+                                    <td id="refTotalLatentPct">72%</td>
+                                    <td>Latentes / Generación</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Tabla 3: Impuestos Base -->
+                    <div class="data-table-container">
+                        <h3>3. Impuestos Base (25K/mes, Sin Optimización)</h3>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Impuesto</th>
+                                    <th>Pablo</th>
+                                    <th>Alejandro</th>
+                                    <th>Total</th>
+                                    <th>Caracteristica</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>IP (Patrimonio)</td>
+                                    <td>278K€</td>
+                                    <td>184K€</td>
+                                    <td>462K€</td>
+                                    <td class="fixed">FIJO - sobre riqueza</td>
+                                </tr>
+                                <tr>
+                                    <td>IS (Sociedades)</td>
+                                    <td>184K€</td>
+                                    <td>233K€</td>
+                                    <td>417K€</td>
+                                    <td class="variable">VARIABLE - sobre realización</td>
+                                </tr>
+                                <tr>
+                                    <td>IRPF</td>
+                                    <td>124K€</td>
+                                    <td>109K€</td>
+                                    <td>232K€</td>
+                                    <td class="variable">VARIABLE - sobre salario</td>
+                                </tr>
+                                <tr class="total-row">
+                                    <td>TOTAL IMPUESTOS</td>
+                                    <td>586K€</td>
+                                    <td>526K€</td>
+                                    <td>1.111K€</td>
+                                    <td></td>
+                                </tr>
+                                <tr class="highlight">
+                                    <td>Presión Fiscal</td>
+                                    <td>10,7%</td>
+                                    <td>9,2%</td>
+                                    <td>9,9%</td>
+                                    <td>Impuestos / Generación</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Tabla 4: Impuestos Calculados Dinámicos -->
+                    <div class="data-table-container">
+                        <h3>4. Impuestos Calculados (Dinámico según Slider)</h3>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Impuesto</th>
+                                    <th>Pablo</th>
+                                    <th>Alejandro</th>
+                                    <th>Total</th>
+                                    <th>Fórmula Aplicada</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Necesidades/mes</td>
+                                    <td colspan="3" id="refCurrentNeeds">25K€</td>
+                                    <td>Slider valor</td>
+                                </tr>
+                                <tr>
+                                    <td>Multiplicador Necesidades</td>
+                                    <td colspan="3" id="refNeedsMultiplier">1.00</td>
+                                    <td>Necesidades / 25K</td>
+                                </tr>
+                                <tr>
+                                    <td>Optimización Activa</td>
+                                    <td colspan="3" id="refOptActive">No</td>
+                                    <td>Toggle</td>
+                                </tr>
+                                <tr>
+                                    <td>Factor Optimización</td>
+                                    <td colspan="3" id="refOptFactor">1.00</td>
+                                    <td>0.8 base - ajuste por necesidades</td>
+                                </tr>
+                                <tr class="separator"><td colspan="5"></td></tr>
+                                <tr>
+                                    <td>IP (no cambia)</td>
+                                    <td id="refCalcPabloIP">278K€</td>
+                                    <td id="refCalcAleIP">184K€</td>
+                                    <td id="refCalcTotalIP">462K€</td>
+                                    <td>Base (fijo)</td>
+                                </tr>
+                                <tr>
+                                    <td>IS Calculado</td>
+                                    <td id="refCalcPabloIS">184K€</td>
+                                    <td id="refCalcAleIS">233K€</td>
+                                    <td id="refCalcTotalIS">417K€</td>
+                                    <td>Base × (0.3 + mult×0.7) × optFactor</td>
+                                </tr>
+                                <tr>
+                                    <td>IRPF Calculado</td>
+                                    <td id="refCalcPabloIRPF">124K€</td>
+                                    <td id="refCalcAleIRPF">109K€</td>
+                                    <td id="refCalcTotalIRPF">232K€</td>
+                                    <td>Base × mult × optFactor</td>
+                                </tr>
+                                <tr class="total-row">
+                                    <td>TOTAL CALCULADO</td>
+                                    <td id="refCalcPabloTotal">586K€</td>
+                                    <td id="refCalcAleTotal">526K€</td>
+                                    <td id="refCalcTotal">1.111K€</td>
+                                    <td>IP + IS + IRPF</td>
+                                </tr>
+                                <tr class="highlight">
+                                    <td>Presión Fiscal Calculada</td>
+                                    <td id="refCalcPabloRate">10,7%</td>
+                                    <td id="refCalcAleRate">9,2%</td>
+                                    <td id="refCalcTotalRate">9,9%</td>
+                                    <td>Total / Generación × 100</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Tabla 5: Cash Flow -->
+                    <div class="data-table-container">
+                        <h3>5. Cash Flow (12 meses)</h3>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Concepto</th>
+                                    <th>Pablo</th>
+                                    <th>Alejandro</th>
+                                    <th>Total Familia</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Cash Generado (sin opt)</td>
+                                    <td>220K€</td>
+                                    <td>907K€</td>
+                                    <td>1.107K€</td>
+                                </tr>
+                                <tr>
+                                    <td>Cash Generado (con opt)</td>
+                                    <td>180K€</td>
+                                    <td>420K€</td>
+                                    <td>600K€</td>
+                                </tr>
+                                <tr>
+                                    <td>Necesidades Anuales</td>
+                                    <td id="refCfPabloNeeds">300K€</td>
+                                    <td id="refCfAleNeeds">300K€</td>
+                                    <td id="refCfTotalNeeds">600K€</td>
+                                </tr>
+                                <tr class="highlight">
+                                    <td>Excedente/Deficit</td>
+                                    <td id="refCfPabloExcess">-80K€</td>
+                                    <td id="refCfAleExcess">607K€</td>
+                                    <td id="refCfTotalExcess">507K€</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Tabla 6: Lógica de Cálculo -->
+                    <div class="data-table-container">
+                        <h3>6. Lógica de Cálculo - Fórmulas</h3>
+                        <table class="data-table formulas">
+                            <thead>
+                                <tr>
+                                    <th>Variable</th>
+                                    <th>Fórmula</th>
+                                    <th>Explicación</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>needsMultiplier</td>
+                                    <td><code>currentNeeds / 25000</code></td>
+                                    <td>1.0 = 25K/mes, 0.4 = 10K/mes, 1.6 = 40K/mes</td>
+                                </tr>
+                                <tr>
+                                    <td>optFactor (sin opt)</td>
+                                    <td><code>1.0</code></td>
+                                    <td>Sin reducción</td>
+                                </tr>
+                                <tr>
+                                    <td>optFactor (con opt)</td>
+                                    <td><code>max(0.4, 0.8 - (1-mult)×0.4)</code></td>
+                                    <td>0.8 a 25K, 0.56 a 10K, 0.96 a 40K</td>
+                                </tr>
+                                <tr>
+                                    <td>IS Multiplier</td>
+                                    <td><code>(0.3 + mult×0.7) × optFactor</code></td>
+                                    <td>Escala con necesidades + optimización</td>
+                                </tr>
+                                <tr>
+                                    <td>IRPF Multiplier</td>
+                                    <td><code>mult × optFactor</code></td>
+                                    <td>Directamente proporcional</td>
+                                </tr>
+                                <tr>
+                                    <td>IP</td>
+                                    <td><code>Base (fijo)</code></td>
+                                    <td>No cambia - es sobre patrimonio</td>
+                                </tr>
+                                <tr>
+                                    <td>Presión Fiscal</td>
+                                    <td><code>(IP+IS+IRPF) / Generación × 100</code></td>
+                                    <td>% de lo generado que va a impuestos</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-logo"><span class="footer-icon">B</span><span>Blanes Capital</span></div>
+        <div class="footer-info"><span>Consejo 1er Semestre 2025</span><span>Datos a 30 de junio de 2025</span></div>
+    </footer>
+    </div><!-- END mainContent -->
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    <script src="app.js"></script>
+
+    <script>
+    (function() {
+        const HASH = '090fac236cea5ebf37d769277523b322f123f6f7f1bc955ae40f34291d2a7db2';
+
+        async function hashPassword(password) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        function checkSession() {
+            if (sessionStorage.getItem('bc_auth') === HASH) showContent();
+        }
+
+        function showContent() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('mainContent').classList.remove('main-content-hidden');
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const password = document.getElementById('passwordInput').value;
+            if (await hashPassword(password) === HASH) {
+                sessionStorage.setItem('bc_auth', HASH);
+                showContent();
+            } else {
+                document.getElementById('loginError').textContent = 'Contraseña incorrecta';
+                document.getElementById('passwordInput').value = '';
+            }
+        });
+
+        checkSession();
+    })();
+    </script>
+</body>
+</html>
