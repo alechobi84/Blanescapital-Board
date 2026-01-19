@@ -2508,9 +2508,17 @@ function downloadExport() {
     perfiles.forEach(p => params.append('perfiles', p));
     secciones.forEach(s => params.append('secciones', s));
 
-    // Descargar archivo
-    window.location.href = '/api/export?' + params.toString();
+    // Descargar archivo usando un iframe oculto para no navegar fuera de la página
+    const downloadUrl = '/api/export?' + params.toString();
+
+    // Crear un enlace temporal para descargar
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 
     // Cerrar modal después de un momento
-    setTimeout(closeExportModal, 500);
+    setTimeout(closeExportModal, 1000);
 }
