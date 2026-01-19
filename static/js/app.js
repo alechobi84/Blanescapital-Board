@@ -2004,11 +2004,71 @@ function updateCashFlowCalculations() {
         aleExcessBox.classList.remove('optimized');
     }
 
-    // Update savings examples (comparando con 15K/mes)
-    const savingsVs15K = (currentNeeds - 15000) * 12 / 1000;
-    document.getElementById('cfTotalSavingsExample').textContent = (savingsVs15K > 0 ? '-' : '+') + formatK(Math.abs(savingsVs15K * 2));
-    document.getElementById('cfPabloSavingsExample').textContent = (savingsVs15K > 0 ? '-' : '+') + formatK(Math.abs(savingsVs15K));
-    document.getElementById('cfAleSavingsExample').textContent = (savingsVs15K > 0 ? '-' : '+') + formatK(Math.abs(savingsVs15K));
+    // Update savings examples (comparando con 15K/mes) - texto dinámico
+    const diffVs15K = (currentNeeds - 15000) * 12 / 1000; // diferencia anual en K
+    const isAbove15K = currentNeeds > 15000;
+    const isAt15K = currentNeeds === 15000;
+
+    // Elementos del DOM
+    const totalSavingsLabel = document.getElementById('cfTotalSavingsLabel');
+    const totalSavingsValue = document.getElementById('cfTotalSavingsExample');
+    const totalSavingsDetail = document.getElementById('cfTotalSavingsDetail');
+    const pabloSavingsLabel = document.getElementById('cfPabloSavingsLabel');
+    const pabloSavingsValue = document.getElementById('cfPabloSavingsExample');
+    const pabloSavingsDetail = document.getElementById('cfPabloSavingsDetail');
+    const aleSavingsLabel = document.getElementById('cfAleSavingsLabel');
+    const aleSavingsValue = document.getElementById('cfAleSavingsExample');
+    const aleSavingsDetail = document.getElementById('cfAleSavingsDetail');
+
+    if (isAt15K) {
+        // Estás exactamente en 15K
+        totalSavingsLabel.textContent = 'Comparación con 15K/mes';
+        totalSavingsValue.textContent = '0€';
+        totalSavingsValue.className = 'value';
+        totalSavingsDetail.textContent = 'ya estás en 15K/mes';
+
+        pabloSavingsLabel.textContent = 'Comparación con 15K/mes';
+        pabloSavingsValue.textContent = '0€';
+        pabloSavingsValue.className = 'value';
+        pabloSavingsDetail.textContent = 'ya estás en 15K/mes';
+
+        aleSavingsLabel.textContent = 'Comparación con 15K/mes';
+        aleSavingsValue.textContent = '0€';
+        aleSavingsValue.className = 'value';
+        aleSavingsDetail.textContent = 'ya estás en 15K/mes';
+    } else if (isAbove15K) {
+        // Estás por encima de 15K - reducir ahorraría dinero
+        totalSavingsLabel.textContent = 'Si reduces a 15K/mes';
+        totalSavingsValue.textContent = '+' + formatK(Math.abs(diffVs15K * 2));
+        totalSavingsValue.className = 'value positive';
+        totalSavingsDetail.textContent = 'más excedente';
+
+        pabloSavingsLabel.textContent = 'Si reduces a 15K/mes';
+        pabloSavingsValue.textContent = '+' + formatK(Math.abs(diffVs15K));
+        pabloSavingsValue.className = 'value positive';
+        pabloSavingsDetail.textContent = 'más excedente';
+
+        aleSavingsLabel.textContent = 'Si reduces a 15K/mes';
+        aleSavingsValue.textContent = '+' + formatK(Math.abs(diffVs15K));
+        aleSavingsValue.className = 'value positive';
+        aleSavingsDetail.textContent = 'más excedente';
+    } else {
+        // Estás por debajo de 15K - aumentar costaría dinero
+        totalSavingsLabel.textContent = 'Si aumentas a 15K/mes';
+        totalSavingsValue.textContent = '-' + formatK(Math.abs(diffVs15K * 2));
+        totalSavingsValue.className = 'value negative';
+        totalSavingsDetail.textContent = 'menos excedente';
+
+        pabloSavingsLabel.textContent = 'Si aumentas a 15K/mes';
+        pabloSavingsValue.textContent = '-' + formatK(Math.abs(diffVs15K));
+        pabloSavingsValue.className = 'value negative';
+        pabloSavingsDetail.textContent = 'menos excedente';
+
+        aleSavingsLabel.textContent = 'Si aumentas a 15K/mes';
+        aleSavingsValue.textContent = '-' + formatK(Math.abs(diffVs15K));
+        aleSavingsValue.className = 'value negative';
+        aleSavingsDetail.textContent = 'menos excedente';
+    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
