@@ -3,11 +3,13 @@ Blanes Capital Dashboard - Flask Application
 Para ejecutar en PythonAnywhere
 """
 
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, redirect, url_for, flash, session, send_file
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
+from io import BytesIO
+from datetime import datetime
 
 # ============================================
 # CONFIGURACIÓN
@@ -224,6 +226,192 @@ def api_data():
         'periodData': PERIOD_DATA,
         'historicalData': HISTORICAL_DATA
     }
+
+@app.route('/api/export/excel')
+@login_required
+def export_excel():
+    """Exporta los datos a un archivo Excel - REQUIERE LOGIN"""
+    try:
+        from openpyxl import Workbook
+        from openpyxl.styles import Font, Fill, PatternFill, Alignment, Border, Side
+        from openpyxl.utils import get_column_letter
+
+        wb = Workbook()
+
+        # Estilos
+        header_font = Font(bold=True, color="FFFFFF")
+        header_fill = PatternFill(start_color="1a2744", end_color="1a2744", fill_type="solid")
+        header_alignment = Alignment(horizontal="center", vertical="center")
+        thin_border = Border(
+            left=Side(style='thin'),
+            right=Side(style='thin'),
+            top=Side(style='thin'),
+            bottom=Side(style='thin')
+        )
+
+        # ===== HOJA 1: Resumen 1S 2025 =====
+        ws1 = wb.active
+        ws1.title = "Resumen 1S 2025"
+
+        data_1s2025 = PERIOD_DATA['1s2025']
+
+        # Título
+        ws1['A1'] = "BLANES CAPITAL - Resumen 1er Semestre 2025"
+        ws1['A1'].font = Font(bold=True, size=14)
+        ws1.merge_cells('A1:E1')
+
+        # Encabezados
+        headers = ['Concepto', 'Pablo', 'Alejandro', 'Total']
+        for col, header in enumerate(headers, 1):
+            cell = ws1.cell(row=3, column=col, value=header)
+            cell.font = header_font
+            cell.fill = header_fill
+            cell.alignment = header_alignment
+            cell.border = thin_border
+
+        # Datos
+        rows_data = [
+            ('Patrimonio Total (M€)', data_1s2025['pablo']['patrimonioTotal'], data_1s2025['ale']['patrimonioTotal'],
+             data_1s2025['pablo']['patrimonioTotal'] + data_1s2025['ale']['patrimonioTotal']),
+            ('Bajo Gestión (M€)', data_1s2025['pablo']['bajoGestion'], data_1s2025['ale']['bajoGestion'],
+             data_1s2025['total']['bajoGestion']),
+            ('Empresarial (M€)', data_1s2025['pablo']['empresarial'], data_1s2025['ale']['empresarial'],
+             data_1s2025['pablo']['empresarial'] + data_1s2025['ale']['empresarial']),
+            ('Rentabilidad (%)', data_1s2025['pablo']['rentabilidad'], data_1s2025['ale']['rentabilidad'],
+             data_1s2025['total']['rentabilidad']),
+            ('Rentas Inmobiliarias (K€)', data_1s2025['pablo']['rentasInmob'], data_1s2025['ale']['rentasInmob'],
+             data_1s2025['total']['rentasInmob']),
+            ('Cartera Financiera (M€)', data_1s2025['pablo']['carteraFinanciera'], data_1s2025['ale']['carteraFinanciera'],
+             data_1s2025['pablo']['carteraFinanciera'] + data_1s2025['ale']['carteraFinanciera']),
+            ('Cartera Inmobiliaria (M€)', data_1s2025['pablo']['carteraInmobiliaria'], data_1s2025['ale']['carteraInmobiliaria'],
+             data_1s2025['pablo']['carteraInmobiliaria'] + data_1s2025['ale']['carteraInmobiliaria']),
+            ('Inversiones Alternativas (M€)', data_1s2025['pablo']['alternativas'], data_1s2025['ale']['alternativas'],
+             data_1s2025['pablo']['alternativas'] + data_1s2025['ale']['alternativas']),
+            ('Exposición USD (%)', data_1s2025['pablo']['exposicionUSD'], data_1s2025['ale']['exposicionUSD'], '-'),
+        ]
+
+        for row_idx, row_data in enumerate(rows_data, 4):
+            for col_idx, value in enumerate(row_data, 1):
+                cell = ws1.cell(row=row_idx, column=col_idx, value=value)
+                cell.border = thin_border
+                if col_idx > 1:
+                    cell.alignment = Alignment(horizontal="right")
+
+        # Ajustar anchos de columna
+        ws1.column_dimensions['A'].width = 30
+        for col in ['B', 'C', 'D']:
+            ws1.column_dimensions[col].width = 15
+
+        # ===== HOJA 2: Resumen 2024 =====
+        ws2 = wb.create_sheet("Resumen 2024")
+
+        data_2024 = PERIOD_DATA['2024']
+
+        ws2['A1'] = "BLANES CAPITAL - Resumen Cierre 2024"
+        ws2['A1'].font = Font(bold=True, size=14)
+        ws2.merge_cells('A1:E1')
+
+        for col, header in enumerate(headers, 1):
+            cell = ws2.cell(row=3, column=col, value=header)
+            cell.font = header_font
+            cell.fill = header_fill
+            cell.alignment = header_alignment
+            cell.border = thin_border
+
+        rows_data_2024 = [
+            ('Patrimonio Total (M€)', data_2024['pablo']['patrimonioTotal'], data_2024['ale']['patrimonioTotal'],
+             data_2024['pablo']['patrimonioTotal'] + data_2024['ale']['patrimonioTotal']),
+            ('Bajo Gestión (M€)', data_2024['pablo']['bajoGestion'], data_2024['ale']['bajoGestion'],
+             data_2024['total']['bajoGestion']),
+            ('Empresarial (M€)', data_2024['pablo']['empresarial'], data_2024['ale']['empresarial'],
+             data_2024['pablo']['empresarial'] + data_2024['ale']['empresarial']),
+            ('Rentabilidad (%)', data_2024['pablo']['rentabilidad'], data_2024['ale']['rentabilidad'],
+             data_2024['total']['rentabilidad']),
+            ('Rentas Inmobiliarias (K€)', data_2024['pablo']['rentasInmob'], data_2024['ale']['rentasInmob'],
+             data_2024['total']['rentasInmob']),
+            ('Cartera Financiera (M€)', data_2024['pablo']['carteraFinanciera'], data_2024['ale']['carteraFinanciera'],
+             data_2024['pablo']['carteraFinanciera'] + data_2024['ale']['carteraFinanciera']),
+            ('Cartera Inmobiliaria (M€)', data_2024['pablo']['carteraInmobiliaria'], data_2024['ale']['carteraInmobiliaria'],
+             data_2024['pablo']['carteraInmobiliaria'] + data_2024['ale']['carteraInmobiliaria']),
+            ('Inversiones Alternativas (M€)', data_2024['pablo']['alternativas'], data_2024['ale']['alternativas'],
+             data_2024['pablo']['alternativas'] + data_2024['ale']['alternativas']),
+        ]
+
+        for row_idx, row_data in enumerate(rows_data_2024, 4):
+            for col_idx, value in enumerate(row_data, 1):
+                cell = ws2.cell(row=row_idx, column=col_idx, value=value)
+                cell.border = thin_border
+                if col_idx > 1:
+                    cell.alignment = Alignment(horizontal="right")
+
+        ws2.column_dimensions['A'].width = 30
+        for col in ['B', 'C', 'D']:
+            ws2.column_dimensions[col].width = 15
+
+        # ===== HOJA 3: Evolución Histórica =====
+        ws3 = wb.create_sheet("Evolución Histórica")
+
+        ws3['A1'] = "BLANES CAPITAL - Evolución Patrimonial"
+        ws3['A1'].font = Font(bold=True, size=14)
+        ws3.merge_cells('A1:G1')
+
+        # Encabezados años
+        hist_headers = ['Perfil / Concepto'] + HISTORICAL_DATA['years']
+        for col, header in enumerate(hist_headers, 1):
+            cell = ws3.cell(row=3, column=col, value=header)
+            cell.font = header_font
+            cell.fill = header_fill
+            cell.alignment = header_alignment
+            cell.border = thin_border
+
+        # Datos Pablo
+        ws3.cell(row=4, column=1, value="Pablo - Bajo Gestión (M€)").border = thin_border
+        for col, val in enumerate(HISTORICAL_DATA['pablo']['bajoGestion'], 2):
+            cell = ws3.cell(row=4, column=col, value=val)
+            cell.border = thin_border
+            cell.alignment = Alignment(horizontal="right")
+
+        ws3.cell(row=5, column=1, value="Pablo - Empresarial (M€)").border = thin_border
+        for col, val in enumerate(HISTORICAL_DATA['pablo']['empresarial'], 2):
+            cell = ws3.cell(row=5, column=col, value=val)
+            cell.border = thin_border
+            cell.alignment = Alignment(horizontal="right")
+
+        # Datos Alejandro
+        ws3.cell(row=6, column=1, value="Alejandro - Bajo Gestión (M€)").border = thin_border
+        for col, val in enumerate(HISTORICAL_DATA['ale']['bajoGestion'], 2):
+            cell = ws3.cell(row=6, column=col, value=val)
+            cell.border = thin_border
+            cell.alignment = Alignment(horizontal="right")
+
+        ws3.cell(row=7, column=1, value="Alejandro - Empresarial (M€)").border = thin_border
+        for col, val in enumerate(HISTORICAL_DATA['ale']['empresarial'], 2):
+            cell = ws3.cell(row=7, column=col, value=val)
+            cell.border = thin_border
+            cell.alignment = Alignment(horizontal="right")
+
+        ws3.column_dimensions['A'].width = 30
+        for col in ['B', 'C', 'D', 'E', 'F', 'G']:
+            ws3.column_dimensions[col].width = 12
+
+        # Guardar en memoria
+        output = BytesIO()
+        wb.save(output)
+        output.seek(0)
+
+        filename = f"BlanesCapital_Datos_{datetime.now().strftime('%Y%m%d_%H%M')}.xlsx"
+
+        return send_file(
+            output,
+            mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            as_attachment=True,
+            download_name=filename
+        )
+
+    except ImportError:
+        return {'error': 'Librería openpyxl no instalada'}, 500
+    except Exception as e:
+        return {'error': str(e)}, 500
 
 # ============================================
 # INICIALIZACIÓN
