@@ -438,86 +438,260 @@ def export_to_csv(data, periodos, perfiles):
     return send_file(output, mimetype='text/csv', as_attachment=True, download_name=filename)
 
 def export_to_pdf(data, periodos, perfiles):
-    """Exporta a PDF"""
+    """Exporta a PDF - COMPLETO con toda la información"""
     try:
         from reportlab.lib import colors
-        from reportlab.lib.pagesizes import A4
+        from reportlab.lib.pagesizes import A4, landscape
         from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
         from reportlab.lib.units import cm
-        from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
+        from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer, PageBreak
 
         output = BytesIO()
-        doc = SimpleDocTemplate(output, pagesize=A4, topMargin=2*cm, bottomMargin=2*cm)
+        doc = SimpleDocTemplate(output, pagesize=A4, topMargin=1.5*cm, bottomMargin=1.5*cm,
+                               leftMargin=1.5*cm, rightMargin=1.5*cm)
         elements = []
         styles = getSampleStyleSheet()
 
-        # Título
-        title_style = ParagraphStyle('Title', parent=styles['Heading1'], fontSize=18,
-                                     textColor=colors.HexColor('#1a2744'), spaceAfter=20)
-        elements.append(Paragraph("BLANES CAPITAL", title_style))
-        elements.append(Paragraph(f"Exportación de Datos - {datetime.now().strftime('%d/%m/%Y')}", styles['Normal']))
-        elements.append(Spacer(1, 20))
+        # Estilos personalizados
+        title_style = ParagraphStyle('CustomTitle', parent=styles['Heading1'], fontSize=24,
+                                     textColor=colors.HexColor('#1a2744'), spaceAfter=10, alignment=1)
+        subtitle_style = ParagraphStyle('CustomSubtitle', parent=styles['Normal'], fontSize=12,
+                                        textColor=colors.HexColor('#666666'), spaceAfter=20, alignment=1)
+        section_style = ParagraphStyle('SectionTitle', parent=styles['Heading2'], fontSize=14,
+                                       textColor=colors.HexColor('#1a2744'), spaceBefore=15, spaceAfter=10,
+                                       borderColor=colors.HexColor('#1a2744'), borderWidth=1, borderPadding=5)
+        subsection_style = ParagraphStyle('SubSection', parent=styles['Heading3'], fontSize=11,
+                                          textColor=colors.HexColor('#2c4a7c'), spaceBefore=10, spaceAfter=5)
 
-        for periodo_key, periodo_data in data['periodos'].items():
-            # Subtítulo del periodo
-            elements.append(Paragraph(periodo_data.get('title', periodo_key), styles['Heading2']))
-            elements.append(Paragraph(f"Fecha: {periodo_data.get('date', '')}", styles['Normal']))
-            elements.append(Spacer(1, 10))
+        # Colores para tablas
+        header_color = colors.HexColor('#1a2744')
+        alt_row_color = colors.HexColor('#f5f6fa')
+        pablo_color = colors.HexColor('#e8f4fd')
+        ale_color = colors.HexColor('#e8f8e8')
 
-            # Tabla de datos
-            headers = ['Concepto']
-            for perfil in perfiles:
-                if perfil == 'pablo':
-                    headers.append('Pablo')
-                elif perfil == 'ale':
-                    headers.append('Alejandro')
-                elif perfil == 'total':
-                    headers.append('Total')
-
-            table_data = [headers]
-
-            conceptos = [
-                ('Patrimonio Total (M€)', 'patrimonioTotal'),
-                ('Bajo Gestión (M€)', 'bajoGestion'),
-                ('Rentabilidad (%)', 'rentabilidad'),
-                ('Rentas Inmobiliarias (K€)', 'rentasInmob'),
-                ('Cartera Financiera (M€)', 'carteraFinanciera'),
-                ('Cartera Inmobiliaria (M€)', 'carteraInmobiliaria'),
-            ]
-
-            for concepto_nombre, concepto_key in conceptos:
-                row = [concepto_nombre]
-                for perfil in perfiles:
-                    if perfil in periodo_data and concepto_key in periodo_data[perfil]:
-                        row.append(str(periodo_data[perfil][concepto_key]))
-                    else:
-                        row.append('-')
-                table_data.append(row)
-
-            table = Table(table_data, colWidths=[7*cm] + [3*cm] * (len(headers) - 1))
-            table.setStyle(TableStyle([
-                ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#1a2744')),
+        def create_table(data_rows, col_widths=None):
+            """Crea una tabla con estilo corporativo"""
+            if col_widths is None:
+                col_widths = [5*cm] + [3*cm] * (len(data_rows[0]) - 1)
+            table = Table(data_rows, colWidths=col_widths)
+            style = [
+                ('BACKGROUND', (0, 0), (-1, 0), header_color),
                 ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
                 ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
                 ('ALIGN', (0, 1), (0, -1), 'LEFT'),
                 ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-                ('FONTSIZE', (0, 0), (-1, 0), 10),
-                ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-                ('GRID', (0, 0), (-1, -1), 1, colors.black),
-                ('FONTSIZE', (0, 1), (-1, -1), 9),
-                ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.white, colors.HexColor('#f5f6fa')]),
-            ]))
-            elements.append(table)
-            elements.append(Spacer(1, 30))
+                ('FONTSIZE', (0, 0), (-1, 0), 9),
+                ('FONTSIZE', (0, 1), (-1, -1), 8),
+                ('BOTTOMPADDING', (0, 0), (-1, 0), 8),
+                ('TOPPADDING', (0, 0), (-1, -1), 4),
+                ('BOTTOMPADDING', (0, 1), (-1, -1), 4),
+                ('GRID', (0, 0), (-1, -1), 0.5, colors.grey),
+                ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.white, alt_row_color]),
+            ]
+            table.setStyle(TableStyle(style))
+            return table
+
+        # ==========================================
+        # PORTADA
+        # ==========================================
+        elements.append(Spacer(1, 3*cm))
+        elements.append(Paragraph("BLANES CAPITAL", title_style))
+        elements.append(Paragraph("Informe de Gestión Patrimonial", subtitle_style))
+        elements.append(Spacer(1, 1*cm))
+        elements.append(Paragraph(f"Fecha de generación: {datetime.now().strftime('%d de %B de %Y')}", subtitle_style))
+        elements.append(PageBreak())
+
+        # ==========================================
+        # PROCESAR CADA PERIODO
+        # ==========================================
+        for periodo_key, periodo_info in data['periodos'].items():
+            periodo_data = PERIOD_DATA.get(periodo_key, {})
+
+            # TÍTULO DEL PERIODO
+            elements.append(Paragraph(f"📊 {periodo_info.get('title', periodo_key)}", title_style))
+            elements.append(Paragraph(f"Datos a {periodo_info.get('date', '')}", subtitle_style))
+            elements.append(Spacer(1, 0.5*cm))
+
+            # ==========================================
+            # 1. RESUMEN EJECUTIVO
+            # ==========================================
+            elements.append(Paragraph("1. RESUMEN EJECUTIVO", section_style))
+
+            # KPIs principales
+            kpi_data = [['Indicador', 'Pablo', 'Alejandro', 'Total/Combinado']]
+
+            pablo = periodo_data.get('pablo', {})
+            ale = periodo_data.get('ale', {})
+            total = periodo_data.get('total', {})
+
+            kpis = [
+                ('Patrimonio Total', f"{pablo.get('patrimonioTotal', '-')} M€", f"{ale.get('patrimonioTotal', '-')} M€",
+                 f"{pablo.get('patrimonioTotal', 0) + ale.get('patrimonioTotal', 0):.1f} M€"),
+                ('Patrimonio Bajo Gestión', f"{pablo.get('bajoGestion', '-')} M€", f"{ale.get('bajoGestion', '-')} M€",
+                 f"{total.get('bajoGestion', '-')} M€"),
+                ('Patrimonio Empresarial', f"{pablo.get('empresarial', '-')} M€", f"{ale.get('empresarial', '-')} M€",
+                 f"{pablo.get('empresarial', 0) + ale.get('empresarial', 0):.1f} M€"),
+                ('Rentabilidad', f"{pablo.get('rentabilidad', '-')}%", f"{ale.get('rentabilidad', '-')}%",
+                 f"{total.get('rentabilidad', '-')}%"),
+                ('Rentas Inmobiliarias', f"{pablo.get('rentasInmob', '-')} K€", f"{ale.get('rentasInmob', '-')} K€",
+                 f"{total.get('rentasInmob', '-')} K€"),
+            ]
+            for kpi in kpis:
+                kpi_data.append(list(kpi))
+
+            elements.append(create_table(kpi_data, [5*cm, 3.5*cm, 3.5*cm, 4*cm]))
+            elements.append(Spacer(1, 0.5*cm))
+
+            # ==========================================
+            # 2. COMPOSICIÓN DEL PATRIMONIO
+            # ==========================================
+            elements.append(Paragraph("2. COMPOSICIÓN DEL PATRIMONIO", section_style))
+
+            comp_data = [['Tipo de Activo', 'Pablo', 'Alejandro', 'Total']]
+            activos = [
+                ('Cartera Financiera', pablo.get('carteraFinanciera', 0), ale.get('carteraFinanciera', 0)),
+                ('Cartera Inmobiliaria', pablo.get('carteraInmobiliaria', 0), ale.get('carteraInmobiliaria', 0)),
+                ('Inversiones Alternativas', pablo.get('alternativas', 0), ale.get('alternativas', 0)),
+                ('Rotación/Liquidez', pablo.get('rotacion', 0), ale.get('rotacion', 0)),
+            ]
+            for activo, p_val, a_val in activos:
+                comp_data.append([activo, f"{p_val} M€", f"{a_val} M€", f"{p_val + a_val:.1f} M€"])
+
+            elements.append(create_table(comp_data, [5*cm, 3.5*cm, 3.5*cm, 4*cm]))
+            elements.append(Spacer(1, 0.5*cm))
+
+            # ==========================================
+            # 3. CARTERA FINANCIERA
+            # ==========================================
+            elements.append(Paragraph("3. CARTERA FINANCIERA", section_style))
+
+            # Composición por tipo de activo
+            elements.append(Paragraph("3.1 Composición por Tipo de Activo", subsection_style))
+            fin_data = [['Tipo', 'Pablo', 'Alejandro']]
+            fin_data.append(['Renta Fija', f"{pablo.get('rf', '-')}%", f"{ale.get('rf', '-')}%"])
+            fin_data.append(['Renta Variable', f"{pablo.get('rv', '-')}%", f"{ale.get('rv', '-')}%"])
+            fin_data.append(['Mercado Monetario', f"{pablo.get('mp', '-')}%", f"{ale.get('mp', '-')}%"])
+            elements.append(create_table(fin_data, [5*cm, 4*cm, 4*cm]))
+            elements.append(Spacer(1, 0.3*cm))
+
+            # Distribución por bancos
+            elements.append(Paragraph("3.2 Distribución por Entidades", subsection_style))
+            pablo_bancos = pablo.get('bancos', {})
+            ale_bancos = ale.get('bancos', {})
+            bancos_data = [['Entidad', 'Pablo', 'Alejandro']]
+            bancos_data.append(['JP Morgan', f"{pablo_bancos.get('jp', '-')}%", f"{ale_bancos.get('jp', '-')}%"])
+            bancos_data.append(['Goldman Sachs', f"{pablo_bancos.get('gs', '-')}%", f"{ale_bancos.get('gs', '-')}%"])
+            bancos_data.append(['Banca March', f"{pablo_bancos.get('march', '-')}%", f"{ale_bancos.get('march', '-')}%"])
+            bancos_data.append(['Andbank', f"{pablo_bancos.get('andbank', '-')}%", f"{ale_bancos.get('andbank', '-')}%"])
+            elements.append(create_table(bancos_data, [5*cm, 4*cm, 4*cm]))
+            elements.append(Spacer(1, 0.3*cm))
+
+            # Exposición USD
+            elements.append(Paragraph("3.3 Exposición a Divisas", subsection_style))
+            usd_data = [['Divisa', 'Pablo', 'Alejandro']]
+            usd_data.append(['Exposición USD', f"{pablo.get('exposicionUSD', '-')}%", f"{ale.get('exposicionUSD', '-')}%"])
+            elements.append(create_table(usd_data, [5*cm, 4*cm, 4*cm]))
+            elements.append(Spacer(1, 0.5*cm))
+
+            # ==========================================
+            # 4. CARTERA INMOBILIARIA
+            # ==========================================
+            elements.append(Paragraph("4. CARTERA INMOBILIARIA", section_style))
+
+            inmob_data = [['Concepto', 'Pablo', 'Alejandro', 'Total']]
+            inmob_data.append(['Valor Cartera', f"{pablo.get('carteraInmobiliaria', '-')} M€",
+                              f"{ale.get('carteraInmobiliaria', '-')} M€",
+                              f"{pablo.get('carteraInmobiliaria', 0) + ale.get('carteraInmobiliaria', 0):.1f} M€"])
+            inmob_data.append(['Rentas Anuales', f"{pablo.get('rentasInmob', '-')} K€",
+                              f"{ale.get('rentasInmob', '-')} K€",
+                              f"{pablo.get('rentasInmob', 0) + ale.get('rentasInmob', 0)} K€"])
+            if 'ocupacion' in pablo:
+                inmob_data.append(['Ocupación', f"{pablo.get('ocupacion', '-')}%", f"{ale.get('ocupacion', '-')}%", '-'])
+
+            elements.append(create_table(inmob_data, [5*cm, 3.5*cm, 3.5*cm, 4*cm]))
+            elements.append(Spacer(1, 0.5*cm))
+
+            # ==========================================
+            # 5. INVERSIONES ALTERNATIVAS
+            # ==========================================
+            elements.append(Paragraph("5. INVERSIONES ALTERNATIVAS", section_style))
+
+            alt_data = [['Concepto', 'Pablo', 'Alejandro', 'Total']]
+            alt_data.append(['Valor Total', f"{pablo.get('alternativas', '-')} M€",
+                            f"{ale.get('alternativas', '-')} M€",
+                            f"{pablo.get('alternativas', 0) + ale.get('alternativas', 0):.1f} M€"])
+            elements.append(create_table(alt_data, [5*cm, 3.5*cm, 3.5*cm, 4*cm]))
+            elements.append(Spacer(1, 0.5*cm))
+
+            # ==========================================
+            # 6. ESTRUCTURA DE COSTES
+            # ==========================================
+            estructura = periodo_data.get('estructura', {})
+            if estructura:
+                elements.append(Paragraph("6. ESTRUCTURA DE COSTES", section_style))
+
+                coste_data = [['Concepto', 'Valor']]
+                coste_data.append(['Coste Total Anual', f"{estructura.get('total', '-'):,}€".replace(',', '.')])
+                coste_data.append(['Ratio sobre Patrimonio', f"{estructura.get('ratio', '-')}%"])
+                coste_data.append(['Presupuesto', f"{estructura.get('budget', '-'):,}€".replace(',', '.')])
+
+                elements.append(create_table(coste_data, [6*cm, 6*cm]))
+                elements.append(Spacer(1, 0.3*cm))
+
+                # Desglose mensual si existe
+                mensual = estructura.get('mensual', {})
+                if mensual:
+                    elements.append(Paragraph("6.1 Desglose Mensual (K€)", subsection_style))
+                    meses = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
+                    meses_keys = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic']
+                    mensual_data = [meses[:len(mensual)]]
+                    valores = [f"{mensual.get(k, '-')}" for k in meses_keys[:len(mensual)]]
+                    mensual_data.append(valores)
+                    elements.append(create_table(mensual_data, [1.5*cm] * len(mensual)))
+
+            elements.append(PageBreak())
+
+        # ==========================================
+        # EVOLUCIÓN HISTÓRICA
+        # ==========================================
+        if data.get('historico'):
+            elements.append(Paragraph("📈 EVOLUCIÓN HISTÓRICA", title_style))
+            elements.append(Spacer(1, 0.5*cm))
+
+            hist = data['historico']
+            years = hist.get('years', [])
+
+            # Patrimonio Bajo Gestión
+            elements.append(Paragraph("Patrimonio Bajo Gestión (M€)", section_style))
+            hist_gestion = [['Perfil'] + years]
+            hist_gestion.append(['Pablo'] + [str(v) for v in hist.get('pablo', {}).get('bajoGestion', [])])
+            hist_gestion.append(['Alejandro'] + [str(v) for v in hist.get('ale', {}).get('bajoGestion', [])])
+            elements.append(create_table(hist_gestion, [3*cm] + [2*cm] * len(years)))
+            elements.append(Spacer(1, 0.5*cm))
+
+            # Patrimonio Empresarial
+            elements.append(Paragraph("Patrimonio Empresarial (M€)", section_style))
+            hist_emp = [['Perfil'] + years]
+            hist_emp.append(['Pablo'] + [str(v) for v in hist.get('pablo', {}).get('empresarial', [])])
+            hist_emp.append(['Alejandro'] + [str(v) for v in hist.get('ale', {}).get('empresarial', [])])
+            elements.append(create_table(hist_emp, [3*cm] + [2*cm] * len(years)))
+
+        # Pie de página
+        elements.append(Spacer(1, 1*cm))
+        elements.append(Paragraph("_" * 80, styles['Normal']))
+        elements.append(Paragraph("Documento generado automáticamente por Blanes Capital Dashboard", subtitle_style))
+        elements.append(Paragraph("Este documento es confidencial y está destinado únicamente al uso interno.", subtitle_style))
 
         doc.build(elements)
         output.seek(0)
 
-        filename = f"BlanesCapital_{datetime.now().strftime('%Y%m%d_%H%M')}.pdf"
+        filename = f"BlanesCapital_Informe_{datetime.now().strftime('%Y%m%d_%H%M')}.pdf"
         return send_file(output, mimetype='application/pdf', as_attachment=True, download_name=filename)
 
     except ImportError:
         return {'error': 'Librería reportlab no instalada'}, 500
+    except Exception as e:
+        return {'error': str(e)}, 500
 
 # ============================================
 # INICIALIZACIÓN
