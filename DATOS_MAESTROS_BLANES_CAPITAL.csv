@@ -1,0 +1,183 @@
+;;;;BLANES CAPITAL - DATOS MAESTROS;;;;
+;;;;Archivo de configuracion para actualizar datos del Dashboard;;;;
+;;;;Instrucciones: Rellena los campos amarillos para cada periodo;;;;
+;;;;;;;;
+====================================================================================================
+SECCION 1: CONFIGURACION DEL PERIODO
+====================================================================================================
+;;;;;;;;
+CAMPO;CIERRE_2024;1S_2025;2S_2025;CIERRE_2025;1S_2026;2S_2026;CIERRE_2026
+;;;;;;;;
+Titulo del Periodo;Cierre 2024;1er Semestre 2025;2do Semestre 2025;Cierre 2025;1er Semestre 2026;2do Semestre 2026;Cierre 2026
+Fecha de Corte;31 de diciembre de 2024;30 de junio de 2025;;;;;;;
+;;;;;;;;
+====================================================================================================
+SECCION 2: DATOS TOTALES (COMBINADO PABLO + ALEJANDRO)
+====================================================================================================
+;;;;;;;;
+CAMPO;CIERRE_2024;1S_2025;2S_2025;CIERRE_2025;1S_2026;2S_2026;CIERRE_2026;DESCRIPCION
+;;;;;;;;
+Patrimonio Bajo Gestion (M);161.06;175.1;;;;;;Suma de bajo gestion Pablo + Ale
+Rentabilidad (%);6.36;-0.03;;;;;;Promedio ponderado
+Rentas Inmobiliarias (K);364;748;;;;;;Suma rentas Pablo + Ale en miles
+Coste Estructura (%);0.35;0.33;;;;;;Ratio coste/patrimonio
+Coste Estructura Total (K);547;278;;;;;;Total gastos estructura en miles
+;;;;;;;;
+====================================================================================================
+SECCION 3: DATOS PABLO
+====================================================================================================
+;;;;;;;;
+CAMPO;CIERRE_2024;1S_2025;2S_2025;CIERRE_2025;1S_2026;2S_2026;CIERRE_2026;DESCRIPCION
+;;;;;;;;
+Patrimonio Total (M);126.09;128.7;;;;;;Total patrimonio en millones
+Patrimonio Bajo Gestion (M);88.43;96.4;;;;;;Gestionado activamente
+Patrimonio Empresarial (M);37.66;32.3;;;;;;Participaciones empresariales
+Rentabilidad (%);5.69;-0.14;;;;;;Rentabilidad del periodo
+Rentabilidad sin USD (%);-;3.07;;;;;;Rentabilidad excluyendo efecto divisa
+Rentas Inmobiliarias (K);186;385;;;;;;Rentas cobradas en miles
+Cartera Financiera (M);46.43;55.8;;;;;;Activos financieros
+Cartera Inmobiliaria (M);28.0;28.0;;;;;;Valor inmuebles
+Inversiones Alternativas (M);1.68;2.2;;;;;;Private equity, etc
+Rotacion Cartera (%);3.44;3.44;;;;;;Porcentaje rotacion anual
+Exposicion USD (%);30;29;;;;;;Porcentaje expuesto a dolar
+Ocupacion Inmuebles (%);-;79;;;;;;Tasa ocupacion inmuebles
+;;;;;;;;
+--- COMPOSICION CARTERA FINANCIERA PABLO ---;;;;;;;;;
+Renta Fija (%);78;75;;;;;;Porcentaje en bonos
+Renta Variable (%);18;21;;;;;;Porcentaje en acciones
+Mercado Monetario (%);4;4;;;;;;Porcentaje en liquidez
+;;;;;;;;
+--- DISTRIBUCION POR BANCOS PABLO ---;;;;;;;;;
+JP Morgan (%);58;60;;;;;;
+Goldman Sachs (%);22;21;;;;;;
+Banca March (%);13;12;;;;;;
+Andbank (%);7;7;;;;;;
+;;;;;;;;
+====================================================================================================
+SECCION 4: DATOS ALEJANDRO
+====================================================================================================
+;;;;;;;;
+CAMPO;CIERRE_2024;1S_2025;2S_2025;CIERRE_2025;1S_2026;2S_2026;CIERRE_2026;DESCRIPCION
+;;;;;;;;
+Patrimonio Total (M);150.08;143.4;;;;;;Total patrimonio en millones
+Patrimonio Bajo Gestion (M);72.63;78.8;;;;;;Gestionado activamente
+Patrimonio Empresarial (M);77.45;64.7;;;;;;Participaciones empresariales
+Rentabilidad (%);7.22;0.08;;;;;;Rentabilidad del periodo
+Rentabilidad sin USD (%);-;3.86;;;;;;Rentabilidad excluyendo efecto divisa
+Rentas Inmobiliarias (K);178;363;;;;;;Rentas cobradas en miles
+Cartera Financiera (M);34.50;43.0;;;;;;Activos financieros
+Cartera Inmobiliaria (M);21.16;21.6;;;;;;Valor inmuebles
+Inversiones Alternativas (M);4.37;5.4;;;;;;Private equity, etc
+Rotacion Cartera (%);3.44;3.44;;;;;;Porcentaje rotacion anual
+Exposicion USD (%);32;27;;;;;;Porcentaje expuesto a dolar
+Ocupacion Inmuebles (%);-;88;;;;;;Tasa ocupacion inmuebles
+;;;;;;;;
+--- COMPOSICION CARTERA FINANCIERA ALEJANDRO ---;;;;;;;;;
+Renta Fija (%);52;50;;;;;;Porcentaje en bonos
+Renta Variable (%);45;47;;;;;;Porcentaje en acciones
+Mercado Monetario (%);3;2;;;;;;Porcentaje en liquidez
+;;;;;;;;
+--- DISTRIBUCION POR BANCOS ALEJANDRO ---;;;;;;;;;
+JP Morgan (%);64;66;;;;;;
+Goldman Sachs (%);16;14;;;;;;
+Andbank (%);12;12;;;;;;
+Banca March (%);8;8;;;;;;
+;;;;;;;;
+====================================================================================================
+SECCION 5: ESTRUCTURA DE COSTES
+====================================================================================================
+;;;;;;;;
+CAMPO;CIERRE_2024;1S_2025;2S_2025;CIERRE_2025;1S_2026;2S_2026;CIERRE_2026;DESCRIPCION
+;;;;;;;;
+Total Estructura (EUR);546915;278000;;;;;;Gasto total en euros
+Ratio sobre Patrimonio (%);0.35;0.33;;;;;;Coste/patrimonio
+Budget Anual (EUR);543740;315000;;;;;;Presupuesto aprobado
+;;;;;;;;
+--- COSTES MENSUALES (K EUR) ---;;;;;;;;;
+Enero;45;44;;;;;;
+Febrero;46;48;;;;;;
+Marzo;42;40;;;;;;
+Abril;45;44;;;;;;
+Mayo;44;40;;;;;;
+Junio;48;63;;;;;;
+Julio;46;;;;;;;
+Agosto;44;;;;;;;
+Septiembre;45;;;;;;;
+Octubre;47;;;;;;;
+Noviembre;48;;;;;;;
+Diciembre;47;;;;;;;
+;;;;;;;;
+====================================================================================================
+SECCION 6: DATOS HISTORICOS (EVOLUCION PATRIMONIAL)
+====================================================================================================
+;;;;;;;;
+CAMPO;2020;2021;2022;2023;2024;1S_2025;2S_2025;CIERRE_2025
+;;;;;;;;
+--- PABLO ---;;;;;;;;;
+Bajo Gestion (M);111.9;86.5;85.0;87.9;88.43;96.4;;;
+Empresarial (M);20.2;27.5;43.5;36.1;37.66;32.3;;;
+;;;;;;;;
+--- ALEJANDRO ---;;;;;;;;;
+Bajo Gestion (M);91.2;67.6;66.8;70.0;72.63;78.8;;;
+Empresarial (M);40.9;56.5;91.8;74.7;77.45;64.7;;;
+;;;;;;;;
+====================================================================================================
+SECCION 7: CASH FLOW Y RENTAS
+====================================================================================================
+;;;;;;;;
+CAMPO;CIERRE_2024;1S_2025;2S_2025;CIERRE_2025;1S_2026;2S_2026;CIERRE_2026;DESCRIPCION
+;;;;;;;;
+--- TOTAL FAMILIA ---;;;;;;;;;
+Ingresos Anuales (K);-;1107;;;;;;Todos los ingresos
+Ingresos Optimizados (K);-;600;;;;;;Solo inmuebles
+;;;;;;;;
+--- PABLO ---;;;;;;;;;
+Ingresos Anuales (K);-;220;;;;;;
+Ingresos Optimizados (K);-;180;;;;;;
+;;;;;;;;
+--- ALEJANDRO ---;;;;;;;;;
+Ingresos Anuales (K);-;907;;;;;;
+Ingresos Optimizados (K);-;420;;;;;;
+;;;;;;;;
+====================================================================================================
+SECCION 8: DATOS FISCALES
+====================================================================================================
+;;;;;;;;
+CAMPO;CIERRE_2024;1S_2025;2S_2025;CIERRE_2025;1S_2026;2S_2026;CIERRE_2026;DESCRIPCION
+;;;;;;;;
+--- TOTAL ---;;;;;;;;;
+Generacion Total (K);-;11180;;;;;;Riqueza generada
+Impuesto Patrimonio (K);-;462;;;;;;IP - Fijo
+Impuesto Sociedades (K);-;417;;;;;;IS - Variable
+IRPF (K);-;232;;;;;;Variable con necesidades
+;;;;;;;;
+--- PABLO ---;;;;;;;;;
+Generacion (K);-;5490;;;;;;
+Impuesto Patrimonio (K);-;278;;;;;;
+Impuesto Sociedades (K);-;184;;;;;;
+IRPF (K);-;124;;;;;;
+Ganancias Realizadas (K);-;1380;;;;;;
+Ganancias Latentes (K);-;4110;;;;;;
+;;;;;;;;
+--- ALEJANDRO ---;;;;;;;;;
+Generacion (K);-;5690;;;;;;
+Impuesto Patrimonio (K);-;184;;;;;;
+Impuesto Sociedades (K);-;233;;;;;;
+IRPF (K);-;109;;;;;;
+Ganancias Realizadas (K);-;1710;;;;;;
+Ganancias Latentes (K);-;3980;;;;;;
+;;;;;;;;
+====================================================================================================
+NOTAS Y LEYENDA
+====================================================================================================
+;;;;;;;;
+M = Millones de Euros;;;;;;;;
+K = Miles de Euros;;;;;;;;
+% = Porcentaje;;;;;;;;
+;;;;;;;;
+Para anadir un nuevo periodo:;;;;;;;;
+1. Copia la columna del periodo anterior;;;;;;;;
+2. Rellena los nuevos valores;;;;;;;;
+3. Actualiza el archivo app.js con los nuevos datos;;;;;;;;
+;;;;;;;;
+Contacto: alejandro@blanescapital.com;;;;;;;;
