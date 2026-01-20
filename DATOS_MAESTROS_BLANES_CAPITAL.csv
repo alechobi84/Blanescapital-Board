@@ -1,183 +1,352 @@
-;;;;BLANES CAPITAL - DATOS MAESTROS;;;;
-;;;;Archivo de configuracion para actualizar datos del Dashboard;;;;
-;;;;Instrucciones: Rellena los campos amarillos para cada periodo;;;;
-;;;;;;;;
-====================================================================================================
-SECCION 1: CONFIGURACION DEL PERIODO
-====================================================================================================
-;;;;;;;;
-CAMPO;CIERRE_2024;1S_2025;2S_2025;CIERRE_2025;1S_2026;2S_2026;CIERRE_2026
-;;;;;;;;
-Titulo del Periodo;Cierre 2024;1er Semestre 2025;2do Semestre 2025;Cierre 2025;1er Semestre 2026;2do Semestre 2026;Cierre 2026
-Fecha de Corte;31 de diciembre de 2024;30 de junio de 2025;;;;;;;
-;;;;;;;;
-====================================================================================================
-SECCION 2: DATOS TOTALES (COMBINADO PABLO + ALEJANDRO)
-====================================================================================================
-;;;;;;;;
-CAMPO;CIERRE_2024;1S_2025;2S_2025;CIERRE_2025;1S_2026;2S_2026;CIERRE_2026;DESCRIPCION
-;;;;;;;;
-Patrimonio Bajo Gestion (M);161.06;175.1;;;;;;Suma de bajo gestion Pablo + Ale
-Rentabilidad (%);6.36;-0.03;;;;;;Promedio ponderado
-Rentas Inmobiliarias (K);364;748;;;;;;Suma rentas Pablo + Ale en miles
-Coste Estructura (%);0.35;0.33;;;;;;Ratio coste/patrimonio
-Coste Estructura Total (K);547;278;;;;;;Total gastos estructura en miles
-;;;;;;;;
-====================================================================================================
-SECCION 3: DATOS PABLO
-====================================================================================================
-;;;;;;;;
-CAMPO;CIERRE_2024;1S_2025;2S_2025;CIERRE_2025;1S_2026;2S_2026;CIERRE_2026;DESCRIPCION
-;;;;;;;;
-Patrimonio Total (M);126.09;128.7;;;;;;Total patrimonio en millones
-Patrimonio Bajo Gestion (M);88.43;96.4;;;;;;Gestionado activamente
-Patrimonio Empresarial (M);37.66;32.3;;;;;;Participaciones empresariales
-Rentabilidad (%);5.69;-0.14;;;;;;Rentabilidad del periodo
-Rentabilidad sin USD (%);-;3.07;;;;;;Rentabilidad excluyendo efecto divisa
-Rentas Inmobiliarias (K);186;385;;;;;;Rentas cobradas en miles
-Cartera Financiera (M);46.43;55.8;;;;;;Activos financieros
-Cartera Inmobiliaria (M);28.0;28.0;;;;;;Valor inmuebles
-Inversiones Alternativas (M);1.68;2.2;;;;;;Private equity, etc
-Rotacion Cartera (%);3.44;3.44;;;;;;Porcentaje rotacion anual
-Exposicion USD (%);30;29;;;;;;Porcentaje expuesto a dolar
-Ocupacion Inmuebles (%);-;79;;;;;;Tasa ocupacion inmuebles
-;;;;;;;;
+BLANES CAPITAL - DATOS MAESTROS COMPLETOS;;;;;;;;;
+Dashboard Financiero - Todos los datos necesarios para reproducir la web;;;;;;;;;
+;;;;;;;;;
+=====================================;;;;;;;;;
+SECCION 1: CONFIGURACION GENERAL;;;;;;;;;
+=====================================;;;;;;;;;
+;;;;;;;;;
+Campo;Valor;Descripcion;;;;;;;
+Titulo Dashboard;Consejo Blanes Capital;;;;;;;;
+Periodos Disponibles;2024, 1S2025;;;;;;;;
+Perfiles;Total, Pablo, Alejandro, Comparar;;;;;;;;
+;;;;;;;;;
+=====================================;;;;;;;;;
+SECCION 2: DATOS POR PERIODO - TOTALES;;;;;;;;;
+=====================================;;;;;;;;;
+;;;;;;;;;
+CAMPO;CIERRE_2024;1S_2025;2S_2025;CIERRE_2025;1S_2026;DESCRIPCION;;;
+;;;;;;;;;
+Titulo Periodo;Cierre 2024;1er Semestre 2025;;;;;;;;;
+Fecha Corte;31 de diciembre de 2024;30 de junio de 2025;;;;;;;;;
+Patrimonio Bajo Gestion (M);161.06;175.1;;;;;Suma Pablo + Ale;;;
+Rentabilidad (%);6.36;-0.03;;;;;Promedio ponderado;;;
+Rentas Inmobiliarias (K);364;748;;;;;Total rentas;;;
+Coste Estructura (%);0.35;0.33;;;;;Ratio coste/patrimonio;;;
+Coste Estructura Total (K);547;278;;;;;En miles euros;;;
+Budget (K);544;315;;;;;Presupuesto aprobado;;;
+Variacion vs Budget (K);+3;-37;;;;;Diferencia real-budget;;;
+;;;;;;;;;
+=====================================;;;;;;;;;
+SECCION 3: DATOS PABLO - PATRIMONIO;;;;;;;;;
+=====================================;;;;;;;;;
+;;;;;;;;;
+CAMPO;CIERRE_2024;1S_2025;2S_2025;CIERRE_2025;1S_2026;DESCRIPCION;;;
+;;;;;;;;;
+Patrimonio Total (M);126.09;128.7;;;;;Todo el patrimonio;;;
+Patrimonio Bajo Gestion (M);88.43;96.4;;;;;Gestionado activamente;;;
+Patrimonio Empresarial (M);37.66;32.3;;;;;Freepik y otros;;;
+Rentabilidad (%);5.69;-0.14;;;;;Rentabilidad periodo;;;
+Rentabilidad sin USD (%);-;3.07;;;;;Sin efecto divisa;;;
+Rentas Inmobiliarias (K);186;385;;;;;Cobradas en periodo;;;
+Cartera Financiera (M);46.43;55.8;;;;;Activos financieros;;;
+Cartera Inmobiliaria (M);28.0;28.0;;;;;Valor inmuebles;;;
+Inversiones Alternativas (M);1.68;2.2;;;;;Private equity etc;;;
+Rotacion (M);3.44;3.44;;;;;Activos en rotacion;;;
+Exposicion USD (%);30;29;;;;;% expuesto a dolar;;;
+Ocupacion Inmuebles (%);-;79;;;;;Tasa ocupacion;;;
+;;;;;;;;;
 --- COMPOSICION CARTERA FINANCIERA PABLO ---;;;;;;;;;
-Renta Fija (%);78;75;;;;;;Porcentaje en bonos
-Renta Variable (%);18;21;;;;;;Porcentaje en acciones
-Mercado Monetario (%);4;4;;;;;;Porcentaje en liquidez
-;;;;;;;;
---- DISTRIBUCION POR BANCOS PABLO ---;;;;;;;;;
-JP Morgan (%);58;60;;;;;;
-Goldman Sachs (%);22;21;;;;;;
-Banca March (%);13;12;;;;;;
-Andbank (%);7;7;;;;;;
-;;;;;;;;
-====================================================================================================
-SECCION 4: DATOS ALEJANDRO
-====================================================================================================
-;;;;;;;;
-CAMPO;CIERRE_2024;1S_2025;2S_2025;CIERRE_2025;1S_2026;2S_2026;CIERRE_2026;DESCRIPCION
-;;;;;;;;
-Patrimonio Total (M);150.08;143.4;;;;;;Total patrimonio en millones
-Patrimonio Bajo Gestion (M);72.63;78.8;;;;;;Gestionado activamente
-Patrimonio Empresarial (M);77.45;64.7;;;;;;Participaciones empresariales
-Rentabilidad (%);7.22;0.08;;;;;;Rentabilidad del periodo
-Rentabilidad sin USD (%);-;3.86;;;;;;Rentabilidad excluyendo efecto divisa
-Rentas Inmobiliarias (K);178;363;;;;;;Rentas cobradas en miles
-Cartera Financiera (M);34.50;43.0;;;;;;Activos financieros
-Cartera Inmobiliaria (M);21.16;21.6;;;;;;Valor inmuebles
-Inversiones Alternativas (M);4.37;5.4;;;;;;Private equity, etc
-Rotacion Cartera (%);3.44;3.44;;;;;;Porcentaje rotacion anual
-Exposicion USD (%);32;27;;;;;;Porcentaje expuesto a dolar
-Ocupacion Inmuebles (%);-;88;;;;;;Tasa ocupacion inmuebles
-;;;;;;;;
+Renta Fija (%);78;75;;;;;Bonos;;;
+Renta Variable (%);18;21;;;;;Acciones;;;
+Mercado Monetario (%);4;4;;;;;Liquidez;;;
+Renta Fija (M);-;41.9;;;;;Valor absoluto;;;
+Renta Variable (M);-;11.7;;;;;Valor absoluto;;;
+Mercado Monetario (M);-;2.1;;;;;Valor absoluto (Oro);;;
+;;;;;;;;;
+--- RENTABILIDAD POR TIPO ACTIVO PABLO ---;;;;;;;;;
+Rent. RF sin USD (%);-;+1.86;;;;;;;;;
+Rent. RF con USD (%);-;-1.94;;;;;;;;;
+Rent. RV sin USD (%);-;+12.16;;;;;;;;;
+Rent. RV con USD (%);-;+7.84;;;;;;;;;
+Rent. Oro sin USD (%);-;+18.28;;;;;;;;;
+Rent. Oro con USD (%);-;+12.96;;;;;;;;;
+Exposicion USD RF (%);-;41;;;;;;;;;
+Exposicion USD RV (%);-;62;;;;;;;;;
+Exposicion USD Oro (%);-;32;;;;;;;;;
+;;;;;;;;;
+--- BANCOS PABLO ---;;;;;;;;;
+JP Morgan (%);58;60;;;;;;;;;
+Goldman Sachs (%);22;21;;;;;;;;;
+Banca March (%);13;12;;;;;;;;;
+Andbank (%);7;7;;;;;;;;;
+;;;;;;;;;
+=====================================;;;;;;;;;
+SECCION 4: DATOS ALEJANDRO - PATRIMONIO;;;;;;;;;
+=====================================;;;;;;;;;
+;;;;;;;;;
+CAMPO;CIERRE_2024;1S_2025;2S_2025;CIERRE_2025;1S_2026;DESCRIPCION;;;
+;;;;;;;;;
+Patrimonio Total (M);150.08;143.4;;;;;Todo el patrimonio;;;
+Patrimonio Bajo Gestion (M);72.63;78.8;;;;;Gestionado activamente;;;
+Patrimonio Empresarial (M);77.45;64.7;;;;;Freepik y otros;;;
+Rentabilidad (%);7.22;0.08;;;;;Rentabilidad periodo;;;
+Rentabilidad sin USD (%);-;3.86;;;;;Sin efecto divisa;;;
+Rentas Inmobiliarias (K);178;363;;;;;Cobradas en periodo;;;
+Cartera Financiera (M);34.50;43.0;;;;;Activos financieros;;;
+Cartera Inmobiliaria (M);21.16;21.6;;;;;Valor inmuebles;;;
+Inversiones Alternativas (M);4.37;5.4;;;;;Private equity etc;;;
+Rotacion (M);3.44;3.44;;;;;Activos en rotacion;;;
+Exposicion USD (%);32;27;;;;;% expuesto a dolar;;;
+Ocupacion Inmuebles (%);-;88;;;;;Tasa ocupacion;;;
+;;;;;;;;;
 --- COMPOSICION CARTERA FINANCIERA ALEJANDRO ---;;;;;;;;;
-Renta Fija (%);52;50;;;;;;Porcentaje en bonos
-Renta Variable (%);45;47;;;;;;Porcentaje en acciones
-Mercado Monetario (%);3;2;;;;;;Porcentaje en liquidez
-;;;;;;;;
---- DISTRIBUCION POR BANCOS ALEJANDRO ---;;;;;;;;;
-JP Morgan (%);64;66;;;;;;
-Goldman Sachs (%);16;14;;;;;;
-Andbank (%);12;12;;;;;;
-Banca March (%);8;8;;;;;;
-;;;;;;;;
-====================================================================================================
-SECCION 5: ESTRUCTURA DE COSTES
-====================================================================================================
-;;;;;;;;
-CAMPO;CIERRE_2024;1S_2025;2S_2025;CIERRE_2025;1S_2026;2S_2026;CIERRE_2026;DESCRIPCION
-;;;;;;;;
-Total Estructura (EUR);546915;278000;;;;;;Gasto total en euros
-Ratio sobre Patrimonio (%);0.35;0.33;;;;;;Coste/patrimonio
-Budget Anual (EUR);543740;315000;;;;;;Presupuesto aprobado
-;;;;;;;;
---- COSTES MENSUALES (K EUR) ---;;;;;;;;;
-Enero;45;44;;;;;;
-Febrero;46;48;;;;;;
-Marzo;42;40;;;;;;
-Abril;45;44;;;;;;
-Mayo;44;40;;;;;;
-Junio;48;63;;;;;;
-Julio;46;;;;;;;
-Agosto;44;;;;;;;
-Septiembre;45;;;;;;;
-Octubre;47;;;;;;;
-Noviembre;48;;;;;;;
-Diciembre;47;;;;;;;
-;;;;;;;;
-====================================================================================================
-SECCION 6: DATOS HISTORICOS (EVOLUCION PATRIMONIAL)
-====================================================================================================
-;;;;;;;;
-CAMPO;2020;2021;2022;2023;2024;1S_2025;2S_2025;CIERRE_2025
-;;;;;;;;
+Renta Fija (%);52;50;;;;;Bonos;;;
+Renta Variable (%);45;47;;;;;Acciones;;;
+Mercado Monetario (%);3;2;;;;;Liquidez;;;
+Renta Fija (M);-;21.5;;;;;Valor absoluto;;;
+Renta Variable (M);-;20.2;;;;;Valor absoluto;;;
+Mercado Monetario (M);-;1.0;;;;;Valor absoluto (Oro);;;
+;;;;;;;;;
+--- RENTABILIDAD POR TIPO ACTIVO ALEJANDRO ---;;;;;;;;;
+Rent. RF sin USD (%);-;+4.34;;;;;;;;;
+Rent. RF con USD (%);-;-2.66;;;;;;;;;
+Rent. RV sin USD (%);-;+16.17;;;;;;;;;
+Rent. RV con USD (%);-;+9.17;;;;;;;;;
+Rent. Oro sin USD (%);-;+19.33;;;;;;;;;
+Rent. Oro con USD (%);-;+12.33;;;;;;;;;
+Exposicion USD RF (%);-;33;;;;;;;;;
+Exposicion USD RV (%);-;68;;;;;;;;;
+Exposicion USD Oro (%);-;71;;;;;;;;;
+;;;;;;;;;
+--- BANCOS ALEJANDRO ---;;;;;;;;;
+JP Morgan (%);64;66;;;;;;;;;
+Goldman Sachs (%);16;14;;;;;;;;;
+Andbank (%);12;12;;;;;;;;;
+Banca March (%);8;8;;;;;;;;;
+;;;;;;;;;
+=====================================;;;;;;;;;
+SECCION 5: CARTERA INMOBILIARIA DETALLADA;;;;;;;;;
+=====================================;;;;;;;;;
+;;;;;;;;;
+--- PABLO INMOBILIARIA ---;;;;;;;;;
+TIPO;INVERSION_M;PORCENTAJE;EXPLOTACION;RENT_2T;BENCHMARK;;CIERRE_2024;1S_2025;
+Oficinas;6.7;25%;100%;4.50%;5-9%;;;;
+Alquiler Turistico;6.0;22%;100%;5.51%;4-8%;;;;
+Larga Estancia;10.5;35%;90%;2.45%;3-3.5%;;;;
+Uso Propio;4.2;16%;-;N/A;-;;;;
+TOTAL PABLO INMOB;28.0;100%;82.5%;;;;;;
+;;;;;;;;;
+--- ALEJANDRO INMOBILIARIA ---;;;;;;;;;
+TIPO;INVERSION_M;PORCENTAJE;EXPLOTACION;RENT_2T;BENCHMARK;;CIERRE_2024;1S_2025;
+Oficinas;6.8;31%;100%;4.42%;5-9%;;;;
+Alquiler Turistico;3.7;17%;100%;6.77%;4-8%;;;;
+Larga Estancia;10.5;49%;100%;2.56%;3-3.5%;;;;
+Uso Propio;0.407;2%;-;N/A;-;;;;
+TOTAL ALE INMOB;21.6;100%;97.1%;;;;;;
+;;;;;;;;;
+--- REVALORIZACION POR UBICACION ---;;;;;;;;;
+UBICACION;VALOR_M;REVALORIZ_PCT;;;;;;
+Malaga Centro;37.1;+3.21%;;;;;;
+Malaga;9.3;+6.63%;;;;;;
+Madrid Salamanca;4.8;+11.05%;;;;;;
+La Cala del Moral;1.6;+10.97%;;;;;;
+Antequera;1.5;+8.48%;;;;;;
+MEDIA PONDERADA;-;+5.14%;;;;;;
+;;;;;;;;;
+=====================================;;;;;;;;;
+SECCION 6: INVERSIONES ALTERNATIVAS DETALLADAS;;;;;;;;;
+=====================================;;;;;;;;;
+;;;;;;;;;
+--- PABLO ALTERNATIVAS ---;;;;;;;;;
+INVERSION;TIPO;INVERTIDO_K;VALORACION_K;RENT_1S;RENT_ORIGEN;USD_PCT;;;
+Happers;VC;636;636;0.00%;+5.80%;No;;;
+Kibo Ventures III;VC;167;154;-1.38%;-8.00%;No;;;
+Pool Comet;VC;25;47;+89.70%;+89.70%;No;;;
+Vintage 2022;Buyout;424;439;-8.27%;+3.54%;Si;;;
+Claret Growth III;P.Credit;806;735;+3.84%;+21.57%;No;;;
+GS Vintage RE;P.RE;74;60;-18.63%;-19.93%;Si;;;
+TOTAL PABLO ALT;-;2132;2071;-;-;23%;;;
+Comprometido Pablo;-;2800;-;-;-;54%;;;
+;;;;;;;;;
+--- ALEJANDRO ALTERNATIVAS ---;;;;;;;;;
+INVERSION;TIPO;INVERTIDO_K;VALORACION_K;RENT_1S;RENT_ORIGEN;USD_PCT;;;
+Happers;VC;636;636;0.00%;+5.80%;No;;;
+Kibo Ventures III;VC;167;154;-1.38%;-8.00%;No;;;
+Eoniq Mediterranean;VC;80;110;+36.25%;+36.25%;No;;;
+GS European Credit;P.Credit;1000;1150;+3.82%;+15.08%;No;;;
+Claret Growth III;P.Credit;2000;1840;+3.84%;+21.57%;No;;;
+EQT Active Core;Infra;565;622;+11.68%;+15.01%;No;;;
+TOTAL ALE ALT;-;4448;4512;-;-;13%;;;
+Comprometido Ale;-;3600;-;-;-;42%;;;
+;;;;;;;;;
+--- ACTIVOS EN ROTACION ---;;;;;;;;;
+ACTIVO;UNIDADES;VALOR_K;FECHA;ESTADO;;;;
+Barcelona Mallorca 243;3;1020;Jul 2024;Vendido;;;;
+Madrid Trafalgar 22;3;2220;Nov 2024;Vendido;;;;
+Madrid Gaztambide;2;200;Pendiente;Arras;;;;
+TOTAL ROTACION;-;3440;-;-;;;;
+Riesgo Vivo Maximo;-;3500;-;Por socio;;;;
+;;;;;;;;;
+=====================================;;;;;;;;;
+SECCION 7: ESTRUCTURA DE COSTES MENSUAL;;;;;;;;;
+=====================================;;;;;;;;;
+;;;;;;;;;
+--- CIERRE 2024 ---;;;;;;;;;
+MES;SERV_EXT_K;PERSONAL_K;TOTAL_K;BUDGET_K;;;;;
+Enero;30;15;45;45;;;;;
+Febrero;31;15;46;45;;;;;
+Marzo;27;15;42;45;;;;;
+Abril;30;15;45;45;;;;;
+Mayo;29;15;44;45;;;;;
+Junio;33;15;48;45;;;;;
+Julio;31;15;46;45;;;;;
+Agosto;29;15;44;45;;;;;
+Septiembre;30;15;45;45;;;;;
+Octubre;32;15;47;45;;;;;
+Noviembre;33;15;48;45;;;;;
+Diciembre;32;15;47;45;;;;;
+TOTAL 2024;367;180;547;544;;;;;
+;;;;;;;;;
+--- 1S 2025 ---;;;;;;;;;
+MES;SERV_EXT_K;PERSONAL_K;TOTAL_K;BUDGET_K;;;;;
+Enero;28;16;44;52;;;;;
+Febrero;32;16;48;52;;;;;
+Marzo;24;16;40;51;;;;;
+Abril;28;16;44;52;;;;;
+Mayo;24;16;40;52;;;;;
+Junio;42;21;63;56;;;;;
+TOTAL 1S 2025;178;100;278;315;;;;;
+;;;;;;;;;
+=====================================;;;;;;;;;
+SECCION 8: DATOS HISTORICOS;;;;;;;;;
+=====================================;;;;;;;;;
+;;;;;;;;;
+CAMPO;2020;2021;2022;2023;2024;1S_2025;2S_2025;CIERRE_2025;1S_2026
+;;;;;;;;;
 --- PABLO ---;;;;;;;;;
-Bajo Gestion (M);111.9;86.5;85.0;87.9;88.43;96.4;;;
-Empresarial (M);20.2;27.5;43.5;36.1;37.66;32.3;;;
-;;;;;;;;
+Bajo Gestion (M);111.9;86.5;85.0;87.9;88.43;96.4;;;;
+Empresarial (M);20.2;27.5;43.5;36.1;37.66;32.3;;;;
+Total (M);132.1;114.0;128.5;124.0;126.09;128.7;;;;
+;;;;;;;;;
 --- ALEJANDRO ---;;;;;;;;;
-Bajo Gestion (M);91.2;67.6;66.8;70.0;72.63;78.8;;;
-Empresarial (M);40.9;56.5;91.8;74.7;77.45;64.7;;;
-;;;;;;;;
-====================================================================================================
-SECCION 7: CASH FLOW Y RENTAS
-====================================================================================================
-;;;;;;;;
-CAMPO;CIERRE_2024;1S_2025;2S_2025;CIERRE_2025;1S_2026;2S_2026;CIERRE_2026;DESCRIPCION
-;;;;;;;;
+Bajo Gestion (M);91.2;67.6;66.8;70.0;72.63;78.8;;;;
+Empresarial (M);40.9;56.5;91.8;74.7;77.45;64.7;;;;
+Total (M);132.1;124.1;158.6;144.7;150.08;143.4;;;;
+;;;;;;;;;
 --- TOTAL FAMILIA ---;;;;;;;;;
-Ingresos Anuales (K);-;1107;;;;;;Todos los ingresos
-Ingresos Optimizados (K);-;600;;;;;;Solo inmuebles
-;;;;;;;;
---- PABLO ---;;;;;;;;;
-Ingresos Anuales (K);-;220;;;;;;
-Ingresos Optimizados (K);-;180;;;;;;
-;;;;;;;;
---- ALEJANDRO ---;;;;;;;;;
-Ingresos Anuales (K);-;907;;;;;;
-Ingresos Optimizados (K);-;420;;;;;;
-;;;;;;;;
-====================================================================================================
-SECCION 8: DATOS FISCALES
-====================================================================================================
-;;;;;;;;
-CAMPO;CIERRE_2024;1S_2025;2S_2025;CIERRE_2025;1S_2026;2S_2026;CIERRE_2026;DESCRIPCION
-;;;;;;;;
---- TOTAL ---;;;;;;;;;
-Generacion Total (K);-;11180;;;;;;Riqueza generada
-Impuesto Patrimonio (K);-;462;;;;;;IP - Fijo
-Impuesto Sociedades (K);-;417;;;;;;IS - Variable
-IRPF (K);-;232;;;;;;Variable con necesidades
-;;;;;;;;
---- PABLO ---;;;;;;;;;
-Generacion (K);-;5490;;;;;;
-Impuesto Patrimonio (K);-;278;;;;;;
-Impuesto Sociedades (K);-;184;;;;;;
-IRPF (K);-;124;;;;;;
-Ganancias Realizadas (K);-;1380;;;;;;
-Ganancias Latentes (K);-;4110;;;;;;
-;;;;;;;;
---- ALEJANDRO ---;;;;;;;;;
-Generacion (K);-;5690;;;;;;
-Impuesto Patrimonio (K);-;184;;;;;;
-Impuesto Sociedades (K);-;233;;;;;;
-IRPF (K);-;109;;;;;;
-Ganancias Realizadas (K);-;1710;;;;;;
-Ganancias Latentes (K);-;3980;;;;;;
-;;;;;;;;
-====================================================================================================
-NOTAS Y LEYENDA
-====================================================================================================
-;;;;;;;;
-M = Millones de Euros;;;;;;;;
-K = Miles de Euros;;;;;;;;
-% = Porcentaje;;;;;;;;
-;;;;;;;;
-Para anadir un nuevo periodo:;;;;;;;;
-1. Copia la columna del periodo anterior;;;;;;;;
-2. Rellena los nuevos valores;;;;;;;;
-3. Actualiza el archivo app.js con los nuevos datos;;;;;;;;
-;;;;;;;;
-Contacto: alejandro@blanescapital.com;;;;;;;;
+Bajo Gestion (M);203.1;154.1;151.8;157.9;161.06;175.1;;;;
+Empresarial (M);61.1;84.0;135.3;110.8;115.11;97.0;;;;
+Total (M);264.2;238.1;287.1;268.7;276.17;272.1;;;;
+;;;;;;;;;
+=====================================;;;;;;;;;
+SECCION 9: CASH FLOW Y LIQUIDEZ;;;;;;;;;
+=====================================;;;;;;;;;
+;;;;;;;;;
+CAMPO;TOTAL;PABLO;ALE;DESCRIPCION;;;;;
+;;;;;;;;;
+--- INGRESOS ANUALES (K) ---;;;;;;;;;
+Cash Generado Actual;1107;220;907;Todos ingresos;;;;;
+Cash Optimizado;600;180;420;Solo inmuebles;;;;;
+;;;;;;;;;
+--- NECESIDADES BASE (25K/mes) ---;;;;;;;;;
+Necesidades Anuales (K);600;300;300;25K x 12 meses;;;;;
+Excedente Actual (K);507;-80;607;Ingresos - Necesidades;;;;;
+Impuestos Excedente (K);127;0;152;25% sobre excedente;;;;;
+;;;;;;;;;
+--- LIQUIDEZ DISPONIBLE (K) ---;;;;;;;;;
+Cuentas Corrientes;-;438;133;;;;;;
+RF menos 3 meses;-;943;1023;;;;;;
+Linea Credito JP;-;3440;3400;;;;;;
+TOTAL LIQUIDEZ (K);-;4821;4556;;;;;;
+% sobre Patrimonio;-;5.0%;5.8%;;;;;;
+;;;;;;;;;
+=====================================;;;;;;;;;
+SECCION 10: DATOS FISCALES 2024;;;;;;;;;
+=====================================;;;;;;;;;
+;;;;;;;;;
+CAMPO;TOTAL;PABLO;ALE;DESCRIPCION;;;;;
+;;;;;;;;;
+--- GENERACION ---;;;;;;;;;
+Generacion Total (K);11180;5490;5690;Riqueza generada;;;;;
+Ganancias Realizadas (K);1980;1380;1710;Tributan;;;;;
+Ganancias Latentes (K);8090;4110;3980;No tributan;;;;;
+% Realizadas;18%;25%;30%;;;;;;
+% Latentes;72%;75%;70%;;;;;;
+;;;;;;;;;
+--- IMPUESTOS ---;;;;;;;;;
+Impuesto Patrimonio IP (K);462;278;184;Fijo anual;;;;;
+Impuesto Sociedades IS (K);417;184;233;Variable;;;;;
+IRPF (K);232;124;109;Variable;;;;;
+TOTAL IMPUESTOS (K);1111;586;526;;;;;;
+;;;;;;;;;
+--- PRESION FISCAL ---;;;;;;;;;
+Sobre Total Generado (%);9.9%;10.7%;9.2%;Incluye latentes;;;;;
+Sobre Ganancias Realizadas (%);35.9%;42.5%;30.8%;Solo cash recibido;;;;;
+Riqueza Neta Generada (K);10069;4904;5164;Generado - Impuestos;;;;;
+;;;;;;;;;
+=====================================;;;;;;;;;
+SECCION 11: BENCHMARKS E INDICES;;;;;;;;;
+=====================================;;;;;;;;;
+;;;;;;;;;
+INDICE;1S_2025;2024;2023;DESCRIPCION;;;;;
+Oro USD;+25.11%;-;-;;;;;;
+IBEX 35;+20.13%;-;-;;;;;;
+EuroStoxx 50;+8.58%;-;-;;;;;;
+S&P 500;+4.96%;-;-;;;;;;
+Nasdaq;+4.99%;-;-;;;;;;
+USD/EUR;-11.68%;-;-;Depreciacion dolar;;;;;
+Impacto USD Total (M);-5.9;-;-;Perdida por divisa;;;;;
+;;;;;;;;;
+--- BENCHMARKS INMOBILIARIOS ---;;;;;;;;;
+Oficinas;5-9%;-;-;Rentabilidad objetivo;;;;;
+Alquiler Turistico;4-8%;-;-;;;;;;
+Larga Estancia;3-3.5%;-;-;;;;;;
+;;;;;;;;;
+--- BENCHMARKS ALTERNATIVOS ---;;;;;;;;;
+Private Equity LP;8-12%;-;-;Largo plazo;;;;;
+;;;;;;;;;
+=====================================;;;;;;;;;
+SECCION 12: WATERFALL - MOVIMIENTOS;;;;;;;;;
+=====================================;;;;;;;;;
+;;;;;;;;;
+--- PABLO WATERFALL 1S 2025 ---;;;;;;;;;
+CONCEPTO;VALOR_M;;;;;;;;;
+Inicio (Dic 2024);94.5;;;;;;;;;
++ Entradas Freepik;+2.2;;;;;;;;;
++ Rendimiento;-0.13;;;;;;;;;
+- Impuestos;-0.17;;;;;;;;;
+= Final (Jun 2025);96.4;;;;;;;;;
+;;;;;;;;;
+--- ALEJANDRO WATERFALL 1S 2025 ---;;;;;;;;;
+CONCEPTO;VALOR_M;;;;;;;;;
+Inicio (Dic 2024);77.3;;;;;;;;;
++ Entradas Freepik;+1.8;;;;;;;;;
++ Rendimiento;+0.06;;;;;;;;;
+- Impuestos;-0.36;;;;;;;;;
+= Final (Jun 2025);78.8;;;;;;;;;
+;;;;;;;;;
+=====================================;;;;;;;;;
+SECCION 13: KPIS RESUMEN EJECUTIVO;;;;;;;;;
+=====================================;;;;;;;;;
+;;;;;;;;;
+KPI;VALOR;VARIACION;BADGE;;;;;
+Patrimonio Bajo Gestion;175.1M;+1.90% vs dic-24;Positivo;;;;;
+Rentabilidad 1S 2025;-0.03%;Impacto USD: -5.9M;Warning;;;;;
+Rentas Inmobiliarias;748K;+106% vs 2024;Positivo;;;;;
+Coste Estructura;0.33%;-18K vs Budget;Positivo;;;;;
+;;;;;;;;;
+=====================================;;;;;;;;;
+SECCION 14: OBJETIVOS VS ACTUAL;;;;;;;;;
+=====================================;;;;;;;;;
+;;;;;;;;;
+--- PABLO DIVERSIFICACION ---;;;;;;;;;
+TIPO;ACTUAL_PCT;OBJETIVO_PCT;DIFERENCIA;;;;;
+Financiera;58%;55%;+3%;;;;;
+Inmobiliaria;29%;35%;-6%;;;;;
+Alternativas;2.3%;10%;-7.7%;;;;;
+;;;;;;;;;
+--- ALEJANDRO DIVERSIFICACION ---;;;;;;;;;
+TIPO;ACTUAL_PCT;OBJETIVO_PCT;DIFERENCIA;;;;;
+Financiera;55%;50%;+5%;;;;;
+Inmobiliaria;27%;35%;-8%;;;;;
+Alternativas;6.8%;15%;-8.2%;;;;;
+;;;;;;;;;
+=====================================;;;;;;;;;
+FIN DEL ARCHIVO - TODOS LOS DATOS;;;;;;;;;
+=====================================;;;;;;;;;
+;;;;;;;;;
+INSTRUCCIONES:;;;;;;;;;
+1. Abrir en Excel con separador punto y coma (;);;;;;;;;;
+2. Rellenar columnas vacias para nuevos periodos;;;;;;;;;
+3. Actualizar app.js con los nuevos valores;;;;;;;;;
+4. Subir cambios a PythonAnywhere;;;;;;;;;
