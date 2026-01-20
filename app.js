@@ -2951,39 +2951,141 @@ function updateFiscalPressureData() {
     }
 
     function formatResult(markdown) {
-        // Convertir markdown básico a HTML
-        let html = markdown
-            // Headers
-            .replace(/^### (.*$)/gim, '<h4>$1</h4>')
-            .replace(/^## (.*$)/gim, '<h4>$1</h4>')
-            .replace(/^# (.*$)/gim, '<h4>$1</h4>')
-            // Bold
-            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-            // Lists
-            .replace(/^\* (.*$)/gim, '<li>$1</li>')
-            .replace(/^- (.*$)/gim, '<li>$1</li>')
-            .replace(/^\d+\. (.*$)/gim, '<li>$1</li>')
-            // Line breaks
-            .replace(/\n\n/g, '</p><p>')
-            .replace(/\n/g, '<br>');
+        // Convertir markdown a HTML con formato profesional
+        let html = markdown;
 
-        // Wrap lists
-        html = html.replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>');
-        html = html.replace(/<\/ul><ul>/g, '');
+        // Limpiar caracteres especiales
+        html = html.replace(/\*\>\s*/g, '');
+        html = html.replace(/<\d+>/g, '');
 
-        // Wrap in paragraph if not starting with header
-        if (!html.startsWith('<h4>')) {
-            html = '<p>' + html + '</p>';
+        // Procesar tablas markdown primero
+        html = processMarkdownTables(html);
+
+        // Headers principales con numeración
+        html = html.replace(/^#{1,2}\s*(\d+)\.\s*(.+)$/gim,
+            '<div class="ia-section"><div class="ia-section-header"><span class="ia-section-num">$1</span><h3>$2</h3></div><div class="ia-section-content">');
+
+        // Cerrar secciones antes de nuevas secciones
+        html = html.replace(/(<div class="ia-section-header">)/g, '</div></div>$1');
+        html = html.replace(/^<\/div><\/div>/, ''); // Quitar el primero
+
+        // Otros headers
+        html = html.replace(/^###\s*(.+)$/gim, '<h4 class="ia-subsection">$1</h4>');
+        html = html.replace(/^##\s*(.+)$/gim, '<h3 class="ia-section-title">$1</h3>');
+        html = html.replace(/^#\s*(.+)$/gim, '<h2 class="ia-main-title">$1</h2>');
+
+        // Bold
+        html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+        html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+
+        // Procesar líneas
+        const lines = html.split('\n');
+        let processedLines = [];
+        let inList = false;
+        let listItems = [];
+
+        for (let line of lines) {
+            const trimmed = line.trim();
+
+            // Lista con viñetas
+            const bulletMatch = trimmed.match(/^[-•]\s+(.+)$/);
+            const numberedMatch = trimmed.match(/^(\d+)\.\s+(.+)$/);
+
+            if (bulletMatch && !trimmed.includes('<div') && !trimmed.includes('<h')) {
+                if (!inList) {
+                    inList = true;
+                    listItems = [];
+                }
+                listItems.push(bulletMatch[1]);
+            } else if (numberedMatch && !trimmed.includes('<div') && !trimmed.includes('<h')) {
+                if (!inList) {
+                    inList = true;
+                    listItems = [];
+                }
+                listItems.push(numberedMatch[2]);
+            } else {
+                if (inList && listItems.length > 0) {
+                    processedLines.push('<ul class="ia-list">' + listItems.map(item => `<li><span class="ia-list-bullet"></span><span class="ia-list-text">${item}</span></li>`).join('') + '</ul>');
+                    inList = false;
+                    listItems = [];
+                }
+                if (trimmed) {
+                    processedLines.push(line);
+                }
+            }
         }
 
-        // Highlight numbers that look like KPIs
-        html = html.replace(/(\d+[,.]?\d*[%€$MK]?)/g, '<span class="kpi-highlight">$1</span>');
+        // Cerrar lista pendiente
+        if (inList && listItems.length > 0) {
+            processedLines.push('<ul class="ia-list">' + listItems.map(item => `<li><span class="ia-list-bullet"></span><span class="ia-list-text">${item}</span></li>`).join('') + '</ul>');
+        }
 
-        // Color positive/negative indicators
-        html = html.replace(/(\+\d+[,.]?\d*%?)/g, '<span class="positive">$1</span>');
-        html = html.replace(/(-\d+[,.]?\d*%?)/g, '<span class="negative">$1</span>');
+        html = processedLines.join('\n');
+
+        // Formatear porcentajes
+        html = html.replace(/(\+\s*\d+[,.]?\d*\s*%)/g, '<span class="ia-positive"><span class="ia-arrow">↑</span>$1</span>');
+        html = html.replace(/([-−–]\s*\d+[,.]?\d*\s*%)/g, '<span class="ia-negative"><span class="ia-arrow">↓</span>$1</span>');
+
+        // Formatear números con unidades
+        html = html.replace(/(\d+[,.]?\d*)\s*(M€|M\$|millones)/gi, '<span class="ia-big-number">$1<small>$2</small></span>');
+        html = html.replace(/(\d+[,.]?\d*)\s*(K€|K\$|miles|k€)/gi, '<span class="ia-medium-number">$1<small>$2</small></span>');
+
+        // Porcentajes normales
+        html = html.replace(/(?<![\-−–+\d])(\d+[,.]?\d*\s*%)/g, '<span class="ia-percentage">$1</span>');
+
+        // Términos financieros
+        const terms = ['Renta Fija', 'Renta Variable', 'Conservadora', 'Moderada', 'Decidida', 'Dinámica',
+                       'Rentabilidad', 'Volatilidad', 'VaR', 'ESG', 'Sostenible', 'S&P', 'Ibex', 'EuroStoxx'];
+        terms.forEach(term => {
+            const regex = new RegExp(`(?<![\\w-])(${term})(?![\\w-])`, 'gi');
+            html = html.replace(regex, '<span class="ia-term">$1</span>');
+        });
+
+        // Párrafos
+        html = html.replace(/\n\n+/g, '</p><p class="ia-paragraph">');
+        html = html.replace(/\n/g, ' ');
+
+        // Envolver resultado
+        html = `<div class="ia-result-formatted"><p class="ia-paragraph">${html}</p></div>`;
+
+        // Limpiar
+        html = html.replace(/<p class="ia-paragraph">\s*<\/p>/g, '');
+        html = html.replace(/<p class="ia-paragraph">\s*<(div|ul|ol|h[1-6])/g, '<$1');
 
         return html;
+    }
+
+    function processMarkdownTables(text) {
+        const tableRegex = /\|(.+)\|\n\|[-:\s|]+\|\n((?:\|.+\|\n?)+)/g;
+
+        return text.replace(tableRegex, function(match, headerRow, bodyRows) {
+            const headers = headerRow.split('|').filter(h => h.trim());
+            const rows = bodyRows.trim().split('\n').map(row =>
+                row.split('|').filter(cell => cell.trim())
+            );
+
+            let table = '<div class="ia-table-container"><table class="ia-table"><thead><tr>';
+            headers.forEach(h => { table += `<th>${h.trim()}</th>`; });
+            table += '</tr></thead><tbody>';
+
+            rows.forEach((row, idx) => {
+                table += `<tr class="${idx % 2 === 0 ? 'ia-row-even' : 'ia-row-odd'}">`;
+                row.forEach((cell, cellIdx) => {
+                    const val = cell.trim();
+                    const isNum = /^[-+]?\d+[,.]?\d*%?$/.test(val);
+                    const isNegative = val.startsWith('-');
+                    const isPositive = val.startsWith('+');
+                    let cls = cellIdx === 0 ? 'ia-cell-label' : 'ia-cell-value';
+                    if (isNegative) cls += ' ia-cell-negative';
+                    if (isPositive) cls += ' ia-cell-positive';
+                    table += `<td class="${cls}">${val}</td>`;
+                });
+                table += '</tr>';
+            });
+
+            table += '</tbody></table></div>';
+            return table;
+        });
     }
 
     function saveToHistory(fileName, analysisType, result) {

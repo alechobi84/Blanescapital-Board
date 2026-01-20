@@ -2065,3 +2065,308 @@ body.fiscal-optimized .fiscal-savings { display: block; }
         width: 100%;
     }
 }
+
+/* ============================================
+   ESTILOS MEJORADOS PARA RESULTADOS DE IA
+   ============================================ */
+
+/* Contenedor principal del resultado */
+.ia-result-formatted {
+    font-size: 15px;
+    line-height: 1.7;
+    color: #333;
+}
+
+/* Título principal */
+.ia-main-title {
+    font-size: 24px;
+    color: #1a2744;
+    margin: 0 0 20px 0;
+    padding-bottom: 15px;
+    border-bottom: 3px solid #2c4a7c;
+}
+
+/* Secciones con numeración */
+.ia-section {
+    margin: 25px 0;
+    background: #f8fafc;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.ia-section-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 18px 20px;
+    background: linear-gradient(135deg, #1a2744 0%, #2c4a7c 100%);
+    color: white;
+}
+
+.ia-section-num {
+    width: 36px;
+    height: 36px;
+    background: white;
+    color: #1a2744;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.ia-section-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.ia-section-content {
+    padding: 20px;
+}
+
+/* Títulos de sección sin número */
+.ia-section-title {
+    font-size: 20px;
+    color: #1a2744;
+    margin: 30px 0 15px 0;
+    padding: 12px 15px;
+    background: linear-gradient(90deg, #e8f0fe 0%, transparent 100%);
+    border-left: 4px solid #2c4a7c;
+    border-radius: 0 8px 8px 0;
+}
+
+/* Subsecciones */
+.ia-subsection {
+    font-size: 16px;
+    color: #2c4a7c;
+    margin: 20px 0 12px 0;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #e0e5eb;
+}
+
+/* Párrafos */
+.ia-paragraph {
+    margin: 12px 0;
+    color: #444;
+}
+
+/* Listas mejoradas */
+.ia-list {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0;
+}
+
+.ia-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 15px;
+    margin: 8px 0;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.ia-list li:hover {
+    transform: translateX(5px);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.ia-list-bullet {
+    width: 8px;
+    height: 8px;
+    background: linear-gradient(135deg, #2c4a7c 0%, #4a90d9 100%);
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 7px;
+}
+
+.ia-list-text {
+    flex: 1;
+}
+
+/* Tablas mejoradas */
+.ia-table-container {
+    margin: 20px 0;
+    overflow-x: auto;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.ia-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.ia-table th {
+    background: linear-gradient(135deg, #1a2744 0%, #2c4a7c 100%);
+    color: white;
+    padding: 14px 16px;
+    text-align: left;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.ia-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #e8ecf0;
+}
+
+.ia-row-even {
+    background: #f8fafc;
+}
+
+.ia-row-odd {
+    background: white;
+}
+
+.ia-cell-label {
+    font-weight: 600;
+    color: #1a2744;
+}
+
+.ia-cell-value {
+    text-align: right;
+    font-family: 'SF Mono', Monaco, monospace;
+}
+
+.ia-cell-positive {
+    color: #28a745 !important;
+    font-weight: 600;
+}
+
+.ia-cell-negative {
+    color: #dc3545 !important;
+    font-weight: 600;
+}
+
+/* Indicadores de porcentaje */
+.ia-positive {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: #28a745;
+    font-weight: 600;
+    background: #d4edda;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 13px;
+}
+
+.ia-negative {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: #dc3545;
+    font-weight: 600;
+    background: #f8d7da;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 13px;
+}
+
+.ia-arrow {
+    font-size: 12px;
+}
+
+/* Números grandes */
+.ia-big-number {
+    display: inline-block;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.ia-big-number small {
+    font-weight: 400;
+    opacity: 0.9;
+    margin-left: 2px;
+}
+
+/* Números medianos */
+.ia-medium-number {
+    display: inline-block;
+    background: #e8f0fe;
+    color: #2c4a7c;
+    padding: 3px 10px;
+    border-radius: 5px;
+    font-weight: 600;
+}
+
+.ia-medium-number small {
+    font-weight: 400;
+    opacity: 0.8;
+}
+
+/* Porcentajes normales */
+.ia-percentage {
+    display: inline-block;
+    background: #fff3cd;
+    color: #856404;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-family: 'SF Mono', Monaco, monospace;
+    font-size: 13px;
+}
+
+/* Términos financieros */
+.ia-term {
+    color: #2c4a7c;
+    font-weight: 600;
+    border-bottom: 2px dotted #4a90d9;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .ia-section-header {
+        padding: 15px;
+    }
+    
+    .ia-section-num {
+        width: 30px;
+        height: 30px;
+        font-size: 14px;
+    }
+    
+    .ia-section-header h3 {
+        font-size: 16px;
+    }
+    
+    .ia-table {
+        font-size: 12px;
+    }
+    
+    .ia-table th,
+    .ia-table td {
+        padding: 10px 12px;
+    }
+    
+    .ia-list li {
+        padding: 8px 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .ia-section-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+    
+    .ia-positive,
+    .ia-negative {
+        font-size: 12px;
+        padding: 2px 8px;
+    }
+}
