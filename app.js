@@ -2528,3 +2528,550 @@ function updateFiscalPressureData() {
     setEl('refCfAleExcess', formatExcess(aleExcess));
     setEl('refCfTotalExcess', formatExcess(totalExcess));
 }
+
+// ============================================
+// ANÁLISIS DE DOCUMENTOS CON IA
+// ============================================
+
+(function() {
+    // Estado del módulo IA
+    let iaState = {
+        file: null,
+        fileData: null,
+        fileType: null,
+        apiKey: localStorage.getItem('ia_api_key') || '',
+        apiProvider: localStorage.getItem('ia_api_provider') || 'openai',
+        history: JSON.parse(localStorage.getItem('ia_history') || '[]')
+    };
+
+    // Inicializar cuando el DOM esté listo
+    document.addEventListener('DOMContentLoaded', initIAModule);
+
+    function initIAModule() {
+        // Cargar configuración guardada
+        const apiKeyInput = document.getElementById('apiKey');
+        const apiProviderSelect = document.getElementById('apiProvider');
+        
+        if (apiKeyInput && iaState.apiKey) {
+            apiKeyInput.value = iaState.apiKey;
+        }
+        if (apiProviderSelect && iaState.apiProvider) {
+            apiProviderSelect.value = iaState.apiProvider;
+        }
+
+        // Event listeners
+        setupDropzone();
+        setupConfigForm();
+        setupAnalyzeButton();
+        setupHistoryEvents();
+        renderHistory();
+    }
+
+    function setupDropzone() {
+        const dropzone = document.getElementById('iaDropzone');
+        const fileInput = document.getElementById('iaFileInput');
+        const removeBtn = document.getElementById('iaRemoveFile');
+
+        if (!dropzone || !fileInput) return;
+
+        // Click to upload
+        dropzone.addEventListener('click', () => fileInput.click());
+
+        // File input change
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFile(e.target.files[0]);
+            }
+        });
+
+        // Drag and drop
+        dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropzone.classList.add('dragover');
+        });
+
+        dropzone.addEventListener('dragleave', () => {
+            dropzone.classList.remove('dragover');
+        });
+
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('dragover');
+            if (e.dataTransfer.files.length > 0) {
+                handleFile(e.dataTransfer.files[0]);
+            }
+        });
+
+        // Remove file
+        if (removeBtn) {
+            removeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                clearFile();
+            });
+        }
+    }
+
+    function handleFile(file) {
+        const validTypes = ['application/pdf', 'image/png', 'image/jpeg', 'image/jpg'];
+        
+        if (!validTypes.includes(file.type)) {
+            alert('Formato de archivo no soportado. Por favor, sube un PDF, PNG, JPG o JPEG.');
+            return;
+        }
+
+        iaState.file = file;
+        iaState.fileType = file.type;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            iaState.fileData = e.target.result;
+            showFilePreview(file, e.target.result);
+            updateAnalyzeButton();
+        };
+
+        if (file.type === 'application/pdf') {
+            reader.readAsDataURL(file);
+        } else {
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function showFilePreview(file, dataUrl) {
+        const dropzone = document.getElementById('iaDropzone');
+        const preview = document.getElementById('iaFilePreview');
+        const fileName = document.getElementById('iaFileName');
+        const previewContent = document.getElementById('iaPreviewContent');
+
+        if (!dropzone || !preview) return;
+
+        dropzone.style.display = 'none';
+        preview.style.display = 'block';
+        fileName.textContent = file.name;
+
+        if (file.type.startsWith('image/')) {
+            previewContent.innerHTML = `<img src="${dataUrl}" alt="Preview">`;
+        } else {
+            const sizeKB = (file.size / 1024).toFixed(1);
+            previewContent.innerHTML = `
+                <div class="pdf-info">
+                    <span class="pdf-icon">📄</span>
+                    <div class="pdf-details">
+                        <p><strong>${file.name}</strong></p>
+                        <p>Tamaño: ${sizeKB} KB</p>
+                        <p>Tipo: Documento PDF</p>
+                    </div>
+                </div>
+            `;
+        }
+    }
+
+    function clearFile() {
+        iaState.file = null;
+        iaState.fileData = null;
+        iaState.fileType = null;
+
+        const dropzone = document.getElementById('iaDropzone');
+        const preview = document.getElementById('iaFilePreview');
+        const fileInput = document.getElementById('iaFileInput');
+
+        if (dropzone) dropzone.style.display = 'block';
+        if (preview) preview.style.display = 'none';
+        if (fileInput) fileInput.value = '';
+
+        updateAnalyzeButton();
+    }
+
+    function setupConfigForm() {
+        const saveBtn = document.getElementById('saveApiConfig');
+        const apiKeyInput = document.getElementById('apiKey');
+        const apiProviderSelect = document.getElementById('apiProvider');
+
+        if (saveBtn) {
+            saveBtn.addEventListener('click', () => {
+                const apiKey = apiKeyInput.value.trim();
+                const apiProvider = apiProviderSelect.value;
+
+                if (!apiKey) {
+                    alert('Por favor, introduce una API Key válida.');
+                    return;
+                }
+
+                iaState.apiKey = apiKey;
+                iaState.apiProvider = apiProvider;
+
+                localStorage.setItem('ia_api_key', apiKey);
+                localStorage.setItem('ia_api_provider', apiProvider);
+
+                alert('Configuración guardada correctamente.');
+                updateAnalyzeButton();
+            });
+        }
+    }
+
+    function updateAnalyzeButton() {
+        const btn = document.getElementById('iaAnalyzeBtn');
+        if (btn) {
+            btn.disabled = !iaState.file || !iaState.apiKey;
+        }
+    }
+
+    function setupAnalyzeButton() {
+        const btn = document.getElementById('iaAnalyzeBtn');
+        const copyBtn = document.getElementById('iaCopyResult');
+
+        if (btn) {
+            btn.addEventListener('click', analyzeDocument);
+        }
+
+        if (copyBtn) {
+            copyBtn.addEventListener('click', () => {
+                const content = document.getElementById('iaResultContent');
+                if (content) {
+                    navigator.clipboard.writeText(content.innerText)
+                        .then(() => alert('Resultado copiado al portapapeles'))
+                        .catch(() => alert('Error al copiar'));
+                }
+            });
+        }
+    }
+
+    async function analyzeDocument() {
+        if (!iaState.file || !iaState.apiKey) {
+            alert('Por favor, sube un archivo y configura tu API Key.');
+            return;
+        }
+
+        const resultCard = document.getElementById('iaResultCard');
+        const resultLoading = document.getElementById('iaResultLoading');
+        const resultContent = document.getElementById('iaResultContent');
+        const analyzeBtn = document.getElementById('iaAnalyzeBtn');
+
+        // Mostrar loading
+        resultCard.style.display = 'block';
+        resultLoading.style.display = 'flex';
+        resultContent.innerHTML = '';
+        analyzeBtn.disabled = true;
+
+        // Obtener tipo de análisis
+        const analysisType = document.querySelector('input[name="analysisType"]:checked').value;
+        const prompt = getPromptForAnalysisType(analysisType);
+
+        try {
+            let result;
+            if (iaState.apiProvider === 'openai') {
+                result = await analyzeWithOpenAI(prompt);
+            } else {
+                result = await analyzeWithAnthropic(prompt);
+            }
+
+            // Mostrar resultado
+            resultLoading.style.display = 'none';
+            resultContent.innerHTML = formatResult(result);
+
+            // Guardar en historial
+            saveToHistory(iaState.file.name, analysisType, result);
+
+        } catch (error) {
+            resultLoading.style.display = 'none';
+            resultContent.innerHTML = `
+                <div style="color: #dc3545; padding: 20px; text-align: center;">
+                    <p><strong>Error al analizar el documento</strong></p>
+                    <p>${error.message}</p>
+                    <p style="font-size: 12px; color: #666; margin-top: 10px;">
+                        Verifica que tu API Key sea correcta y tenga acceso a modelos de visión.
+                    </p>
+                </div>
+            `;
+        }
+
+        analyzeBtn.disabled = false;
+    }
+
+    function getPromptForAnalysisType(type) {
+        const prompts = {
+            general: `Analiza este documento financiero y proporciona un resumen ejecutivo completo. Incluye:
+                1. Resumen general del documento
+                2. Principales cifras y métricas encontradas
+                3. Tendencias identificadas
+                4. Puntos clave a destacar
+                5. Conclusiones
+                
+                Formatea la respuesta de manera clara y estructurada. Usa formato markdown.`,
+            
+            kpis: `Extrae todos los KPIs y métricas financieras clave de este documento. Para cada métrica:
+                1. Nombre del indicador
+                2. Valor actual
+                3. Variación respecto a período anterior (si está disponible)
+                4. Interpretación breve
+                
+                Organiza los KPIs por categorías (rentabilidad, liquidez, solvencia, etc.). Usa formato markdown.`,
+            
+            comparar: `Realiza un análisis comparativo de los datos en este documento:
+                1. Identifica todos los períodos o fechas mencionados
+                2. Compara las métricas entre períodos
+                3. Calcula variaciones porcentuales
+                4. Destaca mejoras y deterioros
+                5. Proporciona un diagnóstico general de la evolución
+                
+                Usa formato markdown y tablas si es necesario.`,
+            
+            riesgos: `Identifica y analiza los riesgos potenciales que se pueden inferir de este documento financiero:
+                1. Riesgos de liquidez
+                2. Riesgos de crédito
+                3. Riesgos de mercado
+                4. Riesgos operacionales
+                5. Señales de alerta temprana
+                6. Recomendaciones de mitigación
+                
+                Clasifica cada riesgo por nivel de severidad (alto, medio, bajo). Usa formato markdown.`
+        };
+
+        return prompts[type] || prompts.general;
+    }
+
+    async function analyzeWithOpenAI(prompt) {
+        const base64Data = iaState.fileData.split(',')[1];
+        const mediaType = iaState.fileType === 'application/pdf' ? 'application/pdf' : iaState.fileType;
+
+        // Para PDFs, OpenAI necesita extraer texto primero o usar GPT-4 Vision con la imagen
+        const content = [
+            {
+                type: "text",
+                text: prompt
+            }
+        ];
+
+        if (iaState.fileType.startsWith('image/')) {
+            content.push({
+                type: "image_url",
+                image_url: {
+                    url: iaState.fileData
+                }
+            });
+        } else {
+            // Para PDFs, enviar como data URL
+            content.push({
+                type: "image_url",
+                image_url: {
+                    url: iaState.fileData
+                }
+            });
+        }
+
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${iaState.apiKey}`
+            },
+            body: JSON.stringify({
+                model: 'gpt-4o',
+                messages: [
+                    {
+                        role: 'user',
+                        content: content
+                    }
+                ],
+                max_tokens: 4096
+            })
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.error?.message || 'Error en la API de OpenAI');
+        }
+
+        const data = await response.json();
+        return data.choices[0].message.content;
+    }
+
+    async function analyzeWithAnthropic(prompt) {
+        const base64Data = iaState.fileData.split(',')[1];
+        let mediaType = iaState.fileType;
+        
+        // Anthropic soporta estos media types para imágenes
+        if (mediaType === 'image/jpg') {
+            mediaType = 'image/jpeg';
+        }
+
+        const content = [
+            {
+                type: "text",
+                text: prompt
+            }
+        ];
+
+        if (iaState.fileType === 'application/pdf') {
+            content.push({
+                type: "document",
+                source: {
+                    type: "base64",
+                    media_type: "application/pdf",
+                    data: base64Data
+                }
+            });
+        } else {
+            content.push({
+                type: "image",
+                source: {
+                    type: "base64",
+                    media_type: mediaType,
+                    data: base64Data
+                }
+            });
+        }
+
+        const response = await fetch('https://api.anthropic.com/v1/messages', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-api-key': iaState.apiKey,
+                'anthropic-version': '2023-06-01',
+                'anthropic-dangerous-direct-browser-access': 'true'
+            },
+            body: JSON.stringify({
+                model: 'claude-sonnet-4-20250514',
+                max_tokens: 4096,
+                messages: [
+                    {
+                        role: 'user',
+                        content: content
+                    }
+                ]
+            })
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.error?.message || 'Error en la API de Anthropic');
+        }
+
+        const data = await response.json();
+        return data.content[0].text;
+    }
+
+    function formatResult(markdown) {
+        // Convertir markdown básico a HTML
+        let html = markdown
+            // Headers
+            .replace(/^### (.*$)/gim, '<h4>$1</h4>')
+            .replace(/^## (.*$)/gim, '<h4>$1</h4>')
+            .replace(/^# (.*$)/gim, '<h4>$1</h4>')
+            // Bold
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            // Lists
+            .replace(/^\* (.*$)/gim, '<li>$1</li>')
+            .replace(/^- (.*$)/gim, '<li>$1</li>')
+            .replace(/^\d+\. (.*$)/gim, '<li>$1</li>')
+            // Line breaks
+            .replace(/\n\n/g, '</p><p>')
+            .replace(/\n/g, '<br>');
+
+        // Wrap lists
+        html = html.replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>');
+        html = html.replace(/<\/ul><ul>/g, '');
+
+        // Wrap in paragraph if not starting with header
+        if (!html.startsWith('<h4>')) {
+            html = '<p>' + html + '</p>';
+        }
+
+        // Highlight numbers that look like KPIs
+        html = html.replace(/(\d+[,.]?\d*[%€$MK]?)/g, '<span class="kpi-highlight">$1</span>');
+
+        // Color positive/negative indicators
+        html = html.replace(/(\+\d+[,.]?\d*%?)/g, '<span class="positive">$1</span>');
+        html = html.replace(/(-\d+[,.]?\d*%?)/g, '<span class="negative">$1</span>');
+
+        return html;
+    }
+
+    function saveToHistory(fileName, analysisType, result) {
+        const entry = {
+            id: Date.now(),
+            fileName: fileName,
+            analysisType: analysisType,
+            result: result,
+            date: new Date().toLocaleString('es-ES')
+        };
+
+        iaState.history.unshift(entry);
+        
+        // Mantener solo los últimos 10 análisis
+        if (iaState.history.length > 10) {
+            iaState.history = iaState.history.slice(0, 10);
+        }
+
+        localStorage.setItem('ia_history', JSON.stringify(iaState.history));
+        renderHistory();
+    }
+
+    function renderHistory() {
+        const historyCard = document.getElementById('iaHistoryCard');
+        const historyBody = document.getElementById('iaHistoryBody');
+
+        if (!historyCard || !historyBody) return;
+
+        if (iaState.history.length === 0) {
+            historyCard.style.display = 'none';
+            return;
+        }
+
+        historyCard.style.display = 'block';
+
+        const analysisTypeLabels = {
+            general: 'Resumen General',
+            kpis: 'Extracción de KPIs',
+            comparar: 'Análisis Comparativo',
+            riesgos: 'Análisis de Riesgos'
+        };
+
+        historyBody.innerHTML = iaState.history.map(entry => `
+            <div class="ia-history-item" data-id="${entry.id}">
+                <div class="ia-history-item-header">
+                    <span class="ia-history-item-name">${entry.fileName}</span>
+                    <span class="ia-history-item-date">${entry.date}</span>
+                </div>
+                <span class="ia-history-item-type">${analysisTypeLabels[entry.analysisType] || entry.analysisType}</span>
+            </div>
+        `).join('');
+
+        // Add click handlers
+        historyBody.querySelectorAll('.ia-history-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const id = parseInt(item.dataset.id);
+                const entry = iaState.history.find(h => h.id === id);
+                if (entry) {
+                    showHistoryResult(entry);
+                }
+            });
+        });
+    }
+
+    function showHistoryResult(entry) {
+        const resultCard = document.getElementById('iaResultCard');
+        const resultLoading = document.getElementById('iaResultLoading');
+        const resultContent = document.getElementById('iaResultContent');
+
+        resultCard.style.display = 'block';
+        resultLoading.style.display = 'none';
+        resultContent.innerHTML = formatResult(entry.result);
+
+        // Scroll to result
+        resultCard.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function setupHistoryEvents() {
+        const clearBtn = document.getElementById('iaClearHistory');
+
+        if (clearBtn) {
+            clearBtn.addEventListener('click', () => {
+                if (confirm('¿Estás seguro de que quieres eliminar todo el historial?')) {
+                    iaState.history = [];
+                    localStorage.removeItem('ia_history');
+                    renderHistory();
+                }
+            });
+        }
+    }
+})();

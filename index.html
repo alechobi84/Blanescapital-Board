@@ -62,6 +62,7 @@
             <button class="nav-btn" data-section="estructura"><span class="full">Estructura</span><span class="short">Est</span></button>
             <button class="nav-btn" data-section="debate"><span class="full">Debate</span><span class="short">Deb</span></button>
             <button class="nav-btn" data-section="fiscalidad"><span class="full">Cash Flow + Fiscal</span><span class="short">CF+Fisc</span></button>
+            <button class="nav-btn" data-section="analisis-ia"><span class="full">Análisis IA</span><span class="short">IA</span></button>
         </nav>
         <div class="nav-fade nav-fade-right"></div>
     </div>
@@ -2803,6 +2804,142 @@
                         </table>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- ANÁLISIS IA -->
+        <section id="analisis-ia" class="section">
+            <div class="section-title">
+                <h2>Análisis de Documentos con IA</h2>
+                <p>Sube una imagen o PDF financiero para obtener un resumen inteligente</p>
+            </div>
+
+            <!-- Configuración API -->
+            <div class="ia-config-card">
+                <div class="ia-config-header">
+                    <span class="ia-config-icon">🔑</span>
+                    <h3>Configuración de API</h3>
+                </div>
+                <div class="ia-config-body">
+                    <div class="ia-form-group">
+                        <label for="apiProvider">Proveedor de IA</label>
+                        <select id="apiProvider">
+                            <option value="openai">OpenAI (GPT-4 Vision)</option>
+                            <option value="anthropic">Anthropic (Claude)</option>
+                        </select>
+                    </div>
+                    <div class="ia-form-group">
+                        <label for="apiKey">API Key</label>
+                        <input type="password" id="apiKey" placeholder="Introduce tu API Key">
+                        <small>Tu API key se guarda solo en tu navegador y no se envía a ningún servidor externo excepto al proveedor de IA seleccionado.</small>
+                    </div>
+                    <button id="saveApiConfig" class="ia-btn-secondary">Guardar Configuración</button>
+                </div>
+            </div>
+
+            <!-- Área de Upload -->
+            <div class="ia-upload-card">
+                <div class="ia-upload-header">
+                    <span class="ia-upload-icon">📄</span>
+                    <h3>Subir Documento</h3>
+                </div>
+                <div class="ia-upload-body">
+                    <div class="ia-dropzone" id="iaDropzone">
+                        <div class="ia-dropzone-content">
+                            <div class="ia-dropzone-icon">📁</div>
+                            <p class="ia-dropzone-text">Arrastra y suelta tu archivo aquí</p>
+                            <p class="ia-dropzone-subtext">o haz clic para seleccionar</p>
+                            <p class="ia-dropzone-formats">Formatos soportados: PDF, PNG, JPG, JPEG</p>
+                        </div>
+                        <input type="file" id="iaFileInput" accept=".pdf,.png,.jpg,.jpeg" hidden>
+                    </div>
+                    <div class="ia-file-preview" id="iaFilePreview" style="display: none;">
+                        <div class="ia-preview-header">
+                            <span class="ia-preview-icon">📎</span>
+                            <span class="ia-preview-name" id="iaFileName">documento.pdf</span>
+                            <button class="ia-preview-remove" id="iaRemoveFile">✕</button>
+                        </div>
+                        <div class="ia-preview-content" id="iaPreviewContent"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Opciones de Análisis -->
+            <div class="ia-options-card">
+                <div class="ia-options-header">
+                    <span class="ia-options-icon">⚙️</span>
+                    <h3>Tipo de Análisis</h3>
+                </div>
+                <div class="ia-options-body">
+                    <div class="ia-options-grid">
+                        <label class="ia-option-item">
+                            <input type="radio" name="analysisType" value="general" checked>
+                            <span class="ia-option-box">
+                                <span class="ia-option-emoji">📊</span>
+                                <span class="ia-option-title">Resumen General</span>
+                                <span class="ia-option-desc">Análisis completo del documento</span>
+                            </span>
+                        </label>
+                        <label class="ia-option-item">
+                            <input type="radio" name="analysisType" value="kpis">
+                            <span class="ia-option-box">
+                                <span class="ia-option-emoji">📈</span>
+                                <span class="ia-option-title">Extracción de KPIs</span>
+                                <span class="ia-option-desc">Identifica métricas clave</span>
+                            </span>
+                        </label>
+                        <label class="ia-option-item">
+                            <input type="radio" name="analysisType" value="comparar">
+                            <span class="ia-option-box">
+                                <span class="ia-option-emoji">⚖️</span>
+                                <span class="ia-option-title">Análisis Comparativo</span>
+                                <span class="ia-option-desc">Compara con períodos anteriores</span>
+                            </span>
+                        </label>
+                        <label class="ia-option-item">
+                            <input type="radio" name="analysisType" value="riesgos">
+                            <span class="ia-option-box">
+                                <span class="ia-option-emoji">⚠️</span>
+                                <span class="ia-option-title">Análisis de Riesgos</span>
+                                <span class="ia-option-desc">Identifica riesgos potenciales</span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botón de Análisis -->
+            <div class="ia-action-container">
+                <button id="iaAnalyzeBtn" class="ia-btn-primary" disabled>
+                    <span class="ia-btn-icon">🤖</span>
+                    <span class="ia-btn-text">Analizar Documento</span>
+                </button>
+            </div>
+
+            <!-- Resultado del Análisis -->
+            <div class="ia-result-card" id="iaResultCard" style="display: none;">
+                <div class="ia-result-header">
+                    <span class="ia-result-icon">✨</span>
+                    <h3>Resultado del Análisis</h3>
+                    <button class="ia-result-copy" id="iaCopyResult" title="Copiar resultado">📋</button>
+                </div>
+                <div class="ia-result-body">
+                    <div class="ia-result-loading" id="iaResultLoading" style="display: none;">
+                        <div class="ia-spinner"></div>
+                        <p>Analizando documento...</p>
+                    </div>
+                    <div class="ia-result-content" id="iaResultContent"></div>
+                </div>
+            </div>
+
+            <!-- Historial de Análisis -->
+            <div class="ia-history-card" id="iaHistoryCard" style="display: none;">
+                <div class="ia-history-header">
+                    <span class="ia-history-icon">📜</span>
+                    <h3>Historial de Análisis</h3>
+                    <button class="ia-history-clear" id="iaClearHistory">Limpiar</button>
+                </div>
+                <div class="ia-history-body" id="iaHistoryBody"></div>
             </div>
         </section>
     </main>
