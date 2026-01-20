@@ -2930,7 +2930,7 @@ function updateFiscalPressureData() {
                 'anthropic-dangerous-direct-browser-access': 'true'
             },
             body: JSON.stringify({
-                model: 'claude-sonnet-4-20250514',
+                model: 'claude-haiku-4-20250514',
                 max_tokens: 4096,
                 messages: [
                     {
