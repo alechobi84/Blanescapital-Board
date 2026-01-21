@@ -49,14 +49,18 @@ const periodData = {
             bajoGestion: 88.43,
             empresarial: 37.66,
             rentabilidad: 5.69,
-            rentasInmob: 186,
-            carteraFinanciera: 46.43,
-            carteraInmobiliaria: 28.0,
-            alternativas: 1.68,
+            rentabilidadSinUSD: 4.71,
+            rentasInmob: 449, // YTD (€) from PDF: 448.659
+            rentasInmobYoY: 160, // % vs LY
+            revalorizacion: 6.1, // % revalorización inmobiliaria
+            carteraFinanciera: 55.2, // Corrected from PDF
+            carteraInmobiliaria: 27.73,
+            alternativas: 2.06,
             rotacion: 3.44,
-            exposicionUSD: 30,
-            // Composición financiera
-            rf: 78, rv: 18, mp: 4,
+            exposicionUSD: 45, // From PDF cartera financiera
+            ocupacion: 61, // % ocupación cierre 2024
+            // Composición financiera (from PDF page 8)
+            monetario: 6, rf: 79, rv: 14, mp: 2,
             // Bancos
             bancos: { jp: 58, gs: 22, march: 13, andbank: 7 }
         },
@@ -65,14 +69,18 @@ const periodData = {
             bajoGestion: 72.63,
             empresarial: 77.45,
             rentabilidad: 7.22,
-            rentasInmob: 178,
-            carteraFinanciera: 34.50,
-            carteraInmobiliaria: 21.16,
-            alternativas: 4.37,
+            rentabilidadSinUSD: 5.63,
+            rentasInmob: 479, // YTD (€) from PDF: 479.051
+            rentasInmobYoY: 120, // % vs LY
+            revalorizacion: 5.9, // % revalorización inmobiliaria
+            carteraFinanciera: 42.9, // Corrected from PDF
+            carteraInmobiliaria: 21.51,
+            alternativas: 4.85,
             rotacion: 3.44,
-            exposicionUSD: 32,
-            // Composición financiera
-            rf: 52, rv: 45, mp: 3,
+            exposicionUSD: 51, // From PDF cartera financiera (estimated similar)
+            ocupacion: 81, // % ocupación cierre 2024
+            // Composición financiera (from PDF page 9)
+            monetario: 1, rf: 66, rv: 30, mp: 1,
             // Bancos
             bancos: { jp: 64, gs: 16, andbank: 12, march: 8 }
         },
@@ -80,9 +88,10 @@ const periodData = {
             total: 546915,
             ratio: 0.35,
             budget: 543740,
+            // Monthly breakdown from PDF page 12 (in thousands)
             mensual: {
-                ene: 45, feb: 46, mar: 42, abr: 45, may: 44, jun: 48,
-                jul: 46, ago: 44, sep: 45, oct: 47, nov: 48, dic: 47
+                ene: 42, feb: 32, mar: 32, abr: 41, may: 31, jun: 55,
+                jul: 72, ago: 62, sep: 44, oct: 41, nov: 36, dic: 58
             }
         }
     },
@@ -104,14 +113,17 @@ const periodData = {
             rentabilidad: -0.14,
             rentabilidadSinUSD: 3.07,
             rentasInmob: 385,
+            rentasInmobYoY: 108, // +108% vs 2024
+            revalorizacion: 2.58, // % revalorización inmobiliaria 1S2025
             carteraFinanciera: 55.8,
             carteraInmobiliaria: 28.0,
-            alternativas: 2.2,
+            alternativas: 2.16,
             rotacion: 3.44,
-            exposicionUSD: 29,
+            exposicionUSD: 45, // From PDF page 14
             ocupacion: 79,
-            // Composición financiera
-            rf: 75, rv: 21, mp: 4,
+            enExplotacion: 82.5, // % activos en explotación
+            // Composición financiera (from PDF page 13)
+            monetario: 0, rf: 75, rv: 21, mp: 4,
             // Bancos
             bancos: { jp: 60, gs: 21, march: 12, andbank: 7 }
         },
@@ -122,14 +134,17 @@ const periodData = {
             rentabilidad: 0.08,
             rentabilidadSinUSD: 3.86,
             rentasInmob: 363,
+            rentasInmobYoY: 104, // +104% vs 2024
+            revalorizacion: 2.56, // % revalorización inmobiliaria 1S2025
             carteraFinanciera: 43.0,
             carteraInmobiliaria: 21.6,
-            alternativas: 5.4,
+            alternativas: 5.36,
             rotacion: 3.44,
-            exposicionUSD: 27,
+            exposicionUSD: 51, // Corrected from PDF page 16
             ocupacion: 88,
-            // Composición financiera
-            rf: 50, rv: 47, mp: 2,
+            enExplotacion: 97.1, // % activos en explotación
+            // Composición financiera (from PDF page 15)
+            monetario: 0, rf: 50, rv: 47, mp: 2,
             // Bancos
             bancos: { jp: 66, gs: 14, andbank: 12, march: 8 }
         },
@@ -149,11 +164,215 @@ const historicalData = {
     years: ['2020', '2021', '2022', '2023', '2024', '1S 2025'],
     pablo: {
         bajoGestion: [111.9, 86.5, 85.0, 87.9, 88.43, 96.4],
-        empresarial: [20.2, 27.5, 43.5, 36.1, 37.66, 32.3]
+        empresarial: [20.2, 27.5, 43.5, 36.1, 37.66, 32.3],
+        // Desglose detallado por año (from PDF pages 2, 4)
+        carteraFinanciera: [109.97, 77.87, 73.09, 57.90, 55.20, 55.77],
+        inmobiliaria: [1.96, 8.22, 11.52, 24.30, 27.73, 28.00],
+        alternativas: [0, 0.41, 0.43, 1.56, 2.06, 2.16],
+        rotacion: [0, 0, 0, 0, 3.44, 3.44]
     },
     ale: {
         bajoGestion: [91.2, 67.6, 66.8, 70.0, 72.63, 78.8],
-        empresarial: [40.9, 56.5, 91.8, 74.7, 77.45, 64.7]
+        empresarial: [40.9, 56.5, 91.8, 74.7, 77.45, 64.7],
+        // Desglose detallado por año (from PDF pages 3, 5)
+        carteraFinanciera: [89.58, 60.21, 59.06, 42.47, 42.90, 43.06],
+        inmobiliaria: [1.58, 6.35, 6.61, 20.67, 21.51, 21.62],
+        alternativas: [0, 1.00, 1.10, 3.70, 4.85, 5.36],
+        rotacion: [0, 0, 0, 0, 3.44, 3.44]
+    }
+};
+
+// ============================================
+// DATOS DETALLADOS DE INVERSIONES ALTERNATIVAS
+// ============================================
+const alternativasData = {
+    '2024': {
+        pablo: {
+            total: 2056113,
+            comprometido: 2323065,
+            rendimiento: 143244,
+            inversiones: [
+                { nombre: 'Happers', tipo: 'Venture Capital', invertido: 636263, valoracion: 636263, rentabilidad: 6 },
+                { nombre: 'Kibo Ventures III', tipo: 'Venture Capital', invertido: 141000, valoracion: 129952, rentabilidad: -8 },
+                { nombre: 'Graphext Labs', tipo: 'Venture Capital', invertido: 50000, valoracion: 50000, rentabilidad: 0 },
+                { nombre: 'Pool Comet', tipo: 'Venture Capital', invertido: 25000, valoracion: 25000, rentabilidad: 0 },
+                { nombre: 'Vintage 2022 (USD)', tipo: 'Buyout', invertido: 344167, valoracion: 394248, rentabilidad: 15 },
+                { nombre: 'PEM 2024 (USD)', tipo: 'Buyout', invertido: 2301, valoracion: 1635, rentabilidad: -29 },
+                { nombre: 'Claret European Growth III', tipo: 'Private Credit', invertido: 805541, valoracion: 778910, rentabilidad: 9 },
+                { nombre: 'GS Vintage RE III (USD)', tipo: 'Private RE', invertido: 41074, valoracion: 40105, rentabilidad: -2 }
+            ]
+        },
+        ale: {
+            total: 4845282,
+            comprometido: 5050476,
+            rendimiento: 374023,
+            inversiones: [
+                { nombre: 'Happers', tipo: 'Venture Capital', invertido: 636263, valoracion: 636263, rentabilidad: 6 },
+                { nombre: 'Kibo Ventures III', tipo: 'Venture Capital', invertido: 141000, valoracion: 129952, rentabilidad: -8 },
+                { nombre: 'Eoniq Mediterranean', tipo: 'Venture Capital', invertido: 60443, valoracion: 60443, rentabilidad: 0 },
+                { nombre: 'Graphext Labs', tipo: 'Venture Capital', invertido: 100000, valoracion: 100000, rentabilidad: 0 },
+                { nombre: 'Pool Comet', tipo: 'Venture Capital', invertido: 25000, valoracion: 25000, rentabilidad: 0 },
+                { nombre: 'Vintage 2022 (USD)', tipo: 'Buyout', invertido: 344167, valoracion: 394248, rentabilidad: 15 },
+                { nombre: 'Vintage 2023 (USD)', tipo: 'Buyout', invertido: 72429, valoracion: 69946, rentabilidad: -3 },
+                { nombre: 'PEM 2024 (USD)', tipo: 'Buyout', invertido: 4602, valoracion: 3269, rentabilidad: -29 },
+                { nombre: 'GS European Credit', tipo: 'Private Credit', invertido: 1000000, valoracion: 1112609, rentabilidad: 11 },
+                { nombre: 'Claret European Growth III', tipo: 'Private Credit', invertido: 2013854, valoracion: 1947276, rentabilidad: 9 },
+                { nombre: 'EQT Active Core Infra', tipo: 'Infraestructure', invertido: 295564, valoracion: 286065, rentabilidad: 6 },
+                { nombre: 'GS Vintage RE III (USD)', tipo: 'Private RE', invertido: 82129, valoracion: 80210, rentabilidad: -2 }
+            ]
+        }
+    },
+    '1s2025': {
+        pablo: {
+            total: 2160758,
+            comprometido: 2005272,
+            rendimiento: -1613,
+            exposicionUSD: { desembolsado: 23, comprometido: 54 },
+            inversiones: [
+                { nombre: 'Happers', tipo: 'Venture Capital', invertido: 636263, valoracion: 636263, rentabilidad1S: 0 },
+                { nombre: 'Kibo Ventures III', tipo: 'Venture Capital', invertido: 167000, valoracion: 153640, rentabilidad1S: -1.38 },
+                { nombre: 'Graphext Labs', tipo: 'Venture Capital', invertido: 50000, valoracion: 50000, rentabilidad1S: 0 },
+                { nombre: 'Pool Comet', tipo: 'Venture Capital', invertido: 25000, valoracion: 47425, rentabilidad1S: 89.70 },
+                { nombre: 'Alkoan', tipo: 'Venture Capital', invertido: 25000, valoracion: 25000, rentabilidad1S: 0 },
+                { nombre: 'Vintage 2022 (USD)', tipo: 'Buyout', invertido: 424246, valoracion: 439262, rentabilidad1S: -8.27 },
+                { nombre: 'PEM 2024 (USD)', tipo: 'Buyout', invertido: 18936, valoracion: 14571, rentabilidad1S: -19.53 },
+                { nombre: 'Claret European Growth III', tipo: 'Private Credit', invertido: 805541, valoracion: 734962, rentabilidad1S: 3.84 },
+                { nombre: 'GS Vintage RE III (USD)', tipo: 'Private RE', invertido: 74480, valoracion: 59635, rentabilidad1S: -18.63 }
+            ]
+        },
+        ale: {
+            total: 5357852,
+            comprometido: 4403311,
+            rendimiento: 156016,
+            exposicionUSD: { desembolsado: 13, comprometido: 42 },
+            inversiones: [
+                { nombre: 'Happers', tipo: 'Venture Capital', invertido: 636263, valoracion: 636263, rentabilidad1S: 0 },
+                { nombre: 'Kibo Ventures III', tipo: 'Venture Capital', invertido: 167000, valoracion: 153640, rentabilidad1S: -1.38 },
+                { nombre: 'Eoniq Mediterranean', tipo: 'Venture Capital', invertido: 80442, valoracion: 109600, rentabilidad1S: 36.25 },
+                { nombre: 'Graphext Labs', tipo: 'Venture Capital', invertido: 100000, valoracion: 100000, rentabilidad1S: 0 },
+                { nombre: 'Pool Comet', tipo: 'Venture Capital', invertido: 25000, valoracion: 47425, rentabilidad1S: 89.70 },
+                { nombre: 'Alkoan', tipo: 'Venture Capital', invertido: 25000, valoracion: 25000, rentabilidad1S: 0 },
+                { nombre: 'Vintage 2022 (USD)', tipo: 'Buyout', invertido: 424246, valoracion: 439262, rentabilidad1S: -8.27 },
+                { nombre: 'Vintage 2023 (USD)', tipo: 'Buyout', invertido: 95207, valoracion: 88222, rentabilidad1S: -4.73 },
+                { nombre: 'PEM 2024 (USD)', tipo: 'Buyout', invertido: 37872, valoracion: 29143, rentabilidad1S: -19.53 },
+                { nombre: 'GS European Credit', tipo: 'Private Credit', invertido: 1000000, valoracion: 1150773, rentabilidad1S: 3.82 },
+                { nombre: 'Claret European Growth III', tipo: 'Private Credit', invertido: 2013854, valoracion: 1837404, rentabilidad1S: 3.84 },
+                { nombre: 'EQT Active Core Infra', tipo: 'Infraestructure', invertido: 565319, valoracion: 621851, rentabilidad1S: 11.68 },
+                { nombre: 'GS Vintage RE III (USD)', tipo: 'Private RE', invertido: 148959, valoracion: 119270, rentabilidad1S: -18.64 }
+            ]
+        }
+    }
+};
+
+// ============================================
+// DATOS DETALLADOS DE ROTACIÓN
+// ============================================
+const rotacionData = {
+    '2024': {
+        riesgoVivoMax: 3500000,
+        operacionesRealizadas: [
+            { nombre: 'Castelló 101 3º IZQ', titular: 'BP (Pablo)', invertido: 511421, venta: 663606, beneficio: 152186, ROE: 30, TIR: 388 },
+            { nombre: 'Castelló 101 1º DCHA', titular: 'ASP (Ale)', invertido: 868872, venta: 1125702, beneficio: 256830, ROE: 30, TIR: 383 },
+            { nombre: 'Trafalgar 22, 3º CT', titular: 'Raiden', invertido: 843500, venta: 925000, beneficio: 81500, ROE: 9.7, TIR: null }
+        ],
+        pablo: {
+            desembolsado: 3443875,
+            comprometido: 4109875,
+            proyectos: [
+                { nombre: '1º 2º Mallorca 243', ubicacion: 'Barcelona', desembolsado: 300200, comprometido: 300200 },
+                { nombre: '4º 2º Mallorca 243', ubicacion: 'Barcelona', desembolsado: 307925, comprometido: 307925 },
+                { nombre: 'ÁTICO 1 Mallorca 243', ubicacion: 'Barcelona', desembolsado: 413500, comprometido: 413500 },
+                { nombre: 'Trafalgar 22, 5º IZQ', ubicacion: 'Madrid', desembolsado: 740750, comprometido: 740750 },
+                { nombre: 'Trafalgar 22, 5º CT', ubicacion: 'Madrid', desembolsado: 740750, comprometido: 740750 },
+                { nombre: 'Trafalgar 22, 5º DCHA', ubicacion: 'Madrid', desembolsado: 740750, comprometido: 740750 },
+                { nombre: 'Gaztambide 3ºDCHA', ubicacion: 'Madrid', desembolsado: 100000, comprometido: 433000 },
+                { nombre: 'Gaztambide 4º IZQDA', ubicacion: 'Madrid', desembolsado: 100000, comprometido: 433000 }
+            ]
+        },
+        ale: {
+            desembolsado: 3443875,
+            comprometido: 4089375,
+            proyectos: [
+                { nombre: '1º 2º Mallorca 243', ubicacion: 'Barcelona', desembolsado: 300200, comprometido: 300200 },
+                { nombre: '4º 2º Mallorca 243', ubicacion: 'Barcelona', desembolsado: 307925, comprometido: 307925 },
+                { nombre: 'ÁTICO 1 Mallorca 243', ubicacion: 'Barcelona', desembolsado: 413500, comprometido: 413500 },
+                { nombre: 'Trafalgar 22, 5º IZQ', ubicacion: 'Madrid', desembolsado: 740750, comprometido: 740750 },
+                { nombre: 'Trafalgar 22, 5º CT', ubicacion: 'Madrid', desembolsado: 740750, comprometido: 740750 },
+                { nombre: 'Trafalgar 22, 5º DCHA', ubicacion: 'Madrid', desembolsado: 740750, comprometido: 740750 },
+                { nombre: 'Gaztambide 3ºDCHA', ubicacion: 'Madrid', desembolsado: 100000, comprometido: 422750 },
+                { nombre: 'Gaztambide 4º IZQDA', ubicacion: 'Madrid', desembolsado: 100000, comprometido: 422750 }
+            ]
+        }
+    },
+    '1s2025': {
+        riesgoVivoMax: 3500000,
+        operacionesRealizadas: [], // Sin operaciones en 1S 2025
+        pablo: {
+            desembolsado: 3443875,
+            comprometido: 4109875,
+            proyectos: [
+                { nombre: '1º 2º Mallorca 243', fechaCompra: '25/07/2024', ubicacion: 'Barcelona', desembolsado: 300200, comprometido: 300200 },
+                { nombre: '4º 2º Mallorca 243', fechaCompra: '25/07/2024', ubicacion: 'Barcelona', desembolsado: 307925, comprometido: 307925 },
+                { nombre: 'ÁTICO 1 Mallorca 243', fechaCompra: '25/07/2024', ubicacion: 'Barcelona', desembolsado: 413500, comprometido: 413500 },
+                { nombre: 'Trafalgar 22, 5º IZQ', fechaCompra: '14/11/2024', ubicacion: 'Madrid', desembolsado: 740750, comprometido: 740750 },
+                { nombre: 'Trafalgar 22, 5º CT', fechaCompra: '14/11/2024', ubicacion: 'Madrid', desembolsado: 740750, comprometido: 740750 },
+                { nombre: 'Trafalgar 22, 5º DCHA', fechaCompra: '14/11/2024', ubicacion: 'Madrid', desembolsado: 740750, comprometido: 740750 },
+                { nombre: 'Gaztambide 3ºDCHA', fechaCompra: null, ubicacion: 'Madrid', desembolsado: 100000, comprometido: 433000 },
+                { nombre: 'Gaztambide 4º IZQDA', fechaCompra: null, ubicacion: 'Madrid', desembolsado: 100000, comprometido: 433000 }
+            ]
+        },
+        ale: {
+            desembolsado: 3443875,
+            comprometido: 4089375,
+            proyectos: [
+                { nombre: '1º 2º Mallorca 243', fechaCompra: '25/07/2024', ubicacion: 'Barcelona', desembolsado: 300200, comprometido: 300200 },
+                { nombre: '4º 2º Mallorca 243', fechaCompra: '25/07/2024', ubicacion: 'Barcelona', desembolsado: 307925, comprometido: 307925 },
+                { nombre: 'ÁTICO 1 Mallorca 243', fechaCompra: '25/07/2024', ubicacion: 'Barcelona', desembolsado: 413500, comprometido: 413500 },
+                { nombre: 'Trafalgar 22, 5º IZQ', fechaCompra: '14/11/2024', ubicacion: 'Madrid', desembolsado: 740750, comprometido: 740750 },
+                { nombre: 'Trafalgar 22, 5º CT', fechaCompra: '14/11/2024', ubicacion: 'Madrid', desembolsado: 740750, comprometido: 740750 },
+                { nombre: 'Trafalgar 22, 5º DCHA', fechaCompra: '14/11/2024', ubicacion: 'Madrid', desembolsado: 740750, comprometido: 740750 },
+                { nombre: 'Gaztambide 3ºDCHA', fechaCompra: null, ubicacion: 'Madrid', desembolsado: 100000, comprometido: 422750 },
+                { nombre: 'Gaztambide 4º IZQDA', fechaCompra: null, ubicacion: 'Madrid', desembolsado: 100000, comprometido: 422750 }
+            ]
+        }
+    }
+};
+
+// ============================================
+// DATOS DE REVALORIZACIÓN INMOBILIARIA
+// ============================================
+const revalorizacionData = {
+    '2024': {
+        blended: 12.20,
+        zonas: [
+            { nombre: 'Málaga', inversion: 6701773, revalorizacion: 1798155, porcentaje: 19.66 },
+            { nombre: 'Málaga Centro', inversion: 31718495, revalorizacion: 3012824, porcentaje: 8.43 },
+            { nombre: 'La Cala del Moral', inversion: 1164669, revalorizacion: 42896, porcentaje: 2.84 },
+            { nombre: 'Madrid (Salamanca)', inversion: 4253121, revalorizacion: 1071130, porcentaje: 22.71 },
+            { nombre: 'Campanillas', inversion: 544805, revalorizacion: 94514, porcentaje: 13.24 },
+            { nombre: 'Antequera', inversion: 1323346, revalorizacion: 55672, porcentaje: 3.86 },
+            { nombre: 'Málaga Este', inversion: 2525000, revalorizacion: 421694, porcentaje: 12.49 },
+            { nombre: 'Teatinos', inversion: 800000, revalorizacion: 283041, porcentaje: 23.09 },
+            { nombre: 'Torre Benagalbón', inversion: 211680, revalorizacion: 7487, porcentaje: 3.17 }
+        ],
+        pablo: { revalorizacionBruta: 3887091, ajuste: 50, aplicada: 1943545 },
+        ale: { revalorizacionBruta: 2900322, ajuste: 50, aplicada: 1450161 }
+    },
+    '1s2025': {
+        blended: 5.14,
+        zonas: [
+            { nombre: 'Málaga', valoracionDic24: 9271639, q1: 2.44, q2: 4.19, revalorizacion: 623640 },
+            { nombre: 'Málaga Centro', valoracionDic24: 37111858, q1: 2.86, q2: 0.35, revalorizacion: 1409254 },
+            { nombre: 'La Cala del Moral', valoracionDic24: 1581588, q1: 4.07, q2: 6.90, revalorizacion: 177987 },
+            { nombre: 'Madrid (Salamanca)', valoracionDic24: 4788686, q1: 6.31, q2: 4.74, revalorizacion: 543058 },
+            { nombre: 'Campanillas', valoracionDic24: 740823, q1: -9.26, q2: 5.20, revalorizacion: -33644 },
+            { nombre: 'Antequera', valoracionDic24: 1469119, q1: 1.65, q2: 6.83, revalorizacion: 126271 },
+            { nombre: 'Málaga Este', valoracionDic24: 3414860, q1: 1.80, q2: 4.13, revalorizacion: 205070 },
+            { nombre: 'Teatinos', valoracionDic24: 1252632, q1: -5.40, q2: 5.05, revalorizacion: -7706 },
+            { nombre: 'Torre Benagalbón', valoracionDic24: 318084, q1: 8.64, q2: 2.70, revalorizacion: 36796 }
+        ],
+        pablo: { q1: 405746, q2: 466266, total: 872012, porcentaje: 2.58 },
+        ale: { q1: 407873, q2: 260478, total: 668351, porcentaje: 2.56 }
     }
 };
 
